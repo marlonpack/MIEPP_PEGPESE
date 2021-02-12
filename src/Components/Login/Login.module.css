@@ -1,0 +1,67 @@
+.container{
+  height: 100vh;
+  width: 100%;
+  background-color: #444;
+  display: flex;
+}
+
+.ArtSection{
+  width: 65%;
+  display: flex;
+}
+
+.ArtSection img{
+  width: 43%;
+  position: relative;
+  margin: auto;
+}
+
+.formSection{
+  display: flex;
+  flex-direction: column;
+  padding: 0 5%;
+  width: 35%;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+}
+
+
+
+.divisor{
+  width: .2%;
+  height:90%;
+  align-self:center;
+  background-color: #e9e9e9;
+}
+
+
+.login{
+  font-size: 2vw;
+  color: #e9e9e9;
+  align-self: center;
+}
+
+.applicationName{
+  font-size: 3vw;
+  color: #e9e9e9;
+  align-self: center;
+  position:absolute;
+  top:10%;
+}
+
+.img{
+  position:absolute;
+  bottom:5%;
+  width:60%;
+  align-self:center;
+}
+
+@media only screen and (min-width: 1700px) {
+ .img{
+   width: 53%;
+ }
+ .button butto{
+   font-size: .9vw;
+ }
+}
