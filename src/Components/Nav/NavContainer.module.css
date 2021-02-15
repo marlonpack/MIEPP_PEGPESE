@@ -9,6 +9,10 @@
   border-radius: 10px;
 }
 
+.CloseContainer{
+  display: none;
+}
+
 .container a{
   margin: 5%;
   color: #E9E9E9;

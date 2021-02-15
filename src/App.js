@@ -1,4 +1,4 @@
-import ReactNotification  from 'react-notifications-component';
+import ReactNotification from 'react-notifications-component';
 import { BrowserRouter, Route, Router, Routes, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './Components/Home/Home';
