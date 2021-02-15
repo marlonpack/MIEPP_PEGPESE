@@ -1,0 +1,26 @@
+.container {
+  margin: auto;
+  height: 10vh;
+  background-color: #343434;
+  display: flex;
+  margin-top: 0.3%;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 96%;
+  padding: 0 4%;
+}
+
+.buttonImg {
+  width: 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageUser {
+  width: 50%;
+  margin: auto;
+  border-radius: 50%;
+}

@@ -1,0 +1,20 @@
+.container{
+  margin-top: .2%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #343434;
+  margin-left: 2%;
+  border-radius: 10px;
+}
+
+.container a{
+  margin: 5%;
+  color: #E9E9E9;
+  font-size: 1vw;
+}
+
+.nav a.active {
+  background: #FF4800;
+}

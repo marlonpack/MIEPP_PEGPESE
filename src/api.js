@@ -1,4 +1,13 @@
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
+
 export const API_URL = "http://192.168.0.99:71/GLOBAL/Controller/CCPP";
+
+
+// function User(){
+//   const {data} = useContext(UserContext);
+//   return {session : data.session, id: data.id}
+// }
 
 export function TOKEN_POST(body) {
   return {
@@ -21,14 +30,13 @@ export function PUT_PASSWORD(body){
 }
 
 
-export function USER_GET(token) {
+export function USER_GET_PHOTO(session, id) {
+//  const {session, id }= User();
+  // data.administrator
   return {
-    url: API_URL + "/api/user",
+    url: API_URL + "/EmployeePhoto.php?AUTH="+session + "&app_id=1&id=" +id,
     options: {
       method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
     },
   };
 }

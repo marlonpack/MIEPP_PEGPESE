@@ -1,15 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-import { TOKEN_POST } from "../src/api";
-// import { useNavigate } from "react-router-dom";
+import {USER_GET_PHOTO, TOKEN_POST } from "../src/api";
+import { useHistory } from "react-router-dom";
+
 
 export const UserContext = React.createContext();
 export const UserStorage = ({ children }) => {
   const [data, setData] = useState();
+  const [photo, setPhoto] = useState();
   const [login, setLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const navigate = useNavigate();
+  const history = useHistory();
+
 
   const userLogout = React.useCallback(
     async function () {
@@ -17,15 +20,30 @@ export const UserStorage = ({ children }) => {
       setError(null);
       setLoading(false);
       setLogin(false);
-      // window.localStorage.removeItem("token");
-      // navigate("/login");
+      history.push("/");
     },
     []
-    // [navigate]
   );
 
+
+  async function getUser(session, id) {
+    const { url, options } = USER_GET_PHOTO(session, id);
+    const response  = await fetch(url, options);
+    const json = await response.json();
+    if(json.error ==false) 
+    { console.log(json);
+      setPhoto(json.photo) 
+      history.push("/home")
+    }else{
+      alert(json.message);
+      console.log(json.message);
+    }
+    // if(photo!=undefined)  ;
+  }
+
+
   async function userLogin(username, password) {
-  try{
+    try {
       setError(null);
       setLoading(true);
       const { url, options } = TOKEN_POST({
@@ -34,19 +52,21 @@ export const UserStorage = ({ children }) => {
       });
       const tokenRes = await fetch(url, options);
       const json = await tokenRes.json();
-         setData(json.data)
-         if(json.error === true) setError(json.message)
-          
+      if (json.error == true) throw new Error(json.message);
+      setData(json.data);
+      getUser(json.data.session, json.data.id);
+      console.log(json);
+      // if (json.error === true) setError(json.message)
     }
-     catch(err) {
+    catch (err) {
       setError(err.message);
       setLogin(false);
-    } 
+    }
   }
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, data, error, loading, login }}
+      value={{ userLogin, userLogout, photo, data, error, loading, login }}
     >
       {children}
     </UserContext.Provider>
