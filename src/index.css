@@ -1,114 +1,198 @@
-  @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap");
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: 0;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 0;
+}
 
-  body{
-    background-color: #2b2b2b;
-  }
+body {
+  background-color: #2b2b2b;
+  color: white;
+  --green: rgb(0, 189, 41);
+  --blue: #4da6ff;
+  --red: #ea5f68;
+  --grey: #959595;
+}
 
-  a {
+a {
   text-decoration: none;
-  }
+}
 
-  ol,
-  ul {
-    list-style: none;
-  }
+ol,
+ul {
+  list-style: none;
+}
 
-  html,
-  body,
-  div,
-  span,
-  iframe,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  blockquote,
-  a,
-  em,   
-  img,
-  dl,
-  dt,
-  dd,
-  ol,
-  ul,
-  li,
-  fieldset,
-  form,
-  label,
-  legend,
-  article,
-  footer,
-  header,
-  nav,
-  section,
-  main {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    vertical-align: baseline;
-  }
+html,
+body,
+div,
+span,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+a,
+em,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+article,
+footer,
+header,
+nav,
+section,
+main {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  a,
-  ul {
-    font-size: 1em;
-    font-weight: normal;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul {
+  font-size: 1em;
+  font-weight: normal;
+}
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Titillium Web", sans-serif;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Titillium Web", sans-serif;
+}
 
-  input:focus {
-      outline: none;
-      margin: 0;
-}   
-  
+input:focus {
+  outline: none;
+  margin: 0;
+}
 
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
+::-webkit-scrollbar {
+  width: 12px;
+}
 
-  ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: #000; 
-  }
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #000;
+}
 
-  button{
-    cursor:pointer;
-  }
+button {
+  cursor: pointer;
+}
 
-  button, input{
-    border:none;
-    border-radius: 3px;
-  }
+button,
+input {
+  border: none;
+  border-radius: 3px;
+}
 
-  /* #root{
+/* #root{
     width: 100vw;
     height: 100vh;
   } */
 
+/* CUSTOM CSS */
+
+.titleSection {
+  font-size: 28px;
+  text-transform: uppercase;
+}
+
+.titleActionPage {
+  font-size: 24px;
+  text-align: center;
+}
+
+.titleSection::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--blue);
+}
+
+.btnAdd {
+  height: 2rem;
+  width: 4rem;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.btnAdd .MuiSvgIcon-root {
+  width: 100%;
+  height: 100%;
+}
+
+.btnEdit {
+  color: #fff;
+  height: 2.5rem;
+  width: 6rem;
+  background-color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnEdit .MuiSvgIcon-root {
+  width: 70%;
+  height: 70%;
+}
+
+.btnDelete {
+  color: #fff;
+  height: 2.5rem;
+  width: 6rem;
+  background-color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnDelete .MuiSvgIcon-root {
+  width: 70%;
+  height: 70%;
+}
+
+/* Animations */
+
+.animeLeft {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: animeLeft 1s forwards;
+}
+
+@keyframes animeLeft {
+  to {
+    opacity: 1;
+    transform: initial;
+  }
+}
