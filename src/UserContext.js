@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import {USER_GET_PHOTO, TOKEN_POST } from "../src/api";
 import { useHistory } from "react-router-dom";
-// import NotificationError from "./Components/Notification/NotificationError";
 
 
 export const UserContext = React.createContext();
@@ -16,8 +15,7 @@ export const UserStorage = ({ children }) => {
   const history = useHistory();
 
   function OpenCloseMenu(props){
-    setSideMenu(props)
-    console.log(props)
+    setSideMenu(props);
   } 
 
   const userLogout = React.useCallback(
@@ -38,11 +36,12 @@ export const UserStorage = ({ children }) => {
     const json = await response.json();
     if(json.error ==false) 
     { console.log(json);
-      setPhoto(json.photo) 
-      history.push("/home")
+      setPhoto(json.photo);
+      setLogin(true);
+      history.push("/home");
     }else{
       setError(json.message);
-      // <NotificationError error={json.message}/>;
+      setLogin(false);
     }
     // if(photo!=undefined)  ;
   }
@@ -62,7 +61,6 @@ export const UserStorage = ({ children }) => {
       console.log(json.message)
       setData(json.data);
       getUser(json.data.session, json.data.id);
-      // if (json.error === true) setError(json.message)
     }
     catch (error) {
       setError(error.message);

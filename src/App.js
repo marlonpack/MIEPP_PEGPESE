@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Router, Routes, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
+import ProtectedRoute from './Components/ProtectedRoute';
 import { UserStorage } from "./UserContext";
 
 
@@ -14,7 +15,7 @@ function App() {
         <UserStorage>
           <Switch>
             <Route path='/' exact component={Login} />
-            <Route path='/home' component={Home} />
+            <ProtectedRoute path='/home' component={Home}/>
           </Switch>
         </UserStorage>
       </BrowserRouter>
