@@ -7,20 +7,22 @@ import Input from '../Forms/Input';
 import useForm from '../../Hooks/useForm';
 import { UserContext } from '../../UserContext';
 import Modal from './ModalPassword'
+
 import NotificationError from '../Notification/NotificationError';
+// import { NotificationStore } from '../Notification/StoreNotification';
 
 function Login() {
 
   const username = useForm();
   const password = useForm();
   const { userLogin, data, error, loading, login } = React.useContext(UserContext);
-  
 
   function handleSubmit(e) {
     e.preventDefault();
     userLogin(username.value, password.value);
   }
 
+  // error == true ?NotificationError(error):''
 
   return (
     <div className={styles.container}>
@@ -32,14 +34,14 @@ function Login() {
           <Input label="Usuário" type="text" name="username" {...username} />
           <Input label="Senha" type="password" name="password" {...password} />
           <Button style={styles.button} >Entrar</Button>
-          <NotificationError error={error} />
         </form>
       </div>
       <div className={styles.divisor} />
       <div className={styles.ArtSection}>
         <img className={styles.img} src={mippLogotipo} alt="" />
       </div>
-      {error === ('Default password is not permited') ? <Modal username={username.value} password={password.value}/> : ''}
+      {error === ('Default password is not permited') ? <Modal username={username.value} password={password.value} /> : ''}
+      <NotificationError error={error} />
     </div>
   );
 }

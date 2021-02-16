@@ -7,12 +7,16 @@ import { useHistory } from "react-router-dom";
 export const UserContext = React.createContext();
 export const UserStorage = ({ children }) => {
   const [data, setData] = useState();
-  const [photo, setPhoto] = useState();
+  const [sideMenu, setSideMenu] = useState(false);
+  const [photo, setPhoto] = useState('');
   const [login, setLogin] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const history = useHistory();
 
+  function OpenCloseMenu(props){
+    setSideMenu(props);
+  } 
 
   const userLogout = React.useCallback(
     async function () {
@@ -32,11 +36,12 @@ export const UserStorage = ({ children }) => {
     const json = await response.json();
     if(json.error ==false) 
     { console.log(json);
-      setPhoto(json.photo) 
-      history.push("/home")
+      setPhoto(json.photo);
+      setLogin(true);
+      history.push("/home");
     }else{
-      alert(json.message);
-      console.log(json.message);
+      setError(json.message);
+      setLogin(false);
     }
     // if(photo!=undefined)  ;
   }
@@ -53,20 +58,19 @@ export const UserStorage = ({ children }) => {
       const tokenRes = await fetch(url, options);
       const json = await tokenRes.json();
       if (json.error == true) throw new Error(json.message);
+      console.log(json.message)
       setData(json.data);
       getUser(json.data.session, json.data.id);
-      console.log(json);
-      // if (json.error === true) setError(json.message)
     }
-    catch (err) {
-      setError(err.message);
+    catch (error) {
+      setError(error.message);
       setLogin(false);
     }
   }
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, photo, data, error, loading, login }}
+      value={{ userLogin, userLogout, photo, data, error, loading, login, OpenCloseMenu, sideMenu }}
     >
       {children}
     </UserContext.Provider>

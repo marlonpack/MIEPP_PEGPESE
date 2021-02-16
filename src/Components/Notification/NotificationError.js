@@ -3,11 +3,9 @@ import { NotificationStore } from "./StoreNotification";
 
 
 const NotificationError = ({ error }) => {
-
-  
-
   if (!error) return null;
-  return NotificationStore();
+  if(error == null) return null;
+  return <NotificationStore title={'ERROR'} message={error} type={'danger'}/>;
  
 };
 
