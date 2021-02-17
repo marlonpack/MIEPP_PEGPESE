@@ -1,11 +1,11 @@
-import ReactNotification from 'react-notifications-component';
-import { BrowserRouter, Route, Router, Routes, Switch } from 'react-router-dom';
-import './App.css';
-import Home from './Components/Home/Home';
-import Login from './Components/Login/Login';
-import ProtectedRoute from './Components/ProtectedRoute';
+import ReactNotification from "react-notifications-component";
+import { BrowserRouter, Route, Router, Routes, Switch } from "react-router-dom";
+import "./App.css";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import ProtectedRoute from "./Components/ProtectedRoute";
 import { UserStorage } from "./UserContext";
-
+import { ProviderStorage } from "./ProviderContext";
 
 function App() {
   return (
@@ -13,14 +13,16 @@ function App() {
       <ReactNotification />
       <BrowserRouter>
         <UserStorage>
-          <Switch>
-            <Route path='/' exact component={Login} />
-            <ProtectedRoute path='/home' component={Home}/>
-          </Switch>
+          <ProviderStorage>
+            <Switch>
+              <Route path="/" exact component={Login} />
+              <ProtectedRoute path="/home" component={Home} />
+            </Switch>
+          </ProviderStorage>
         </UserStorage>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
 export default App;

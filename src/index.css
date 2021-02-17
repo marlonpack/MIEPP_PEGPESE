@@ -14,6 +14,7 @@ body {
   --blue: #4da6ff;
   --red: #ea5f68;
   --grey: #959595;
+  --orange:#e0af2d;
 }
 
 a {
@@ -156,7 +157,7 @@ input {
   color: #fff;
   height: 2.5rem;
   width: 6rem;
-  background-color: var(--blue);
+  background-color: var(--orange);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,6 +181,16 @@ input {
 .btnDelete .MuiSvgIcon-root {
   width: 70%;
   height: 70%;
+}
+
+.btnSearch{
+  color: #fff;
+  height: 1.8rem;
+  width: 6rem;
+  background-color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Animations */
