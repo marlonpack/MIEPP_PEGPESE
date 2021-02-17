@@ -1,123 +1,161 @@
-.containerProvider{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.containerProvider {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.topProvider{
-    padding: 2rem;
-    width: 100%;
-    height: 10%;
-    display: flex;
-    align-items: center;
+.topProvider {
+  padding: 2rem;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.topProvider button{
-    position: relative;
-    right: 1.3rem;
+.topProvider .topProviderLeft {
+  display: flex;
+  align-items: center;
 }
 
-
-.mainProvider{
-    display: flex;
-    justify-content: space-between;
-    padding: 2rem;
-    width: 100%;
-    height: 90%;
+.topProvider .topProviderLeft button {
+  position: relative;
+  right: 1.3rem;
 }
 
-.tableStyle{
-    width: 100%;
-    height: 100%;
-    border-spacing: 0;
-    text-align: center;
-    border: 2px solid var(--grey);
-    border-radius: 3px;
-    font-size: 1.1rem;
-    transition: all 1s;
+.topProvider .topProviderRight {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #343434;
+  padding: 1rem;
+  border-radius: 5px;
 }
 
-.tableStyle tr{
-    vertical-align: top;  
-    background-color: #343434;
-}
-
-.tableStyle th{
-    border-top: 1px solid #959595;
-    border-bottom: 1px solid #959595;
-    padding: .5rem;
-}
-
-.tableStyle td{
-    padding: 1rem;
-}
-
-.tableStyleButtons{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.providerMenu{
-    width: 39%;
-    height: 100%;
-    background-color: #343434;
-    border-radius: 3px;
-    transition: all 1s;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.providerMenu h4{
-    height: 5%;
-    width: 60%;
-    margin: 0 auto;
-}
-
-.providerMenu form{
-    margin: 0 auto;
-    width: 53%;
-    height: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.providerMenu form > div{
+.topProvider .topProviderRight label {
     font-size: 1.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 35%;
+  width: 17%;
 }
 
-.providerMenu form > div input{
-    padding: .5rem;
-    border-radius: 5px;
-    background-color: var(--grey);
+.topProvider .topProviderRight input {
+  width: 60%;
+  height: 25px;
+  background-color: var(--grey);
+  font-size: 1.2rem;
+  padding: .5rem;
 }
 
-.providerMenu form > div input:focus{
+.topProvider .topProviderRight input:focus {
     background-color: #fff;
+    
 }
 
-.providerMenu form > button{
-    font-size: 1.1rem;
-    width: 10rem;
-    margin: 0 auto;
-    padding: .5rem;
-    color: #fff;
-    background-color: var(--green);
+.topProvider .topProviderRight button {
+  width: 10%;
 }
 
-
-.providerImg{
-    display: inline-block;
-    width: 50%;
-    height: 35%;
-    margin: 0 auto;
+.mainProvider {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  width: 100%;
+  height: 90%;
 }
 
+.tableStyle {
+  width: 100%;
+  height: 100%;
+  border-spacing: 0;
+  text-align: center;
+  border: 2px solid var(--grey);
+  border-radius: 3px;
+  font-size: 1.1rem;
+  transition: all 1s;
+}
 
+.tableStyle tr {
+  vertical-align: top;
+  background-color: #343434;
+}
+
+.tableStyle th {
+  border-top: 1px solid #959595;
+  border-bottom: 1px solid #959595;
+  padding: 0.5rem;
+}
+
+.tableStyle td {
+  padding: 1rem;
+  height: 72px;
+}
+
+.tableStyleButtons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.providerMenu {
+  width: 39%;
+  height: 100%;
+  background-color: #343434;
+  border-radius: 3px;
+  transition: all 1s;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.providerMenu h4 {
+  height: 5%;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.providerMenu form {
+  margin: 0 auto;
+  width: 53%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.providerMenu form > div {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 35%;
+}
+
+.providerMenu form > div input {
+  padding: 0.3rem;
+  border-radius: 5px;
+  background-color: var(--grey);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.providerMenu form > div input:focus {
+  background-color: #2b2b2b;
+}
+
+.providerMenu form > button {
+  font-size: 1.1rem;
+  width: 10rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: var(--green);
+}
+
+.providerImg {
+  display: inline-block;
+  width: 50%;
+  height: 35%;
+  margin: 0 auto;
+}
