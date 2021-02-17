@@ -35,7 +35,7 @@
 }
 
 .topProvider .topProviderRight label {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
   width: 17%;
 }
 
@@ -44,12 +44,11 @@
   height: 25px;
   background-color: var(--grey);
   font-size: 1.2rem;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .topProvider .topProviderRight input:focus {
-    background-color: #fff;
-    
+  background-color: #fff;
 }
 
 .topProvider .topProviderRight button {

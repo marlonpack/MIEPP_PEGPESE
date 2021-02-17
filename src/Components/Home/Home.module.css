@@ -12,12 +12,23 @@
 
 .nav {
   width: 10%;
+  transition: all 1s;
+}
+.navClose {
+  width: 0;
+  transition: all 1s;
 }
 
 .content {
   width: 90%;
-  border: 2px solid #343434 ;
+  border: 2px solid #343434;
   border-radius: 10px;
+  transition: all 1s;
 }
 
-
+.contentClose {
+  width: 100%;
+  border: 2px solid #343434;
+  border-radius: 10px;
+  transition: all 1s;
+}
