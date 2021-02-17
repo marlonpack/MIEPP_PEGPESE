@@ -12,15 +12,25 @@
 }
 
 .buttonImg {
-  width: 10%;
+  width: 7%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
 }
 
 .imageUser {
-  width: 50%;
-  margin: auto;
-  border-radius: 50%;
+  /* position: relative; */
+  width: 90%;
+  height: 90%;
+  /* margin: auto; */
+  border-radius: 50px;
+  max-width: 65px;
+  max-height: 65px;
+}
+
+
+@media only screen and (min-width: 1500px) {
+
 }

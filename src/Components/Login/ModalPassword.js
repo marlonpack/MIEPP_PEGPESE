@@ -16,7 +16,7 @@ function Modal(user) {
   const modalRef = useRef(null);
   const password = useForm('password');
   const confirmPassword = useForm();
-  const { loading, error, request } = useFetch();
+  const { error, request } = useFetch();
   const { userLogin } = useContext(UserContext);
 
   const closeDropdown = event => {
@@ -54,7 +54,7 @@ function Modal(user) {
           <Input readonly='readonly' style={style.teste} type="password" name="password" defaultValue={user.password} label='Senha antiga' />
           <Input style={style.teste} type="password" label='Nova Senha' {...password} />
           <Input style={style.teste} type="password" label='Confirmar senha' {...confirmPassword} />
-          <Button style={style.button}>Confirmar</Button>
+          <div className={style.divButton}><Button style={style.button}>Confirmar</Button></div>
         </form>
       </div>
     </div>
