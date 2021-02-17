@@ -1,0 +1,61 @@
+.containerYesNoModal{
+    position:absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalYesNo{
+    width: 30rem;
+    height: 12rem;
+    background-color: #2b2b2b;
+    border-radius: 3px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #fff;
+    opacity: 0;
+}
+
+.modalYesNoQuestion{
+    text-align: center;
+    font-size: 1.4rem;
+    padding: .3rem;
+}
+
+.modalYesNoQuestion::after{
+    content: '';
+    display: block;
+    width: 50%;
+    margin:0 auto ;
+    height: 2px;
+    margin-top: .3rem;
+    background-color: var(--blue);
+}
+
+.modalYesNoButtons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.modalYesNoButtons button{
+    width: 120px;
+    height: 30px;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.modalYesNoButtonYes{
+    background-color: var(--green);
+}
+
+.modalYesNoButtonNo{
+    background-color: var(--red);
+}

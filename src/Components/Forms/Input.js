@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Input.module.css';
 
 
-function Input({ label, type, name, value, readonly, defaultValue, onChange, error, onBlur, style }) {
+function Input({ label, type, name, value, readonly, defaultValue, onChange, error, onBlur, style , placeholder}) {
   return (
     <div  className={`${style} ${styles.wrapper} `}>
       <label htmlFor={name} className={styles.label}>
@@ -18,6 +18,7 @@ function Input({ label, type, name, value, readonly, defaultValue, onChange, err
         onBlur={onBlur}
         defaultValue={defaultValue}
         readOnly={readonly}
+        placeholder={placeholder}
         autoComplete="off"
       />
       {/* {error && <p className={styles.error}>{error}</p>} */}
