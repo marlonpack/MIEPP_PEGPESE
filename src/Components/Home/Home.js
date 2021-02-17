@@ -6,7 +6,7 @@ import styles from "./Home.module.css";
 
 function Home() {
   return (
-    <div className={StyleSheet.container}>
+    <div className={styles.container}>
       <Header />
       <div className={styles.containerContent}>
         <div className={styles.nav}>

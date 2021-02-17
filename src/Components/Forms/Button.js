@@ -3,11 +3,11 @@ import styles from "./Button.module.css";
 
 function Button({ children, style, ...props }) {
   return (
-    <div className={`${style} ${styles.div}`}>
-      <button {...props} className={styles.button}>
+    // <div className={`${style} ${styles.div}`}>
+      <button {...props} className={`${style} ${styles.button}`}>
         {children}
       </button>
-    </div>
+    // </div>
   );
 }
 

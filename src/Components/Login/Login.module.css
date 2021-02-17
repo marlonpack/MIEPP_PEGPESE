@@ -9,6 +9,11 @@
   width: 65%;
   display: flex;
 }
+.divButton{
+  width: 100%;
+  margin-top: 40px;
+  text-align-last: center;
+}
 
 .ArtSection img{
   width: 43%;
@@ -57,11 +62,12 @@
   align-self:center;
 }
 
+
 @media only screen and (min-width: 1700px) {
  .img{
    width: 53%;
  }
- .button butto{
+ .button{
    font-size: .9vw;
  }
 }
