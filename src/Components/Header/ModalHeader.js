@@ -1,11 +1,18 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { UserContext } from '../../UserContext';
 import styles from './ModalHeader.module.css'
 import Button from '../Forms/Button'
+import ModalHeaderExit from './ModalHeaderExit';
+import useOutsideClick from '../../Hooks/useOutsideClick';
+
 
 function ModalHeader(props) {
-  const { userPhoto, data } = useContext(UserContext);
+  const {userLogout, userPhoto, data } = useContext(UserContext);
   const { modalRef} = props;
+  const [modalExit, setModalExit] = useState(false);
+  const modalExitRef = useRef();
+
+  
 
   
 
@@ -22,8 +29,9 @@ function ModalHeader(props) {
         {data[1].administrator === true ? <p className={styles.containerAdmin}>Visualizar como administrador:
     <input className={styles.checkbox} type='checkbox' />
         </p> : ''}
-        <Button style={styles.button}>Sair</Button>
+        <Button style={styles.button} onClick={() => { setModalExit(!modalExit) }}>Sair</Button>
       </div>
+      {modalExit == true ? <ModalHeaderExit modalExitRef={modalExitRef} /> : ''}
     </div>
   
   )

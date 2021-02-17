@@ -20,14 +20,14 @@ export const UserStorage = ({ children }) => {
   }
 
   const userLogout = React.useCallback(
-    // async function () {
-    //   setSession(null);
-    //   setError(null);
-    //   setLoading(false);
-    //   setLogin(false);
-    //   history.push("/");
-    // },
-    // []
+    async function () {
+      setSession(null);
+      setError(null);
+      setLoading(false);
+      setLogin(false);
+      history.push("/");
+    },
+    []
   );
 
     async function getUser(session, id) {
