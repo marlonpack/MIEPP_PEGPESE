@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Provider.module.css";
 import { ReactComponent as ImgProvider } from "../../Assets/provider.svg";
 import { AddBox, Create, Delete, ViewList, Search } from "@material-ui/icons";
-import { ProviderContext } from "../../ProviderContext";
+import { ProviderContext } from "../../Contexts/ProviderContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
@@ -54,14 +54,14 @@ const Provider = () => {
   function searchProvider(name) {
     if (name === "") {
       setFilterData([]);
-    } else {
-      const proName = name.toLowerCase();
-      const filter = data.filter((provider) =>
-        provider.description.toLowerCase().includes(proName)
-      );
-
-      setFilterData([...filter]);
+      return;
     }
+    const proName = name.toLowerCase();
+    const filter = data.filter((provider) =>
+      provider.description.toLowerCase().includes(proName)
+    );
+
+    setFilterData([...filter]);
   }
 
   function orderProviders(order) {

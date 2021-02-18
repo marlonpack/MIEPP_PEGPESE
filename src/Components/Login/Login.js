@@ -5,7 +5,7 @@ import mippLogotipo from '../../Assets/MIPP_logo.png'
 import Button from '../Forms/Button';
 import Input from '../Forms/Input';
 import useForm from '../../Hooks/useForm';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 import Modal from './ModalPassword'
 
 import NotificationError from '../Notification/NotificationError';

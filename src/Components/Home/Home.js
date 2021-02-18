@@ -4,8 +4,9 @@ import Header from "../Header/Header";
 import NavContainer from "../Nav/NavContainer";
 import Provider from "../Provider/Provider";
 import styles from "./Home.module.css";
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 import { render } from "@testing-library/react";
+import Media from "../Media/Media";
 
 function Home(props) {
   const { login, sideMenu } = useContext(UserContext);
@@ -22,10 +23,11 @@ function Home(props) {
         </div>
         <div className={sideMenu ? styles.content : styles.contentClose}>
 
-          <Route path="/"  >
+          {/* <Route path="/"  >
             <Route path='cadastro/fornecedor' component={Provider} />
-          </Route>
+          </Route> */}
           {/* <Provider/> */}
+          <Media/>
         </div>
       </div>
     </div>

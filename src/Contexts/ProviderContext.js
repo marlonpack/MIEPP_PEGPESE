@@ -4,7 +4,7 @@ import {
   POST_PROVIDER,
   PUT_PROVIDER,
   DELETE_PROVIDER,
-} from "./api";
+} from "../api";
 import { UserContext } from "./UserContext";
 
 export const ProviderContext = React.createContext();
@@ -21,7 +21,7 @@ export const ProviderStorage = ({ children }) => {
       setLoading(true);
 
 
-      const { url, options } = GET_PROVIDER(userContext.session.session);
+      const { url, options } = GET_PROVIDER(userContext.session);
 
 
       const response = await fetch(url, options);
@@ -47,7 +47,7 @@ export const ProviderStorage = ({ children }) => {
       setError(null);
       setLoading(true);
 
-      const { url, options } = POST_PROVIDER(userContext.session.session, {
+      const { url, options } = POST_PROVIDER(userContext.session, {
         description: name,
       });
 
@@ -73,7 +73,7 @@ export const ProviderStorage = ({ children }) => {
       setError(null);
       setLoading(true);
 
-      const { url, options } = PUT_PROVIDER(userContext.session.session, {
+      const { url, options } = PUT_PROVIDER(userContext.session, {
         id: id,
         description: name,
       });
@@ -100,7 +100,7 @@ export const ProviderStorage = ({ children }) => {
       setError(null);
       setLoading(true);
 
-      const { url, options } = DELETE_PROVIDER(userContext.session.session, {
+      const { url, options } = DELETE_PROVIDER(userContext.session, {
         id: id,
       });
 

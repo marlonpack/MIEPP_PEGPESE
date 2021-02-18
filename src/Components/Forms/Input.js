@@ -4,7 +4,7 @@ import styles from './Input.module.css';
 
 function Input({ label, type, name, value, readonly, defaultValue, onChange, error, onBlur, style , placeholder}) {
   return (
-    <div  className={`${style} ${styles.wrapper} `}>
+    <div  className={`${style} `}>
       <label htmlFor={name} className={styles.label}>
         {label}
       </label>

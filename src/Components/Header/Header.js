@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState, useRef } from 'react';
 import styles from './Header.module.css'
 import { ReactComponent as Menu } from '../../Assets/menu-24px.svg'
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 import ModalHeader from './ModalHeader';
 import useOutsideClick from '../../Hooks/useOutsideClick';
 

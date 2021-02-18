@@ -5,7 +5,7 @@ import Input from '../Forms/Input';
 import style from './ModalPassword.module.css'
 import useFetch from '../../Hooks/useFetch'
 import { PUT_PASSWORD } from '../../api';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 
 
 
