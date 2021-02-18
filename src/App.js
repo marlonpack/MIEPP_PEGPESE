@@ -6,6 +6,7 @@ import Login from "./Components/Login/Login";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { UserStorage } from "./UserContext";
 import { ProviderStorage } from "./ProviderContext";
+import Provider from "./Components/Provider/Provider";
 
 
 
@@ -18,7 +19,7 @@ function App() {
           <ProviderStorage>
             <Switch>
               <Route path="/" exact component={Login} />
-              <ProtectedRoute path="/home/" component={Home} />
+              <Route path="/home" component={Home} />
             </Switch>
           </ProviderStorage>
         </UserStorage>

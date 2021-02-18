@@ -21,7 +21,7 @@ export const ProviderStorage = ({ children }) => {
       setLoading(true);
 
 
-      const { url, options } = GET_PROVIDER(userContext.session.session);
+      const { url, options } = GET_PROVIDER(userContext.session);
 
 
       const response = await fetch(url, options);

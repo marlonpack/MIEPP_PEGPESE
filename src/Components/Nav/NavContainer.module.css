@@ -7,17 +7,14 @@
   background: #343434;
   margin-left: 2%;
   border-radius: 10px;
+  transition: all 1s;
 }
 
 .CloseContainer{
   display: none;
+  transition: all 1s;
 }
 
-.container a{
-  margin: 5%;
-  color: #E9E9E9;
-  font-size: 1vw;
-}
 
 .subMenuRegister{
   display: flex;
@@ -25,6 +22,14 @@
   margin-left: 15%;
 }
 
-.nav a.active {
-  background: #FF4800;
+.container .active {
+  color: #FF4800;
+  pointer-events: none;
+}
+
+
+.container a{
+  margin: 5%;
+  color: #E9E9E9;
+  font-size: 1vw;
 }

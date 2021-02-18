@@ -31,8 +31,8 @@ function Login() {
         <img className={styles.img} src={logo} alt='logo pegPese' />
         <h1 className={styles.login}>Login</h1>
         <form onSubmit={handleSubmit}>
-          <Input label="Usuário" type="text" name="username" {...username} />
-          <Input label="Senha" type="password" name="password" {...password} />
+          <Input style={styles.input} label="Usuário" type="text" name="username" {...username} />
+          <Input style={styles.input} label="Senha" type="password" name="password" {...password} />
          <div className={styles.divButton}> <Button style={styles.button} >Entrar</Button> </div>
         </form>
       </div>
