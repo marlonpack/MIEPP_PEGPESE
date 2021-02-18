@@ -41,7 +41,6 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
->>>>>>> main
 }
 
 .topProvider .topProviderRight .topProviderForm label {
@@ -64,7 +63,6 @@
   background-color: #2b2b2b;
   color: #fff;
   border: 1px solid #fff;
->>>>>>> main
 }
 
 .topProvider .topProviderRight button {
