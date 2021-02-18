@@ -1,19 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-const useOutsideClick = (ref, callback) => {
-  const handleClick = e => {
-    if (ref.current && !ref.current.contains(e.target)) {
-      callback();
-    }
-  };
+// function for click outside modal
+let useClickOutside = (handler) => {
+  let domNode = useRef();
 
   useEffect(() => {
-    document.addEventListener("click", handleClick);
+    let maybeHandler = (event) => {
+      if (domNode.current && !domNode.current.contains(event.target)) {
+        handler();
+      }
+    };
+
+    document.addEventListener("mousedown", maybeHandler);
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("mousedown", maybeHandler);
     };
   });
+
+  return domNode;
 };
 
-export default useOutsideClick;
+export default useClickOutside;
