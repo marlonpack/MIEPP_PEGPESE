@@ -1,23 +1,29 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../UserContext';
 import styles from './ModalHeader.module.css'
 import Button from '../Forms/Button'
-import ModalHeaderExit from './ModalHeaderExit';
+
 import useOutsideClick from '../../Hooks/useOutsideClick';
+import YesNoModal from '../YesNoModal/YesNoModal'
 
 
-function ModalHeader(props) {
+function ModalHeader({close}) {
   const {userLogout, userPhoto, data } = useContext(UserContext);
-  const { modalRef} = props;
   const [modalExit, setModalExit] = useState(false);
-  const modalExitRef = useRef();
+ 
 
+let domNode= useOutsideClick(()=>{
+  close();
+})
   
+function closed(){
+  userLogout()
+}
 
   
 
   return (
-    <div ref={modalRef}  className={styles.container} >
+    <div ref={domNode}  className={styles.container} >
       <div className={styles.containerImg}>
         <img className={styles.image} src={"data:image/jpeg;base64," + userPhoto} />
       </div>
@@ -31,7 +37,7 @@ function ModalHeader(props) {
         </p> : ''}
         <Button style={styles.button} onClick={() => { setModalExit(!modalExit) }}>Sair</Button>
       </div>
-      {modalExit == true ? <ModalHeaderExit modalExitRef={modalExitRef} /> : ''}
+      {modalExit && (<YesNoModal question="Tem certeza que deseja sair?" action={()=> closed(closed)} close={()=>setModalExit(false)}/> )}
     </div>
   
   )

@@ -51,7 +51,6 @@ export const UserStorage = ({ children }) => {
       const json = await response.json();
       if (json.error == false) {
         setData(json.data);
-        console.log(json)
       } else {
         setError(json.message);
         setLogin(false);

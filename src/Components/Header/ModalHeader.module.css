@@ -5,13 +5,13 @@
   padding: 15px;
   box-shadow: 0 0 20px 2px #000;
   border-radius: 10px;
-  position: absolute;
+  position: fixed;
   /* max-height: 250px; */
   top: 15px;
   z-index: 10;
   right: 13%;
   height: 28%;
-  width: 37%;
+  width: 30%;
 }
 
 .close {
@@ -55,14 +55,29 @@
 
 .button {
   /* font-size: 3vh; */
+  background-color: var(--green);
   margin-left: 0.9em;
   width: 30%;
   height: 20%;
 }
 
-@media only screen and (min-width: 1500px) {
+@media only screen and (min-width: 1400px) {
   .container {
-    width: 30%;
+    width: 402px;
+    height: 208px;
+  }
+  .containerName{
+    font-size: 23px
+  }
+  .paragraph{
+    font-size: 15px;
+  }
+  .button{
+    width: 60px;
+    height: 40px;
+  }
+  .containerAdmin{
+    font-size: 14px;
   }
   
 }

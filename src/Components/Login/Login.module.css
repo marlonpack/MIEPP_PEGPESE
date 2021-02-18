@@ -91,14 +91,14 @@
 }
 
 @media only screen and (min-width: 1700px) {
-  .wrapper {
+  .input {
     height: 7vh;
     margin-top: 4%;
   }
-  .label {
+  .input label{
     font-size: 1vw;
   }
-  .input {
+  .input input{
     height: 57%;
   }
 }

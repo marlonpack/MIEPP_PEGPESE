@@ -3,23 +3,23 @@ import styles from './Header.module.css'
 import { ReactComponent as Menu } from '../../Assets/menu-24px.svg'
 import { UserContext } from '../../UserContext';
 import ModalHeader from './ModalHeader';
-import useOutsideClick from '../../Hooks/useOutsideClick';
+// import useOutsideClick from '../../Hooks/useOutsideClick';
 
 function Header() {
   const { userPhoto, OpenCloseMenu, sideMenu, data } = useContext(UserContext);
   const [modalUser, setModalUser] = useState(false);
   const modalRef = useRef();
 
-  useOutsideClick(modalRef, () => {
-    if (modalUser) setModalUser(false)
-  });
+  // useOutsideClick(modalRef, () => {
+  //   if (modalUser) setModalUser(false)
+  // });
 
 
 
   return (
     <div className={styles.container}>
       <Menu onClick={() => { OpenCloseMenu(!sideMenu) }} />
-      {modalUser == true ? <ModalHeader modalRef={modalRef} /> : ''}
+      {modalUser && (<ModalHeader close={()=>{setModalUser(false)}} />) }
       <button className={styles.buttonImg} onClick={() => { setModalUser(!modalUser) }}>
         <img src={"data:image/jpeg;base64," + userPhoto} className={styles.imageUser} />
       </button>

@@ -2,12 +2,12 @@ import {store} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 
 
-export  function NotificationStore(props){
+export  function NotificationStore(title, message, type){
  
   return store.addNotification({
-    title: props.title,
-    message: props.message,
-    type: props.type,
+    title: title,
+    message: message,
+    type: type,
     insert: "top",
     container: "top-center",
     animationIn: ["animate__animated", "animate__fadeIn"],
