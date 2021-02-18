@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { USER_GET_PHOTO, TOKEN_POST, USER_DATE } from "../src/api";
 import { useHistory } from "react-router-dom";
+import useLocalStorage from "./Hooks/useLocalStorage";
 
 
 export const UserContext = React.createContext();
 export const UserStorage = ({ children }) => {
+  const [sessionLocalStorage, setSessionLocalStorage] = useLocalStorage('session', null);
+  const [idLocalStorage, setIDLocalStorage] = useLocalStorage('idUser', null);
   const [data, setData] = useState([]);
   const [session, setSession] = useState();
   const [sideMenu, setSideMenu] = useState(false);
   const [userPhoto, setUserPhoto] = useState('');
-  const [login, setLogin] = useState(null);
+  const [login, setLogin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const history = useHistory();
@@ -19,12 +22,24 @@ export const UserStorage = ({ children }) => {
     setSideMenu(props);
   }
 
+
+  useEffect(() => {
+    if(sessionLocalStorage !== 'null' && idLocalStorage !== 'null'){
+     getUser(sessionLocalStorage, idLocalStorage);
+     getPhoto(sessionLocalStorage, idLocalStorage);
+     setSession(sessionLocalStorage);
+     setLogin(true);
+    }
+  },[]);
+
+
   const userLogout = React.useCallback(
     async function () {
       setSession(null);
       setError(null);
       setLoading(false);
       setLogin(false);
+      localStorage.clear();
       history.push("/");
     },
     []
@@ -70,8 +85,9 @@ async function userLogin(username, password) {
       const tokenRes = await fetch(url, options);
       const json = await tokenRes.json();
       if (json.error == true) throw new Error(json.message);
-      setSession(json.data);
-      console.log(json)
+      setSession(json.data.session);
+      setSessionLocalStorage(json.data.session);
+      setIDLocalStorage(json.data.id);
       getPhoto(json.data.session, json.data.id);
       getUser(json.data.session, json.data.id);
     }

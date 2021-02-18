@@ -2,24 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserContext";
 import { Route, Navigate } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import useLocalStorage from "../../Hooks/useLocalStorage";
+
 
 const ProtectedRoute = (props) => {
-
   const { login } = useContext(UserContext);
-  const history = useHistory();
-  const [userLogin, setUserLogin] = useState();
+  const [loginPage, setLoginPage] = useLocalStorage('login', login);
 
-  useEffect(() => {
-    setUserLogin(login)
-  }, []);
- 
+  const history = useHistory();
+  
 
   if (login) return <Route {...props} />;
-  else if (!login) {
+  else if (loginPage ==='true') {
+    return null;
+  }
+
+  else if (!login && !loginPage) {
     history.push("/");
     return null
   }
   else return null;
+
 };
 
 export default ProtectedRoute;

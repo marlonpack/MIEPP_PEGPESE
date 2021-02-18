@@ -7,6 +7,8 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { UserStorage } from "./UserContext";
 import { ProviderStorage } from "./ProviderContext";
 
+
+
 function App() {
   return (
     <div className="App">
@@ -16,7 +18,7 @@ function App() {
           <ProviderStorage>
             <Switch>
               <Route path="/" exact component={Login} />
-              <ProtectedRoute path="/home" component={Home} />
+              <ProtectedRoute path="/home/" component={Home} />
             </Switch>
           </ProviderStorage>
         </UserStorage>
