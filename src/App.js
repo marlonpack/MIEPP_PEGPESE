@@ -7,12 +7,11 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 
 import { GlobalStorage } from "./Contexts/GlobalContext";
 
-
 function App() {
   return (
     <div className="App">
-      <ReactNotification />
       <BrowserRouter>
+        <ReactNotification />
         <GlobalStorage>
           <Switch>
             <Route path="/" exact component={Login} />
