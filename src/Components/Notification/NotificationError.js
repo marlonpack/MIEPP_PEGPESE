@@ -6,7 +6,7 @@ const NotificationError = (error) => {
   if (!error) return null;
   if (error == null) return null;
   // if (error != null) NotificationStore('erro', error, 'danger')
-
+ 
   //Authorization
   if (error.includes("Authorization denied"))
   NotificationStore('Erro', 'Autorização negada', 'danger')
