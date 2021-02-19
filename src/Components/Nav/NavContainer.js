@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink,  useLocation } from 'react-router-dom';
 import styles from './NavContainer.module.css';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 
 
 function NavContainer() {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { USER_GET_PHOTO, TOKEN_POST, USER_DATE } from "../src/api";
+import { USER_GET_PHOTO, TOKEN_POST, USER_DATE } from "../api";
 import { useHistory } from "react-router-dom";
-import useLocalStorage from "./Hooks/useLocalStorage";
+import useLocalStorage from "../Hooks/useLocalStorage";
 
 
 export const UserContext = React.createContext();

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../Contexts/UserContext";
 import { Route, Navigate } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import useLocalStorage from "../../Hooks/useLocalStorage";

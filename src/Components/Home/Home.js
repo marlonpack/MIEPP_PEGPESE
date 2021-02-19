@@ -4,7 +4,10 @@ import Header from "../Header/Header";
 import NavContainer from "../Nav/NavContainer";
 import Provider from "../Provider/Provider";
 import styles from "./Home.module.css";
-import { UserContext } from '../../UserContext';
+
+import { UserContext } from '../../Contexts/UserContext';
+import { render } from "@testing-library/react";
+import Media from "../Media/Media";
 
 
 function Home(props) {
@@ -23,10 +26,14 @@ function Home(props) {
           <NavContainer />
         </div>
         <div className={sideMenu ? styles.content : styles.contentClose}>
+
           <Switch>
             <Route path={`${props.match.path}/cadastro/fornecedor`} component={Provider} />
+            <Route path={`${props.match.path}/cadastro/midia`} component={Media} />
            </Switch> 
-          {/* <Provider/> */}
+
+
+          {/* <Media/> */}
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ body {
   --blue: #4da6ff;
   --red: #ea5f68;
   --grey: #959595;
-  --orange:#e0af2d;
+  --orange: #e0af2d;
 }
 
 a {
@@ -156,7 +156,7 @@ input {
 .btnEdit {
   color: #fff;
   height: 2.5rem;
-  width: 4rem;
+  width: 3rem;
   background-color: var(--orange);
   display: flex;
   align-items: center;
@@ -171,7 +171,7 @@ input {
 .btnDelete {
   color: #fff;
   height: 2.5rem;
-  width: 4rem;
+  width: 3rem;
   background-color: var(--red);
   display: flex;
   align-items: center;
@@ -183,11 +183,11 @@ input {
   height: 70%;
 }
 
-.btnSearch{
+.btnSearch {
   color: #fff;
   height: 2rem;
   width: 2rem;
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -196,9 +196,25 @@ input {
   cursor: default;
 }
 
-.btnSearch .MuiSvgIcon-root{
+.btnSearch .MuiSvgIcon-root {
   height: 2rem;
   width: 2rem;
+}
+
+.btnAttachment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: #fff;
+  height: 2.5rem;
+  width: 3rem;
+  background-color: var(--blue);
+}
+
+.btnAttachment .MuiSvgIcon-root {
+  width: 80%;
+  height: 80%;
 }
 
 /* Animations */
@@ -209,7 +225,7 @@ input {
   animation: animeLeft 1s forwards;
 }
 
-.animeVisible{
+.animeVisible {
   opacity: 0;
   animation: animeVisible 1s forwards;
 }
@@ -224,5 +240,16 @@ input {
 @keyframes animeVisible {
   to {
     opacity: 1;
+  }
+}
+
+/* Media queries */
+
+@media only screen and (max-width: 1444px) {
+  .btnEdit,
+  .btnDelete,
+  .btnAttachment {
+    width: 2rem;
+    height: 2rem;
   }
 }

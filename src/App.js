@@ -4,10 +4,8 @@ import "./App.css";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import { UserStorage } from "./UserContext";
-import { ProviderStorage } from "./ProviderContext";
-import Provider from "./Components/Provider/Provider";
 
+import { GlobalStorage } from "./Contexts/GlobalContext";
 
 
 function App() {
@@ -15,14 +13,12 @@ function App() {
     <div className="App">
       <ReactNotification />
       <BrowserRouter>
-        <UserStorage>
-          <ProviderStorage>
-            <Switch>
-              <Route path="/" exact component={Login} />
-              <Route path="/home" component={Home} />
-            </Switch>
-          </ProviderStorage>
-        </UserStorage>
+        <GlobalStorage>
+          <Switch>
+            <Route path="/" exact component={Login} />
+            <ProtectedRoute path="/home" component={Home} />
+          </Switch>
+        </GlobalStorage>
       </BrowserRouter>
     </div>
   );

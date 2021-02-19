@@ -1,5 +1,6 @@
+
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../Contexts/UserContext';
 import styles from './ModalHeader.module.css'
 import Button from '../Forms/Button'
 
