@@ -3,6 +3,7 @@ import { NotificationStore } from "./StoreNotification";
 
 
 const NotificationError = (error) => {
+  console.log(error)
   if (!error) return null;
   if (error == null) return null;
   // if (error != null) NotificationStore('erro', error, 'danger')

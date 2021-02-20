@@ -1,5 +1,5 @@
 import ReactNotification from "react-notifications-component";
-import { BrowserRouter, Route, Router, Routes, Switch } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Router, Routes, Switch } from "react-router-dom";
 import "./App.css";
 import Home from "./Components/Home/Home";
 import Login from "./Components/Login/Login";
@@ -12,14 +12,14 @@ function App() {
   return (
     <div className="App">
       <ReactNotification />
-      <BrowserRouter>
+      <HashRouter>
         <GlobalStorage>
           <Switch>
             <Route path="/" exact component={Login} />
             <ProtectedRoute path="/home" component={Home} />
           </Switch>
         </GlobalStorage>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

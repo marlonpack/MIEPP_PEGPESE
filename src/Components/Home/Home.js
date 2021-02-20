@@ -6,8 +6,8 @@ import Provider from "../Provider/Provider";
 import styles from "./Home.module.css";
 
 import { UserContext } from '../../Contexts/UserContext';
-import { render } from "@testing-library/react";
 import Media from "../Media/Media";
+import Screen from "../Screen/Screen";
 
 
 function Home(props) {
@@ -30,6 +30,7 @@ function Home(props) {
           <Switch>
             <Route path={`${props.match.path}/cadastro/fornecedor`} component={Provider} />
             <Route path={`${props.match.path}/cadastro/midia`} component={Media} />
+            <Route path={`${props.match.path}/cadastro/screen`} component={Screen} />
            </Switch> 
 
 

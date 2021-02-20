@@ -1,5 +1,6 @@
 import React from "react";
 import { ProviderStorage } from "./ProviderContext";
+import { ScreenStorage } from "./ScreenContext";
 import { UserStorage } from "./UserContext";
 
 export const GlobalContext = React.createContext();
@@ -9,7 +10,9 @@ export const GlobalStorage = ({ children }) => {
     <GlobalContext.Provider value={{}}>
       <UserStorage>
         <ProviderStorage>
-          {children}
+          <ScreenStorage>
+            {children}
+          </ScreenStorage>
         </ProviderStorage>
       </UserStorage>
     </GlobalContext.Provider>

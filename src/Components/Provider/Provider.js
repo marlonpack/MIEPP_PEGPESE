@@ -6,6 +6,7 @@ import { ProviderContext } from "../../Contexts/ProviderContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
+import NotificationError from '../Notification/NotificationError'
 
 const Provider = () => {
   const [showMenu, setShowMenu] = React.useState(false);
@@ -27,6 +28,10 @@ const Provider = () => {
     loadProviders();
   }, []);
 
+  React.useEffect(()=>{
+    NotificationError(error)
+  },[error])
+  
   React.useEffect(() => {
     if (editProvider !== null) {
       setShowMenu(true);
@@ -110,7 +115,9 @@ const Provider = () => {
 
           <h3 className="titleSection">Lista de fornecedores</h3>
         </div>
-        {error && <h1 color="#fff">{error}</h1>}
+        {/* {NotificationError(error)}
+        {console.log(error)}
+        {error && <h1 color="#fff">{error}</h1>} */}
         <div className={styles.topProviderRight}>
           <Input
             style={styles.topProviderForm}

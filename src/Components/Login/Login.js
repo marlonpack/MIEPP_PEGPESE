@@ -18,7 +18,7 @@ function Login() {
   const password = useForm();
   const {login, userLogin, error } = React.useContext(UserContext);
   // const [changePassword, setChangePassword] = useState(false)
-  const [useLogin, setUseLogin]= useState(false)
+  // const [useLogin, setUseLogin]= useState(false)
 
   useEffect(() => {
     NotificationError(error)
@@ -26,7 +26,8 @@ function Login() {
 
 
   useEffect(() => {
-    if(login) NotificationSucess('Login feito com sucesso')
+    console.log(login)
+    if(login == true) NotificationSucess('Login feito com sucesso')
   }, [login]);
 
   function handleSubmit() {

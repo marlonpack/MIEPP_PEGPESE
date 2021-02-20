@@ -1,7 +1,9 @@
 {
   "name": "miepp",
   "version": "0.1.0",
+  "license": "GNU General Public License (GPL)",
   "private": true,
+ 
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
