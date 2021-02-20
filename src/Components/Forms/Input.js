@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './Input.module.css';
 
 
-function Input({ label, type, name, value, readonly, defaultValue, onChange, error, onBlur, style , placeholder, step }) {
+function Input({ label, type, name, value, readonly, defaultValue, onChange, error, onBlur, style , placeholder, step,  accept, disabled}) {
+
   return (
     <div  className={`${style} `}>
       <label htmlFor={name} className={styles.label}>
@@ -21,6 +22,8 @@ function Input({ label, type, name, value, readonly, defaultValue, onChange, err
         placeholder={placeholder}
         autoComplete="off"
         step={step}
+        accept={accept}
+        disabled={disabled}
       />
       {/* {error && <p className={styles.error}>{error}</p>} */}
     </div>

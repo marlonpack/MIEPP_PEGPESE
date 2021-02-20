@@ -7,12 +7,16 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 
 import { GlobalStorage } from "./Contexts/GlobalContext";
 
-
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
       <ReactNotification />
       <HashRouter>
+=======
+      <BrowserRouter>
+        <ReactNotification />
+>>>>>>> main
         <GlobalStorage>
           <Switch>
             <Route path="/" exact component={Login} />

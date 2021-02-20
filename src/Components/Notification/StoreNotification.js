@@ -3,7 +3,8 @@ import 'react-notifications-component/dist/theme.css';
 
 
 export  function NotificationStore(title, message, type){
- 
+  
+    alert("teste")
   return store.addNotification({
     title: title,
     message: message,

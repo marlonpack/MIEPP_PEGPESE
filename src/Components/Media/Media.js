@@ -10,43 +10,165 @@ import {
   Create,
   Delete,
   Attachment,
+  CancelPresentation,
 } from "@material-ui/icons";
 import ImageModal from "../ImageModal/ImageModal";
+import YesNoModal from "../YesNoModal/YesNoModal";
+import { MediaContext } from "../../Contexts/MediaContext";
+import { ProviderContext } from "../../Contexts/ProviderContext";
+import { NotificationStore } from "../Notification/StoreNotification";
 
 const Media = () => {
+  const mediaContext = React.useContext(MediaContext);
+  const providerContext = React.useContext(ProviderContext);
+  const [showYesNoModal, setShowYesNoModal] = React.useState(false);
+  const [delMedia, setDelMedia] = React.useState(null);
   const [showMenu, setShowMenu] = React.useState(false);
   const [image, setImage] = React.useState(null);
   const [video, setVideo] = React.useState(null);
   const [showFullImage, setShowFullImage] = React.useState(false);
+  const [provider, setProvider] = React.useState(0);
+  const [type, setType] = React.useState("");
+  const [types, setTypes] = React.useState([]);
+  const [description, setDescription] = React.useState("");
+  const [version, setVersion] = React.useState("");
+  const [editMedia, setEditMedia] = React.useState(null);
+
+  React.useEffect(() => {
+    let options = [];
+
+    if (+provider !== 0) {
+      options = [
+        { id: 3, description: "Imagem" },
+        { id: 4, description: "Video" },
+      ];
+    }
+
+    if (+provider === 1) {
+      options = [
+        { id: 0, description: "Produtos" },
+        { id: 1, description: "Imagem" },
+        { id: 2, description: "Video" },
+      ];
+    }
+
+    setTypes(options);
+  }, [provider]);
+
+  React.useEffect(() => {
+    if (mediaContext.file) {
+      if (
+        mediaContext.file.type === 3 ||
+        mediaContext.file.type === 1 ||
+        mediaContext.file.type === 0
+      ) {
+        setVideo(null);
+        setImage(mediaContext.file.file);
+      }
+
+      if (mediaContext.file.type === 4 || mediaContext.file.type === 2) {
+        setImage(null);
+        setVideo(mediaContext.file.file);
+      }
+    }
+  }, [mediaContext.file]);
+
+  React.useEffect(() => {
+    mediaContext.loadMedia();
+  }, []);
+
+  React.useEffect(() => {
+    if (editMedia !== null) {
+      setTimeout(() => {
+        setDescription(editMedia.description);
+        setVersion(editMedia.file_version);
+        setProvider(editMedia.supplier_id);
+        setType(editMedia.type);
+        getFile(editMedia.id, editMedia.type);
+      }, 1000);
+    }
+  }, [editMedia]);
 
   async function loadFile(e) {
     const file = e.files[0];
+    if (file) {
+      if (file.type.includes("image")) {
+        const base = await convertBase64(file);
+        setImage(base);
+        setVideo(null);
+        return;
+      }
 
-    if (file.type.includes("image")) {
-      const base = await convertBase64(file);
-      setImage(base);
-      setVideo(null);
-      return;
+      if (file.type.includes("video")) {
+        const base = await convertBase64(file);
+        setVideo(base);
+        setImage(null);
+        return;
+      }
     }
+  }
 
-    if (file.type.includes("video")) {
-      const base = await convertBase64(file);
-      setVideo(base);
-      setImage(null);
-      return;
+  function getFile(id, type) {
+    mediaContext.loadMediaFile(id, type);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    let media = image !== null ? image : video !== null ? video : null;
+
+    if (media) {
+      // Send only base64
+      media = media.split(",");
+
+      if (editMedia) {
+        mediaContext.updateMedia(
+          editMedia.id,
+          description,
+          type,
+          media[1],
+          provider
+        );
+      } else {
+        mediaContext.createMedia(description, type, media[1], provider);
+      }
+
+      if (mediaContext.error === null) {
+        clear();
+      }
     }
+  }
+
+  function clear() {
+    setDescription("");
+    setVersion("");
+    setProvider(0);
+    setType("");
+    setVideo(null);
+    setImage(null);
   }
 
   return (
     <div className={styles.containerMedia}>
-      {showFullImage && <ImageModal src={image} close={() => setShowFullImage(false)}/>}
+      {mediaContext.error &&
+        NotificationStore(mediaContext.error, "teste", "danger")}
 
+      {showFullImage && (
+        <ImageModal src={image} close={() => setShowFullImage(false)} />
+      )}
+
+      {showYesNoModal && (
+        <YesNoModal
+          question="Tem certeza que deseja excluir?"
+          close={() => (setShowYesNoModal(false), setDelMedia(null))}
+          action={() => mediaContext.deleteMedia(delMedia)}
+        />
+      )}
       <div className={styles.topMedia}>
         <div className={styles.topMediaLeft}>
           <Button
             type="button"
             style="btnAdd"
-            onClick={() => (setShowMenu(!showMenu),setImage(null),setVideo(null))}
+            onClick={() => (setShowMenu(!showMenu), clear())}
           >
             <AddBox />
           </Button>
@@ -72,9 +194,11 @@ const Media = () => {
           <div className={[styles.mediaMenu, "animeLeft"].join(" ")}>
             <h4 className="titleActionPage">Cadastrar / Editar Mídias</h4>
 
-            <form action="">
+            <form action="" onSubmit={handleSubmit}>
               <div className={styles.mediaMenuFormTop}>
                 <Input
+                  value={description}
+                  onChange={({ target }) => setDescription(target.value)}
                   style={styles.mediaMenuFormInput}
                   label="Descrição"
                   type="text"
@@ -82,39 +206,61 @@ const Media = () => {
                 />
 
                 <Input
+                  value={version}
+                  onChange={({ target }) => setVersion(target.value)}
                   style={styles.mediaMenuFormInput}
                   label="Versão"
                   type="text"
                   name="version"
+                  disabled={true}
                 />
               </div>
 
               <div className={styles.mediaMenuFormMiddle}>
                 <div className={styles.mediaMenuLeft}>
-                  <p>Fornecedor</p>
-                  <select>
-                    <option>Select</option>
-                    <option>1 - Peg Pese</option>
-                    <option>2 - Frugal</option>
-                  </select>
+                  <div>
+                    <p>Fornecedor</p>
+                    <select
+                      value={provider}
+                      onChange={({ target }) =>
+                        setProvider(Number(target.value))
+                      }
+                    >
+                      <option value="0">Selecione</option>
+                      {providerContext.data.map((provider) => (
+                        <option value={provider.id} key={provider.id}>
+                          {provider.description}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <Input
                     onChange={({ target }) => loadFile(target)}
                     name="mediaMenuUpload"
                     style={styles.mediaMenuUpload}
+                    id="mediaMenuUpload"
                     type="file"
                     label="Upload"
+                    accept="video/mp4,image/png,image/gif, image/jpeg,image/jpg"
                   />
                 </div>
 
                 <div className={styles.mediaMenuRight}>
-                  <p>Tipo</p>
-                  <select>
-                    <option>Select</option>
-                    <option>0 - Lista de produtos</option>
-                    <option>1 - Video</option>
-                    <option>2 - Imagem</option>
-                  </select>
+                  <div>
+                    <p>Tipo</p>
+                    <select
+                      value={type}
+                      onChange={({ target }) => setType(target.value)}
+                    >
+                      <option value="">Selecione</option>
+                      {types.map((type) => (
+                        <option key={type.id} value={type.id}>
+                          {type.description}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <button type="submit">Enviar</button>
                 </div>
@@ -138,6 +284,20 @@ const Media = () => {
                   alt="Imagem anexada"
                   onClick={() => setShowFullImage(true)}
                 ></img>
+              )}
+
+              {(video || image) && (
+                <span
+                  title="Remover anexo"
+                  className={styles.mediaMenuBottomRemove}
+                  onClick={() => (
+                    setVideo(null),
+                    setImage(null),
+                    (document.getElementById("mediaMenuUpload").value = "")
+                  )}
+                >
+                  <CancelPresentation />
+                </span>
               )}
             </div>
           </div>
@@ -174,7 +334,11 @@ const Media = () => {
                     <ViewList className={styles.tableStyleOrder} />
                   </span>
                 </th>
-                <th></th>
+                <th>
+                  <span>
+                    <ViewList className={styles.tableStyleOrder} />
+                  </span>
+                </th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -182,58 +346,52 @@ const Media = () => {
             </thead>
 
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>BG Test</td>
-                <td>Peg Pese</td>
-                <td>Lista de Produtos</td>
-                <td>1</td>
-                <td>
-                  <Button
-                    style="btnAttachment"
-                    title="Visualizar"
-                    type="button"
-                  >
-                    <Attachment />
-                  </Button>
-                </td>
-                <td>
-                  <div className={styles.tableStyleButtons}>
-                    <Button title="Editar" type="button" style="btnEdit">
-                      <Create />
+              {mediaContext.data.map((media) => (
+                <tr key={media.id}>
+                  <td>{media.id}</td>
+                  <td>{media.description}</td>
+                  {providerContext.data.map(
+                    (provider) =>
+                      provider.id === media.supplier_id && (
+                        <td key={provider.id}>{provider.description}</td>
+                      )
+                  )}
+                  <td>{media.type}</td>
+                  <td>{media.file_version}</td>
+                  <td>
+                    <Button
+                      style="btnAttachment"
+                      title="Visualizar"
+                      type="button"
+                      onClick={() => getFile(media.id, media.type)}
+                    >
+                      <Attachment />
                     </Button>
-                    <Button title="Excluir" type="button" style="btnDelete">
-                      <Delete />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>BG Test</td>
-                <td>Peg Pese</td>
-                <td>Lista de Produtos</td>
-                <td>1</td>
-                <td>
-                  <Button
-                    style="btnAttachment"
-                    title="Visualizar"
-                    type="button"
-                  >
-                    <Attachment />
-                  </Button>
-                </td>
-                <td>
-                  <div className={styles.tableStyleButtons}>
-                    <Button title="Editar" type="button" style="btnEdit">
-                      <Create />
-                    </Button>
-                    <Button title="Excluir" type="button" style="btnDelete">
-                      <Delete />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                  <td>
+                    <div className={styles.tableStyleButtons}>
+                      <Button
+                        title="Editar"
+                        type="button"
+                        style="btnEdit"
+                        onClick={() => (setEditMedia(media), setShowMenu(true))}
+                      >
+                        <Create />
+                      </Button>
+                      <Button
+                        title="Excluir"
+                        type="button"
+                        style="btnDelete"
+                        onClick={() => (
+                          setDelMedia(media.id), setShowYesNoModal(true)
+                        )}
+                      >
+                        <Delete />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

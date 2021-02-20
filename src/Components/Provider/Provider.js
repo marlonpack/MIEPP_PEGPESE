@@ -115,9 +115,7 @@ const Provider = () => {
 
           <h3 className="titleSection">Lista de fornecedores</h3>
         </div>
-        {/* {NotificationError(error)}
-        {console.log(error)}
-        {error && <h1 color="#fff">{error}</h1>} */}
+
         <div className={styles.topProviderRight}>
           <Input
             style={styles.topProviderForm}

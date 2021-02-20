@@ -1,4 +1,5 @@
 import React from "react";
+import { MediaStorage } from "./MediaContext";
 import { ProviderStorage } from "./ProviderContext";
 import { ScreenStorage } from "./ScreenContext";
 import { UserStorage } from "./UserContext";
@@ -11,7 +12,9 @@ export const GlobalStorage = ({ children }) => {
       <UserStorage>
         <ProviderStorage>
           <ScreenStorage>
+          <MediaStorage>
             {children}
+            </MediaStorage>
           </ScreenStorage>
         </ProviderStorage>
       </UserStorage>
