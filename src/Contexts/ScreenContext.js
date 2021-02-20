@@ -37,6 +37,61 @@ export const ScreenStorage = ({ children }) => {
     }
   }
 
+  async function postScreen(description, time, media_id, department_id) {
+    try {
+      const { url, options } = POST_SCREEEN(userContext.session,{
+        description:description,
+        time: time,
+        media_id: parseInt(media_id),
+        department_id: parseInt(department_id),
+      })
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json)
+      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      // if (response.ok) setData(json.data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteScreen(params) {
+    try {
+      const { url, options } = DELETE_SCREEEN(userContext.session,{
+        'id': params
+       })
+      const response = await fetch(url, options);
+      const json = await response.json(); 
+      if (!response.ok) throw new Error(`Error: ${json.message}`);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function putScreen(id, description, time, media_id, department_id) {
+    try {
+      const { url, options } = PUT_SCREEEN(userContext.session,{
+        id: id,
+        description:description,
+        time: time,
+        media_id: media_id,
+        department_id: department_id,
+       })
+      const response = await fetch(url, options);
+      const json = await response.json(); 
+      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      loadScreen();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function editScreen(data, openEdit){
     setDataEdit(data);
     setOpenEditScreen(openEdit)
@@ -156,8 +211,11 @@ export const ScreenStorage = ({ children }) => {
         error,
         loading,
         loadScreen,
+        postScreen,
+        deleteScreen,
         editScreen,
         setOpenEditScreen,
+        putScreen,
         dataEdit,
         openEditScreen
         // createProvider,

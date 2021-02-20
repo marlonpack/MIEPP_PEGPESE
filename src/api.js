@@ -66,7 +66,7 @@ export function POST_PROVIDER(session, body) {
 
 export function PUT_PROVIDER(session, body) {
   return {
-    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5`,
     options: {
       method: "PUT",
       body: JSON.stringify(body),
@@ -76,7 +76,7 @@ export function PUT_PROVIDER(session, body) {
 
 export function DELETE_PROVIDER(session, body) {
   return {
-    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5`,
     options: {
       method: "DELETE",
       body: JSON.stringify(body),
@@ -88,7 +88,7 @@ export function DELETE_PROVIDER(session, body) {
 export function GET_MEDIA(session) {
   return {
 
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5`,
     options: {
       method: "GET",
     },
@@ -97,7 +97,7 @@ export function GET_MEDIA(session) {
 
 export function GET_MEDIA_FILE(session, id) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=1&id=${id}`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}`,
     options: {
       method: "GET",
     },
@@ -106,7 +106,7 @@ export function GET_MEDIA_FILE(session, id) {
 
 export function POST_MEDIA(session, body) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5`,
     options: {
       method: "POST",
       body: JSON.stringify(body),
@@ -116,7 +116,7 @@ export function POST_MEDIA(session, body) {
 
 export function PUT_MEDIA(session, body) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5`,
 
     options: {
       method: "PUT",
@@ -127,7 +127,7 @@ export function PUT_MEDIA(session, body) {
 
 export function DELETE_MEDIA(session, body) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=1`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5`,
     options: {
       method: "DELETE",
       body: JSON.stringify(body),
@@ -146,6 +146,7 @@ export function GET_SCREEEN(session) {
 }
 
 export function POST_SCREEEN(session, body) {
+  console.log(body)
   return {
     url: `${API_URL}MIEPP/Screen.php?AUTH=${session}&app_id=5`,
     options: {

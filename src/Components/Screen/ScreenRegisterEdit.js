@@ -3,33 +3,40 @@ import styles from "./ScreenRegisterEdit.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { ScreenContext } from "../../Contexts/ScreenContext";
+import { MediaContext } from "../../Contexts/MediaContext";
 
 function ScreenRegisterEdit() {
-
-  const [description, setDescription] = React.useState();
-  const [time, setTime] = React.useState();
-  const [media, setMedia] = React.useState();
-  const [department, setDepartment] = React.useState();
-  const { dataEdit, openEditScreen } = React.useContext(ScreenContext);
-
+  const mediaContext = React.useContext(MediaContext);
+  const { dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
+  const [description, setDescription] = React.useState('');
+  const [time, setTime] = React.useState('');
+  const [media, setMedia] = React.useState('');
+  const [department, setDepartment] = React.useState('');
+  const [getMediaContext, setGetMediaContext]= React.useState([]);
 
   React.useEffect(() => {
-    console.log(dataEdit.id)
-    console.log(dataEdit.description)
-    console.log(dataEdit.time)
-    console.log(dataEdit.media_id)
-    console.log(dataEdit.department_id)
-    console.log(dataEdit)
-  }, [dataEdit])
+    mediaContext.loadMedia();
+  },[]);
+
+  React.useEffect(() => {
+    setGetMediaContext(mediaContext.data);
+  },[mediaContext.data]);
+
+  React.useEffect(() => {
+    setDescription(dataEdit.description)
+    setTime(dataEdit.time)
+    setMedia(dataEdit.media_id)
+    setDepartment(dataEdit.department_id)
+  },[dataEdit]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(description)
-    console.log(time)
-    console.log(media)
-    console.log(department)
+    postScreen(description,time,media,department)
   }
 
+  function screenEdit(){
+    putScreen(dataEdit.id, description,time,media,department)
+  }
 
 
   return (
@@ -39,21 +46,21 @@ function ScreenRegisterEdit() {
       <form action="" onSubmit={handleSubmit}>
         <div className={styles.screenMenuFormTop}>
           <Input
-            value={dataEdit.description}
+            value={description}
             style={styles.screenMenuFormInput}
             label="Descrição"
             type="text"
             name="description"
-            onChange={({ target }) => { setDescription(target.value) }}
+            onChange={({ target }) =>  setDescription(target.value) }
           />
 
           <Input
-            value={dataEdit.time}
+            value={time}
             style={styles.screenMenuFormInput}
             label="Tempo"
             type="time"
             name="Time"
-            onChange={({ target }) => { setTime(target.value) }}
+            onChange={({ target }) =>  setTime(target.value) }
             step='1'
           />
         </div>
@@ -61,14 +68,14 @@ function ScreenRegisterEdit() {
         <div className={styles.screenMenuFormMiddle}>
           <div className={styles.screenMenuLeft}>
             <p>Mídia</p>
-            <select
-              onChange={({ target }) => { setMedia(target.value) }}
-            value={dataEdit.media_id}
+             <select
+              onChange={({ target }) =>  setMedia(target.value)}
+              value={media}
             >
-              <option>Select</option>
-              <option value="3">BG </option>
-              <option value="5">BG Test </option>
-              <option value="6">BG Test 2 </option>
+              <option value='0'>Select</option>
+              {getMediaContext.map((data)=>(
+                <option key={data.id} value={data.id}>{`${data.id} - ${data.description}`}</option>
+              ))}
             </select>
             <Button style={styles.buttonProduct} type="submit">Produtos</Button>
           </div>
@@ -76,15 +83,15 @@ function ScreenRegisterEdit() {
           <div className={styles.screenMenuRight}>
             <p>Departamento</p>
             <select
-              onChange={({ target }) => { setDepartment(target.value) }}
-              value={dataEdit.department_id} 
+              onChange={({ target }) =>  setDepartment(target.value) }
+              value={department} 
             >
               <option>Select</option>
               <option value='5'>Frios</option>
               <option value='6'>Frios</option>
             </select>
 
-            <Button style={styles.button} type="submit" >Enviar</Button>
+            {openEditScreen ? <Button style={styles.button} type="button" onClick={()=>{screenEdit()}} >Editar</Button>: <Button style={styles.button} type="submit" >Enviar</Button>}
           </div>
         </div>
       </form>

@@ -14,7 +14,7 @@ import { ScreenContext } from "../../Contexts/ScreenContext";
 const Screen = () => {
   const { openEditScreen, editScreen } = React.useContext(ScreenContext);
   const [showMenu, setShowMenu] = React.useState(false);
-  const [showEditMenu, setShowEditMenu] = React.useState(false);
+  const [filterScreen, setfilterScreen] = React.useState(false);
 
   React.useEffect(() => {
     if(openEditScreen){
@@ -22,6 +22,15 @@ const Screen = () => {
     }
   });
 
+
+  function searchScreen(name) {
+    if (name === "") {
+      setfilterScreen([]);
+      return;
+    }
+    const proName = name.toLowerCase();
+    setfilterScreen(proName);
+  }
 
   return (
     <div className={styles.containerMedia}>
@@ -45,8 +54,9 @@ const Screen = () => {
             style={styles.topMediaForm}
             label="Pesquisar"
             type="text"
-            id="searchProvider"
-            name="searchProvider"
+            id="searchScreen"
+            name="searchScreen"
+            onChange={({target})=>{searchScreen(target.value)}}
           />
           <Button type="button" style="btnSearch">
             <Search />
@@ -62,7 +72,7 @@ const Screen = () => {
           className={styles.tableArea}
           style={showMenu  ? { width: "60%" } : {}}
         >
-          <ScreenTable />
+          <ScreenTable filterScreen={filterScreen}/>
         </div>
       </div>
     </div>
