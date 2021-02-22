@@ -4,19 +4,27 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { ScreenContext } from "../../Contexts/ScreenContext";
 import { MediaContext } from "../../Contexts/MediaContext";
+import Product from '../Product/Product';
+import { ProductContext } from '../../Contexts/ProductContext';
 
 function ScreenRegisterEdit() {
   const mediaContext = React.useContext(MediaContext);
-  const { dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
+  const { dataDepartment, dataShop, dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
+  const{openModal, OpenModalProduct} = React.useContext(ProductContext);
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
   const [department, setDepartment] = React.useState('');
   const [getMediaContext, setGetMediaContext]= React.useState([]);
+  const [modalProduct, setModalProduct]= React.useState(false);
 
   React.useEffect(() => {
     mediaContext.loadMedia();
   },[]);
+
+  // React.useEffect(()=>{
+  //   OpenModalProduct
+  // },[])
 
   React.useEffect(() => {
     setGetMediaContext(mediaContext.data);
@@ -38,9 +46,11 @@ function ScreenRegisterEdit() {
     putScreen(dataEdit.id, description,time,media,department)
   }
 
+  
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
+      {openModal && <Product/>}
       <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
 
       <form action="" onSubmit={handleSubmit}>
@@ -77,7 +87,7 @@ function ScreenRegisterEdit() {
                 <option key={data.id} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
-            <Button style={styles.buttonProduct} type="submit">Produtos</Button>
+            <Button style={styles.buttonProduct} onClick={()=>{OpenModalProduct(!openModal)}} type="button">Produtos</Button>
           </div>
 
           <div className={styles.screenMenuRight}>
@@ -87,8 +97,10 @@ function ScreenRegisterEdit() {
               value={department} 
             >
               <option>Select</option>
-              <option value='5'>Frios</option>
-              <option value='6'>Frios</option>
+            
+              {dataDepartment.map((data)=>(
+                <option key={data.id} value={data.external_index}>{`${data.id} - ${data.description}`}</option>
+              ))}
             </select>
 
             {openEditScreen ? <Button style={styles.button} type="button" onClick={()=>{screenEdit()}} >Editar</Button>: <Button style={styles.button} type="submit" >Enviar</Button>}

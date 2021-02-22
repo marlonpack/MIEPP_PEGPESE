@@ -3,7 +3,7 @@ import {
   GET_PROVIDER,
   POST_PROVIDER,
   PUT_PROVIDER,
-  DELETE_PROVIDER,
+  GET_SHOP_DEPARTMENT,
   GET_SCREEEN,
   POST_SCREEEN,
   PUT_SCREEEN,
@@ -18,6 +18,8 @@ export const ScreenStorage = ({ children }) => {
   const userContext = React.useContext(UserContext);
   const [data, setData] = React.useState([]);
   const [dataEdit, setDataEdit] = React.useState([]);
+  const [dataShop, setDataShop] = React.useState([]);
+  const [dataDepartment, setDataDepartment] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [openEditScreen, setOpenEditScreen] = React.useState(false);
@@ -30,10 +32,29 @@ export const ScreenStorage = ({ children }) => {
       const json = await response.json();
       if (!response.ok) throw new Error(`Error: ${json.message}`);
       if (response.ok) setData(json.data);
+      getShopDepartment();
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function getShopDepartment(){
+    try{
+      const {url, options}= GET_SHOP_DEPARTMENT(userContext.session);
+      const response = await fetch(url,options);
+      const json = await response.json();
+      let departamento =[];
+      let shop= [];
+      for(let i=0; json.data.length>i; i++){
+        if(json.data[i].external_index_description.includes(' departamento'))departamento.push(json.data[i])
+        else if(json.data[i].external_index_description.includes(' loja '))shop.push(json.data[i])
+      }
+      setDataDepartment(departamento)
+      setDataShop(shop)
+    }catch(error){
+      console.log(error)
     }
   }
 
@@ -217,7 +238,9 @@ export const ScreenStorage = ({ children }) => {
         setOpenEditScreen,
         putScreen,
         dataEdit,
-        openEditScreen
+        openEditScreen,
+        dataDepartment,
+        dataShop
         // createProvider,
         // updateProvider,
         // deleteProvider,

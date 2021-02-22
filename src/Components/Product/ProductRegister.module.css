@@ -1,0 +1,44 @@
+.divSelect {
+  /* border: 1px solid #343434; */
+  width: 100%;
+  height: 50%;
+  display: flex;
+}
+
+.divSelectRight {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid #343434; */
+}
+
+
+.divSelectLeft {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid #343434; */
+}
+
+
+.divSelect label {
+  font-size: 1.2rem;
+}
+
+.divSelect select {
+  background-color: #959595;
+  padding: 3px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 3px;
+  width: 75%;
+}
+
+ .divSelect input {
+  width: 100%;
+  padding: 3px 10px;
+  background-color: #959595;
+  border: 1px solid transparent;
+  font-size: 1.2rem;
+  border-radius: 3px;
+}

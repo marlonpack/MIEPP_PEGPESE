@@ -176,3 +176,21 @@ export function DELETE_SCREEEN(session, body) {
   }
 }
 
+export function GET_PRODUCT(session, shop_id, department_id) {
+  return {
+    url: `${API_URL}MIEPP/Product.php?AUTH=${session}&app_id=5&shop_id=${shop_id}&department_id=${department_id}`,
+    options: {
+      method: "GET",
+    }
+  }
+}
+
+
+export function GET_SHOP_DEPARTMENT(session){
+  return{
+    url:`${API_URL}CCPP/ApplicationFunction.php?AUTH=${session}&app_id=5&application_id=5`,
+    options:{
+      method:"GET"
+    }
+  }
+}

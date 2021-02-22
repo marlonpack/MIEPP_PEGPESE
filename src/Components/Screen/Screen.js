@@ -10,9 +10,11 @@ import {
 import ScreenRegisterEdit from "./ScreenRegisterEdit";
 import ScreenTable from "./ScreenTable";
 import { ScreenContext } from "../../Contexts/ScreenContext";
+import { ProductContext } from "../../Contexts/ProductContext";
 
 const Screen = () => {
   const { openEditScreen, editScreen } = React.useContext(ScreenContext);
+  const{OpenModalProduct} = React.useContext(ProductContext);
   const [showMenu, setShowMenu] = React.useState(false);
   const [filterScreen, setfilterScreen] = React.useState(false);
 
