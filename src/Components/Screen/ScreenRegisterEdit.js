@@ -15,7 +15,7 @@ function ScreenRegisterEdit() {
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
   const [department, setDepartment] = React.useState('');
-  const [getMediaContext, setGetMediaContext]= React.useState([]);
+  const [getMediaContext, setGetMediaContext]= React.useState(['']);
   const [modalProduct, setModalProduct]= React.useState(false);
 
   React.useEffect(() => {
@@ -50,7 +50,7 @@ function ScreenRegisterEdit() {
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
-      {openModal && <Product/>}
+      {openModal && <Product media={media} department={department}/>}
       <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
 
       <form action="" onSubmit={handleSubmit}>
@@ -93,13 +93,15 @@ function ScreenRegisterEdit() {
           <div className={styles.screenMenuRight}>
             <p>Departamento</p>
             <select
+            // disabled={true}
               onChange={({ target }) =>  setDepartment(target.value) }
               value={department} 
             >
               <option>Select</option>
             
               {dataDepartment.map((data)=>(
-                <option key={data.id} value={data.external_index}>{`${data.id} - ${data.description}`}</option>
+
+                <option key={data.id} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
 

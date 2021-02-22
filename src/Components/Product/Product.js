@@ -5,8 +5,10 @@ import ProductTable from './ProductTable';
 import { ProductContext } from '../../Contexts/ProductContext';
 import useOutsideClick from "../../Hooks/useOutsideClick";
 
-function Product() {
+function Product({media, department}) {
   const{openModal, OpenModalProduct} = React.useContext(ProductContext);
+
+  console.log(media, department)
 
     let domNode = useOutsideClick(() => {
       OpenModalProduct(!openModal)
@@ -18,13 +20,13 @@ function Product() {
       <div ref={domNode} className={styles.modalProduct}>
       {/* <div  className={styles.modalProduct}> */}
         <div className={styles.ProductMenuLeft}>
-         <ProductRegister/>
+         <ProductRegister department={department}/>
           <div className={styles.divImage}>
             imagem
         </div>
         </div>
         <div className={styles.ProductMenuRight}>
-          <ProductTable/>
+          <ProductTable department={department}/>
         </div>
       </div>
     </div>

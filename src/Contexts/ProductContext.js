@@ -21,16 +21,16 @@ export const ProductStorage = ({ children }) => {
     setOpenModal(modal)
   }  
 
-  async function GetProduct() {
+  async function GetProduct(departament, shop) {
     try {
       setError(null);
       setLoading(true);
+      console.log(departament, shop)
 
-
-      const { url, options } = GET_PRODUCT(userContext.session,'1','1');
+      const { url, options } = GET_PRODUCT(userContext.session,departament,shop);
       const response = await fetch(url, options);
       const json = await response.json();
-     
+     console.log(json)
       if (json.error) {
         setError(json.message);
       }

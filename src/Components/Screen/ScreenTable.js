@@ -2,6 +2,7 @@ import React from 'react';
 import styles from "./ScreenTable.module.css";
 import Button from "../Forms/Button";
 import { ScreenContext } from "../../Contexts/ScreenContext";
+import YesNoModal from "../YesNoModal/YesNoModal";
 import {
   ViewList,
   Create,
@@ -13,8 +14,9 @@ import {
 function ScreenTable(props) {
 
   const { data, loadScreen, editScreen, deleteScreen } = React.useContext(ScreenContext);
-  const [filterData, setFilterData] = React.useState([]);
-  // const [dataEdit, setDataEdit] = React.useState([]);
+  const [filterData, setFilterData] = React.useState(['']);
+  const [showYesNoModal, setShowYesNoModal] = React.useState(false);
+  const [ActionDelete, setActionDelete] = React.useState('');
   // const [openEdit, setOpenEdit] = React.useState(false);
 
 
@@ -35,6 +37,8 @@ function ScreenTable(props) {
   }
 
   function screenDelete(id) {
+    setShowYesNoModal(true)
+    setActionDelete(id)
     // deleteScreen(id)
   }
 
@@ -75,6 +79,15 @@ function ScreenTable(props) {
 
   return (
     <table className={styles.tableStyle}>
+      {showYesNoModal && (
+        <YesNoModal
+          question="Tem certeza que deseja excluir?"
+          action={() => deleteScreen(ActionDelete)}
+          close={() => {
+            setShowYesNoModal(false);
+          }}
+        />
+      )}
       <thead>
         <tr>
           <th>ID</th>

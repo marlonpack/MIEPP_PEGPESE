@@ -17,9 +17,9 @@ export const ScreenContext = React.createContext();
 export const ScreenStorage = ({ children }) => {
   const userContext = React.useContext(UserContext);
   const [data, setData] = React.useState([]);
-  const [dataEdit, setDataEdit] = React.useState([]);
-  const [dataShop, setDataShop] = React.useState([]);
-  const [dataDepartment, setDataDepartment] = React.useState([]);
+  const [dataEdit, setDataEdit] = React.useState(['']);
+  const [dataShop, setDataShop] = React.useState(['']);
+  const [dataDepartment, setDataDepartment] = React.useState(['']);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [openEditScreen, setOpenEditScreen] = React.useState(false);
@@ -86,6 +86,7 @@ export const ScreenStorage = ({ children }) => {
       const response = await fetch(url, options);
       const json = await response.json(); 
       if (!response.ok) throw new Error(`Error: ${json.message}`);
+      loadScreen();
     } catch (error) {
       setError(error.message);
     } finally {
@@ -104,7 +105,9 @@ export const ScreenStorage = ({ children }) => {
        })
       const response = await fetch(url, options);
       const json = await response.json(); 
+      alert(json.message)
       if (!response.ok) throw new Error(`Error: ${json.message}`);
+      alert(json.message)
       loadScreen();
     } catch (error) {
       setError(error.message);

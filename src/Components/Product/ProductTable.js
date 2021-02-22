@@ -8,7 +8,7 @@ import {
 } from "@material-ui/icons";
 import { ProductContext } from '../../Contexts/ProductContext';
 
-function ProductTable(props) {
+function ProductTable({department}) {
   const { data, GetProduct} = React.useContext(ProductContext);
   const [filterData, setFilterData] = React.useState([]);
   // const [dataEdit, setDataEdit] = React.useState([]);
@@ -16,15 +16,16 @@ function ProductTable(props) {
 
 
   React.useEffect(() => {
-    GetProduct();
+    console.log(department)
+    GetProduct(department, '1');
   }, []);
 
-  React.useEffect(() => {
-    const filter = data.filter((data) =>
-      data.description.toLowerCase().includes(props.filterScreen)
-    );
-    setFilterData([...filter])
-  }, [props]);
+  // React.useEffect(() => {
+  //   const filter = data.filter((data) =>
+  //     data.description.toLowerCase().includes(props.filterScreen)
+  //   );
+  //   setFilterData([...filter])
+  // }, [props]);
 
 
   
@@ -125,7 +126,7 @@ function ProductTable(props) {
             <td>{data.price_promo}</td>      
           </tr>
         )) :
-          (data.map((data) => (
+          ( data.map((data) => (
             <tr key={data.id}>
               <td>{data.id}</td>
               <td>{data.description}</td>
