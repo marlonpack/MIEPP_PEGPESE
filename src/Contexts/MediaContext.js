@@ -7,6 +7,7 @@ import {
   POST_MEDIA,
   PUT_MEDIA,
 } from "../api";
+import NotificationSucess from "../Components/Notification/NotificationSucess";
 
 export const MediaContext = React.createContext();
 
@@ -32,8 +33,6 @@ export const MediaStorage = ({ children }) => {
         setError(json.message);
       }
 
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
-
       if (response.ok) setData(json.data);
     } catch (error) {
       setError(error.message);
@@ -52,8 +51,6 @@ export const MediaStorage = ({ children }) => {
       const response = await fetch(url, options);
 
       const json = await response.json();
-
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
 
       if (response.ok) setFile({ file: json.data[0], type: type });
     } catch (error) {
@@ -81,9 +78,11 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        return;
       }
 
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      NotificationSucess("A mídia foi adicionada");
+      return true;
     } catch (error) {
       setError(error.message);
     } finally {
@@ -111,13 +110,15 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        return;
       }
 
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      NotificationSucess("A mídia foi atualizada");
+      return true;
     } catch (error) {
       setError(error.message);
     } finally {
-        loadMedia();
+      loadMedia();
       setLoading(false);
     }
   }
@@ -135,9 +136,9 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        return;
       }
-
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      NotificationSucess("A mídia foi apagada");
     } catch (error) {
       setError(error.message);
     } finally {

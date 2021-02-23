@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  GET_PROVIDER,
+  GET_PROVIDERS,
   POST_PROVIDER,
   PUT_PROVIDER,
   DELETE_PROVIDER,
@@ -47,7 +47,6 @@ export const ScreenStorage = ({ children }) => {
       })
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json)
       if (!response.ok) throw new Error(`Error: ${json.message}`);
       // if (response.ok) setData(json.data);
     } catch (error) {

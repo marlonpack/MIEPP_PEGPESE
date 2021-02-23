@@ -42,10 +42,21 @@ export function USER_GET_PHOTO(session, id) {
   };
 }
 
-export function GET_PROVIDER(session) {
+export function GET_PROVIDERS(session) {
   return {
 
     url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5`,
+    options: {
+      method: "GET",
+    }
+  }
+
+}
+
+export function GET_PROVIDER(session,id) {
+  return {
+
+    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5&id=${id}`,
     options: {
       method: "GET",
     }
@@ -97,7 +108,7 @@ export function GET_MEDIA(session) {
 
 export function GET_MEDIA_FILE(session, id) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}&field=file`,
     options: {
       method: "GET",
     },
