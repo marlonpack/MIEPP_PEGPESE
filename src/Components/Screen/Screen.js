@@ -19,7 +19,7 @@ const Screen = () => {
   const [filterScreen, setfilterScreen] = React.useState(false);
 
   React.useEffect(() => {
-    if(openEditScreen){
+    if(openEditScreen=== true){
       setShowMenu(true)
     }
   });

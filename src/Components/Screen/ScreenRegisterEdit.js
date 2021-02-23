@@ -10,49 +10,87 @@ import { ProductContext } from '../../Contexts/ProductContext';
 function ScreenRegisterEdit() {
   const mediaContext = React.useContext(MediaContext);
   const { dataDepartment, dataShop, dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
-  const{openModal, OpenModalProduct} = React.useContext(ProductContext);
+  const { openModal, OpenModalProduct } = React.useContext(ProductContext);
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
-  const [department, setDepartment] = React.useState('');
-  const [getMediaContext, setGetMediaContext]= React.useState([]);
-  const [modalProduct, setModalProduct]= React.useState(false);
+  const [department, setDepartment] = React.useState();
+  const [getMediaContext, setGetMediaContext] = React.useState([]);
+  const [modalProduct, setModalProduct] = React.useState(false);
+  const [externalIndexDepartment, setExternalIndexDepartment]= React.useState('')
+  const [getSelectMedia, setGetSelectMedia] = React.useState([]);
+  const [filemedia, setFilemedia] = React.useState([]);
 
-  
+
   React.useEffect(() => {
     mediaContext.loadMedia();
-  },[]);
+  }, []);
 
   // React.useEffect(()=>{
   //   OpenModalProduct
   // },[])
 
   React.useEffect(() => {
-    setGetMediaContext(mediaContext.data);
-  },[mediaContext.data]);
+    setFilemedia(mediaContext.file);
+  }, [mediaContext.file]);
 
   React.useEffect(() => {
-    if(dataEdit.length !==0){
-    setDescription(dataEdit.description)
-    setTime(dataEdit.time)
-    setMedia(dataEdit.media_id)
-    setDepartment(dataEdit.department_id)}
-  },[dataEdit]);
+    setGetMediaContext(mediaContext.data);
+  }, [mediaContext.data]);
+
+  React.useEffect(() => {
+    if (dataEdit.length !== 0) {
+      setDescription(dataEdit.description)
+      setTime(dataEdit.time)
+      setMedia(dataEdit.media_id)
+      setDepartment(dataEdit.department_id)
+    }
+  }, [dataEdit]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    postScreen(description,time,media,department)
+    postScreen(description, time, media, department)
   }
 
-  function screenEdit(){
-    putScreen(dataEdit.id, description,time,media,department)
+  function screenEdit() {
+    putScreen(dataEdit.id, description, time, media, department)
   }
-
   
+  function handleModalProduct() {
+   
+    for(let a = 0; getMediaContext.length> a; a++){
+      if (getMediaContext[a].id === parseInt(media)){
+        mediaContext.loadMediaFile(getMediaContext[a].id, getMediaContext[a].type)
+      }
+    }
+
+    for (let i = 0; dataDepartment.length > i; i++) {
+      if (dataDepartment[i].id === parseInt(department)) {
+        if(dataDepartment[i].external_index === null){
+          alert('esse departamento não tem index')
+        }else{
+        setExternalIndexDepartment(parseInt(dataDepartment[i].external_index))
+         OpenModalProduct(!openModal)
+        }
+      }
+    }
+
+  }
+
+
+  function handleChangeMedia(value) {
+    for (let i = 0; getMediaContext.length > i; i++) {
+      if (getMediaContext[i].id === parseInt(value)) {
+        setGetSelectMedia(getMediaContext[i])
+      }
+    }
+  }
+
+
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
-      {openModal && <Product media={media} department={department}/>}
+      {openModal && <Product media={filemedia} department={externalIndexDepartment} />}
       <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
 
       <form action="" onSubmit={handleSubmit}>
@@ -63,7 +101,7 @@ function ScreenRegisterEdit() {
             label="Descrição"
             type="text"
             name="description"
-            onChange={({ target }) =>  setDescription(target.value) }
+            onChange={({ target }) => setDescription(target.value)}
           />
 
           <Input
@@ -72,7 +110,7 @@ function ScreenRegisterEdit() {
             label="Tempo"
             type="time"
             name="Time"
-            onChange={({ target }) =>  setTime(target.value) }
+            onChange={({ target }) => setTime(target.value)}
             step='1'
           />
         </div>
@@ -80,34 +118,39 @@ function ScreenRegisterEdit() {
         <div className={styles.screenMenuFormMiddle}>
           <div className={styles.screenMenuLeft}>
             <p>Mídia</p>
-             <select
-              onChange={({ target }) =>  setMedia(target.value)}
+            <select
+              onChange={({ target }) => {
+                setMedia(target.value)
+                handleChangeMedia(target.value)
+              }}
               value={media}
             >
               <option value='0'>Select</option>
-              {getMediaContext.map((data, index)=>(
+              {getMediaContext.map((data, index) => (
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
-            <Button style={styles.buttonProduct} onClick={()=>{OpenModalProduct(!openModal)}} type="button">Produtos</Button>
+            {getSelectMedia.type === 0 ? <Button style={styles.buttonProduct} 
+            // disabled={getSelectMedia.type !== 0 ? true : false} 
+            onClick={() => handleModalProduct()} type="button">Produtos</Button>: ''}
           </div>
 
           <div className={styles.screenMenuRight}>
             <p>Departamento</p>
             <select
-            // disabled={true}
-              onChange={({ target }) =>  setDepartment(target.value) }
-              value={department} 
+              disabled={getSelectMedia.type == 3 || getSelectMedia.type == 4 ? true : false}
+              onChange={({ target }) => setDepartment(target.value)}
+              value={department}
             >
               <option>Select</option>
-            
-              {dataDepartment.map((data, index)=>(
-
+              {dataDepartment.map((data, index) => (
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
 
-            {openEditScreen ? <Button style={styles.button} type="button" onClick={()=>{screenEdit()}} >Editar</Button>: <Button style={styles.button} type="submit" >Enviar</Button>}
+            {openEditScreen ?
+              <Button style={styles.button} type="button" onClick={() => { screenEdit() }} >Editar</Button> :
+              <Button style={styles.button} type="submit" >Enviar</Button>}
           </div>
         </div>
       </form>

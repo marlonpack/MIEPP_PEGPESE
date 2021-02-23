@@ -97,7 +97,7 @@ export function GET_MEDIA(session) {
 
 export function GET_MEDIA_FILE(session, id) {
   return {
-    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}`,
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}&field=file`,
     options: {
       method: "GET",
     },

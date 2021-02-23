@@ -29,7 +29,7 @@ function ProductTable({department}) {
 
 
   
-
+  console.log(data)
 
   function orderProviders(order) {
     const filter = [...data];
@@ -117,7 +117,7 @@ function ProductTable({department}) {
           </tr>
         </thead>
 
-        <tbody>
+        { data !== undefined ? (<tbody>
          {filterData.length > 0 ? filterData.map((data) => (
           <tr key={data.id}>
             <td>{data.id}</td>
@@ -133,8 +133,12 @@ function ProductTable({department}) {
               <td>{data.price}</td>
               <td>{data.price_promo}</td>
             </tr>
-          )))} 
+          )))}
+        </tbody>): 
+        <tbody>
+          
         </tbody>
+        }
       </table>
     </>
   )

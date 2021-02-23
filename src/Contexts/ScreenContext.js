@@ -57,6 +57,7 @@ export const ScreenStorage = ({ children }) => {
     }
   }
 
+
   async function postScreen(description, time, media_id, department_id) {
     try {
       const { url, options } = POST_SCREEEN(userContext.session,{
@@ -67,11 +68,9 @@ export const ScreenStorage = ({ children }) => {
       })
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json)
-      alert(json.message)
       if (!response.ok) throw new Error(`Error: ${json.message}`);
       alert(json.message)
-      // if (response.ok) setData(json.data);
+      if (response.ok) loadScreen()
     } catch (error) {
       setError(error.message);
     } finally {
@@ -106,7 +105,6 @@ export const ScreenStorage = ({ children }) => {
        })
       const response = await fetch(url, options);
       const json = await response.json(); 
-      alert(json.message)
       if (!response.ok) throw new Error(`Error: ${json.message}`);
       alert(json.message)
       loadScreen();
@@ -117,7 +115,6 @@ export const ScreenStorage = ({ children }) => {
     }
   }
 
-  console.log(dataEdit)
 
   function editScreen(data, openEdit){
     setDataEdit(data);
