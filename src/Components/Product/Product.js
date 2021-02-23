@@ -16,11 +16,9 @@ function Product({media, department}) {
       OpenModalProduct(!openModal)
     });
 
-    // React.useEffect(async ()=>{
-    //   const base = await convertBase64(media.file);
-    //   //  setImage(base)
-    //   console.log(base)
-    // },[media])
+    React.useEffect(async ()=>{
+      if(media!= null) setImage(media.file)
+    },[media])
   
 
   return (
@@ -30,7 +28,7 @@ function Product({media, department}) {
         <div className={styles.ProductMenuLeft}>
          <ProductRegister department={department}/>
           <div className={styles.divImage}>
-            <img src={media.file} width='100%' height='100%'/>
+            <img src={image} width='100%' height='100%'/>
         </div>
         </div>
         <div className={styles.ProductMenuRight}>
