@@ -14,7 +14,7 @@ import {
 function ScreenTable(props) {
 
   const { data, loadScreen, editScreen, deleteScreen } = React.useContext(ScreenContext);
-  const [filterData, setFilterData] = React.useState(['']);
+  const [filterData, setFilterData] = React.useState([]);
   const [showYesNoModal, setShowYesNoModal] = React.useState(false);
   const [ActionDelete, setActionDelete] = React.useState('');
   // const [openEdit, setOpenEdit] = React.useState(false);
@@ -129,8 +129,8 @@ function ScreenTable(props) {
       </thead>
 
       <tbody>
-        {filterData.length > 0 ?filterData.map((data) => (
-          <tr key={data.id}>
+        {filterData.length > 0 ?filterData.map((data, index) => (
+          <tr key={index}>
             <td>{data.id}</td>
             <td>{data.description}</td>
             <td>{data.time}</td>
@@ -154,8 +154,8 @@ function ScreenTable(props) {
             </td>
           </tr>
         )):
-        (data.map((data) => (
-          <tr key={data.id}>
+        (data.map((data, index) => (
+          <tr key={index}>
             <td>{data.id}</td>
             <td>{data.description}</td>
             <td>{data.time}</td>

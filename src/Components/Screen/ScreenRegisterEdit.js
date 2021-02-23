@@ -15,9 +15,10 @@ function ScreenRegisterEdit() {
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
   const [department, setDepartment] = React.useState('');
-  const [getMediaContext, setGetMediaContext]= React.useState(['']);
+  const [getMediaContext, setGetMediaContext]= React.useState([]);
   const [modalProduct, setModalProduct]= React.useState(false);
 
+  
   React.useEffect(() => {
     mediaContext.loadMedia();
   },[]);
@@ -31,10 +32,11 @@ function ScreenRegisterEdit() {
   },[mediaContext.data]);
 
   React.useEffect(() => {
+    if(dataEdit.length !==0){
     setDescription(dataEdit.description)
     setTime(dataEdit.time)
     setMedia(dataEdit.media_id)
-    setDepartment(dataEdit.department_id)
+    setDepartment(dataEdit.department_id)}
   },[dataEdit]);
 
   function handleSubmit(e) {
@@ -83,8 +85,8 @@ function ScreenRegisterEdit() {
               value={media}
             >
               <option value='0'>Select</option>
-              {getMediaContext.map((data)=>(
-                <option key={data.id} value={data.id}>{`${data.id} - ${data.description}`}</option>
+              {getMediaContext.map((data, index)=>(
+                <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
             <Button style={styles.buttonProduct} onClick={()=>{OpenModalProduct(!openModal)}} type="button">Produtos</Button>
@@ -99,9 +101,9 @@ function ScreenRegisterEdit() {
             >
               <option>Select</option>
             
-              {dataDepartment.map((data)=>(
+              {dataDepartment.map((data, index)=>(
 
-                <option key={data.id} value={data.id}>{`${data.id} - ${data.description}`}</option>
+                <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
 

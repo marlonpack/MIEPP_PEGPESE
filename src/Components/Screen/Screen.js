@@ -43,7 +43,7 @@ const Screen = () => {
             style="btnAdd"
             onClick={() => {
               setShowMenu(!showMenu)
-              editScreen('', false)
+              editScreen([], false)
             }}
           >
             <AddBox />
