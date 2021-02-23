@@ -1,0 +1,66 @@
+.providerMenu {
+  width: 39%;
+  height: 100%;
+  background-color: #343434;
+  border-radius: 3px;
+  transition: all 1s;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #959595;
+}
+
+.providerMenu h4 {
+  height: 5%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.providerMenu form {
+  margin: 0 auto;
+  width: 53%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.providerMenu .providerMenuForm {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 35%;
+}
+
+.providerMenu .providerMenuForm input {
+  padding: 0.3rem;
+  border-radius: 5px;
+  background-color: var(--grey);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.providerMenu .providerMenuForm input:focus {
+  background-color: #2b2b2b;
+  border: 1px solid #fff;
+}
+
+.providerMenu form > button {
+  font-size: 1.1rem;
+  width: 10rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: var(--green);
+}
+
+.providerImg {
+  display: inline-block;
+  width: 50%;
+  height: 35%;
+  margin: 0 auto;
+}

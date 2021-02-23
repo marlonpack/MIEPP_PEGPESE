@@ -1,12 +1,13 @@
 import React from "react";
 import styles from "./Provider.module.css";
-import { ReactComponent as ImgProvider } from "../../Assets/provider.svg";
-import { AddBox, Create, Delete, ViewList, Search } from "@material-ui/icons";
+import { AddBox, Search } from "@material-ui/icons";
 import { ProviderContext } from "../../Contexts/ProviderContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import NotificationError from '../Notification/NotificationError'
+import NotificationError from "../Notification/NotificationError";
+import ProviderTable from "./ProviderTable";
+import ProviderMenu from "./ProviderMenu";
 
 const Provider = () => {
   const [showMenu, setShowMenu] = React.useState(false);
@@ -23,21 +24,29 @@ const Provider = () => {
   const [editProvider, setEditProvider] = React.useState(null);
   const [delProvider, setDelProvider] = React.useState(null);
   const [filterData, setFilterData] = React.useState([]);
+  const [typeSearch, setTypeSearch] = React.useState("");
 
   React.useEffect(() => {
     loadProviders();
   }, []);
 
-  React.useEffect(()=>{
-    NotificationError(error)
-  },[error])
-  
+  React.useEffect(() => {
+    NotificationError(error);
+  }, [error]);
+
   React.useEffect(() => {
     if (editProvider !== null) {
       setShowMenu(true);
       setProvider(editProvider.description);
     }
   }, [editProvider]);
+
+  React.useEffect(() => {
+    if (typeSearch === "") {
+      setFilterData([]);
+      document.getElementById("searchProvider").value = "";
+    }
+  }, [typeSearch]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -56,15 +65,28 @@ const Provider = () => {
     setProvider("");
   }
 
-  function searchProvider(name) {
-    if (name === "") {
+  function searchProvider(search) {
+    if (typeSearch === "") {
       setFilterData([]);
       return;
     }
-    const proName = name.toLowerCase();
-    const filter = data.filter((provider) =>
-      provider.description.toLowerCase().includes(proName)
-    );
+
+    let filter = [];
+
+    switch (typeSearch) {
+      case "name":
+        const proName = search.toLowerCase();
+        filter = data.filter((provider) =>
+          provider.description.toLowerCase().includes(proName)
+        );
+        break;
+
+      case "id":
+        filter = data.filter((provider) =>
+          String(provider.id).includes(search)
+        );
+        break;
+    }
 
     setFilterData([...filter]);
   }
@@ -117,6 +139,15 @@ const Provider = () => {
         </div>
 
         <div className={styles.topProviderRight}>
+          <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="name">Nome</option>
+            <option value="id">ID</option>
+          </select>
+
           <Input
             style={styles.topProviderForm}
             label="Pesquisar"
@@ -132,118 +163,21 @@ const Provider = () => {
       </div>
       <div className={styles.mainProvider}>
         {showMenu && (
-          <div className={[styles.providerMenu, "animeLeft"].join(" ")}>
-            <h4 className="titleActionPage">Cadastrar / Editar Fornecedor</h4>
-            <form action="" onSubmit={handleSubmit}>
-              <Input
-                style={styles.providerMenuForm}
-                label="Nome: "
-                type="text"
-                id="providerName"
-                name="providerName"
-                value={provider}
-                onChange={({ target }) => setProvider(target.value)}
-              />
-
-              <Button type="submit">Salvar</Button>
-            </form>
-
-            <ImgProvider
-              alt="Imagem ilustrativa"
-              title=""
-              className={styles.providerImg}
-            />
-          </div>
+          <ProviderMenu handleSubmit={handleSubmit}
+            provider={provider}
+            setProvider={setProvider}
+          />
         )}
 
-        <div
-          className={styles.tableArea}
-          style={showMenu ? { width: "60%" } : {}}
-        >
-          <table className={styles.tableStyle}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Opções</th>
-              </tr>
-              <tr>
-                <th>
-                  <span>
-                    <ViewList
-                      className={styles.tableStyleOrder}
-                      onClick={() => orderProviders("id")}
-                    />
-                  </span>
-                </th>
-                <th>
-                  <span>
-                    <ViewList
-                      className={styles.tableStyleOrder}
-                      onClick={() => orderProviders("name")}
-                    />
-                  </span>
-                </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filterData.length > 0
-                ? filterData.map((provider) => (
-                    <tr key={provider.id}>
-                      <td>{provider.id}</td>
-                      <td>{provider.description}</td>
-                      <td className={styles.tableStyleButtons}>
-                        <Button
-                          title="Editar"
-                          type="button"
-                          style="btnEdit"
-                          onClick={() => setEditProvider(provider)}
-                        >
-                          <Create />
-                        </Button>
-                        <Button
-                          title="Excluir"
-                          type="button"
-                          style="btnDelete"
-                          onClick={() => (
-                            setShowYesNoModal(true), setDelProvider(provider.id)
-                          )}
-                        >
-                          <Delete />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                : data.map((provider) => (
-                    <tr key={provider.id}>
-                      <td>{provider.id}</td>
-                      <td>{provider.description}</td>
-                      <td className={styles.tableStyleButtons}>
-                        <Button
-                          title="Editar"
-                          type="button"
-                          style="btnEdit"
-                          onClick={() => setEditProvider(provider)}
-                        >
-                          <Create />
-                        </Button>
-                        <Button
-                          title="Excluir"
-                          type="button"
-                          style="btnDelete"
-                          onClick={() => (
-                            setShowYesNoModal(true), setDelProvider(provider.id)
-                          )}
-                        >
-                          <Delete />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </div>
+        <ProviderTable
+          showMenu={showMenu}
+          orderProviders={orderProviders}
+          filterData={filterData}
+          setEditProvider={setEditProvider}
+          setShowYesNoModal={setShowYesNoModal}
+          setDelProvider={setDelProvider}
+          data={data}
+        />
       </div>
     </div>
   );

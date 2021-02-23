@@ -42,10 +42,21 @@ export function USER_GET_PHOTO(session, id) {
   };
 }
 
-export function GET_PROVIDER(session) {
+export function GET_PROVIDERS(session) {
   return {
 
     url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5`,
+    options: {
+      method: "GET",
+    }
+  }
+
+}
+
+export function GET_PROVIDER(session,id) {
+  return {
+
+    url: `${API_URL}MIEPP/Supplier.php?AUTH=${session}&app_id=5&id=${id}`,
     options: {
       method: "GET",
     }

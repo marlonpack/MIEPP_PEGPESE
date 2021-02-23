@@ -2,21 +2,14 @@ import React from "react";
 import styles from "./Media.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import { convertBase64 } from "../../utils/base64";
-import {
-  AddBox,
-  Search,
-  ViewList,
-  Create,
-  Delete,
-  Attachment,
-  CancelPresentation,
-} from "@material-ui/icons";
+import { AddBox, Search } from "@material-ui/icons";
 import ImageModal from "../ImageModal/ImageModal";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { ProviderContext } from "../../Contexts/ProviderContext";
-import { NotificationStore } from "../Notification/StoreNotification";
+import NotificationError from "../Notification/NotificationError";
+import MediaTable from "./MediaTable";
+import MediaMenu from "./MediaMenu";
 
 const Media = () => {
   const mediaContext = React.useContext(MediaContext);
@@ -33,6 +26,24 @@ const Media = () => {
   const [description, setDescription] = React.useState("");
   const [version, setVersion] = React.useState("");
   const [editMedia, setEditMedia] = React.useState(null);
+  const [filterData, setFilterData] = React.useState([]);
+  const [typeSearch, setTypeSearch] = React.useState("");
+
+  React.useEffect(() => {
+    if (typeSearch === "") {
+      setFilterData([]);
+      document.getElementById("searchMedia").value = "";
+    }
+  }, [typeSearch]);
+
+  React.useEffect(() => {
+    if (mediaContext.data) {
+      let suppliers = [];
+      mediaContext.data.map((supplier) => suppliers.push(supplier.supplier_id));
+      suppliers = [...new Set(suppliers)];
+      suppliers.map((supplier) => providerContext.loadProvider(supplier));
+    }
+  }, [mediaContext.data]);
 
   React.useEffect(() => {
     let options = [];
@@ -89,52 +100,38 @@ const Media = () => {
     }
   }, [editMedia]);
 
-  async function loadFile(e) {
-    const file = e.files[0];
-    if (file) {
-      if (file.type.includes("image")) {
-        const base = await convertBase64(file);
-        setImage(base);
-        setVideo(null);
-        return;
-      }
-
-      if (file.type.includes("video")) {
-        const base = await convertBase64(file);
-        setVideo(base);
-        setImage(null);
-        return;
-      }
-    }
-  }
-
   function getFile(id, type) {
     mediaContext.loadMediaFile(id, type);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     let media = image !== null ? image : video !== null ? video : null;
 
-    if (media) {
-      // Send only base64
-      media = media.split(",");
+    // Send only base64
+    media = media ? media.split(",") : [null];
 
-      if (editMedia) {
-        mediaContext.updateMedia(
-          editMedia.id,
-          description,
-          type,
-          media[1],
-          provider
-        );
-      } else {
-        mediaContext.createMedia(description, type, media[1], provider);
-      }
+    let response;
 
-      if (mediaContext.error === null) {
-        clear();
-      }
+    if (editMedia) {
+      response = await mediaContext.updateMedia(
+        editMedia.id,
+        description,
+        type,
+        media[1],
+        provider
+      );
+    } else {
+      response = await mediaContext.createMedia(
+        description,
+        type,
+        media[1],
+        provider
+      );
+    }
+
+    if (response) {
+      clear();
     }
   }
 
@@ -147,11 +144,92 @@ const Media = () => {
     setImage(null);
   }
 
+  function searchMedia(search) {
+    if (typeSearch === "") {
+      setFilterData([]);
+      return;
+    }
+
+    let filter = [];
+
+    const proName = search.toLowerCase();
+
+    switch (typeSearch) {
+      case "description":
+        filter = mediaContext.data.filter((media) =>
+          media.description.toLowerCase().includes(proName)
+        );
+        break;
+
+      case "id":
+        filter = mediaContext.data.filter((media) =>
+          String(media.id).includes(search)
+        );
+        break;
+      case "provider":
+        if (search === "") {
+          break;
+        }
+
+        const providerFilter = providerContext.provider.filter((provider) =>
+          provider.description.toLowerCase().includes(proName)
+        );
+
+        if (providerFilter.length > 0) {
+          filter = mediaContext.data.filter(
+            (media) => media.supplier_id === providerFilter[0].id
+          );
+        }
+        break;
+      case "type":
+        if (search === "") {
+          break;
+        }
+        filter = mediaContext.data.filter((media) => +media.type === +search);
+        break;
+      case "file_version":
+        if (search === "") {
+          break;
+        }
+        filter = mediaContext.data.filter(
+          (media) => +media.file_version === +search
+        );
+        break;
+    }
+
+    setFilterData(filter ? [...filter] : []);
+  }
+
+  function orderMedia(order) {
+    const filter = [...mediaContext.data];
+    switch (order) {
+      case "id":
+        filter.sort();
+        break;
+      case "description":
+        filter.sort(function (a, b) {
+          return a.description.localeCompare(b.description);
+        });
+        break;
+      case "provider":
+        filter.sort(function (a, b) {
+          return a.supplier_id > b.supplier_id;
+        });
+        break;
+      case "type":
+        filter.sort(function (a, b) {
+          return a.type > b.type;
+        });
+        break;
+      default:
+        return;
+    }
+
+    setFilterData(filter);
+  }
+
   return (
     <div className={styles.containerMedia}>
-      {mediaContext.error &&
-        NotificationStore(mediaContext.error, "teste", "danger")}
-
       {showFullImage && (
         <ImageModal src={image} close={() => setShowFullImage(false)} />
       )}
@@ -163,6 +241,8 @@ const Media = () => {
           action={() => mediaContext.deleteMedia(delMedia)}
         />
       )}
+
+      {mediaContext.error !== null && NotificationError(mediaContext.error)}
       <div className={styles.topMedia}>
         <div className={styles.topMediaLeft}>
           <Button
@@ -173,15 +253,33 @@ const Media = () => {
             <AddBox />
           </Button>
 
+          {mediaContext.error !== null && (
+            <h1 color="#fff" style={{ fontSize: "28px" }}>
+              Teste Error
+            </h1>
+          )}
+
           <h3 className="titleSection">Lista de Mídias</h3>
         </div>
         <div className={styles.topMediaRight}>
+          <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="description">Descrição</option>
+            <option value="id">ID</option>
+            <option value="provider">Fornecedor</option>
+            <option value="type">Tipo</option>
+            <option value="file_version">Versão</option>
+          </select>
           <Input
             style={styles.topMediaForm}
             label="Pesquisar"
             type="text"
-            id="searchProvider"
-            name="searchProvider"
+            id="searchMedia"
+            name="searchMedia"
+            onChange={({ target }) => searchMedia(target.value)}
           />
           <Button type="button" style="btnSearch">
             <Search />
@@ -191,210 +289,36 @@ const Media = () => {
 
       <div className={styles.mainMedia}>
         {showMenu && (
-          <div className={[styles.mediaMenu, "animeLeft"].join(" ")}>
-            <h4 className="titleActionPage">Cadastrar / Editar Mídias</h4>
-
-            <form action="" onSubmit={handleSubmit}>
-              <div className={styles.mediaMenuFormTop}>
-                <Input
-                  value={description}
-                  onChange={({ target }) => setDescription(target.value)}
-                  style={styles.mediaMenuFormInput}
-                  label="Descrição"
-                  type="text"
-                  name="description"
-                />
-
-                <Input
-                  value={version}
-                  onChange={({ target }) => setVersion(target.value)}
-                  style={styles.mediaMenuFormInput}
-                  label="Versão"
-                  type="text"
-                  name="version"
-                  disabled={true}
-                />
-              </div>
-
-              <div className={styles.mediaMenuFormMiddle}>
-                <div className={styles.mediaMenuLeft}>
-                  <div>
-                    <p>Fornecedor</p>
-                    <select
-                      value={provider}
-                      onChange={({ target }) =>
-                        setProvider(Number(target.value))
-                      }
-                    >
-                      <option value="0">Selecione</option>
-                      {providerContext.data.map((provider) => (
-                        <option value={provider.id} key={provider.id}>
-                          {provider.description}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <Input
-                    onChange={({ target }) => loadFile(target)}
-                    name="mediaMenuUpload"
-                    style={styles.mediaMenuUpload}
-                    id="mediaMenuUpload"
-                    type="file"
-                    label="Upload"
-                    accept="video/mp4,image/png,image/gif, image/jpeg,image/jpg"
-                  />
-                </div>
-
-                <div className={styles.mediaMenuRight}>
-                  <div>
-                    <p>Tipo</p>
-                    <select
-                      value={type}
-                      onChange={({ target }) => setType(target.value)}
-                    >
-                      <option value="">Selecione</option>
-                      {types.map((type) => (
-                        <option key={type.id} value={type.id}>
-                          {type.description}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <button type="submit">Enviar</button>
-                </div>
-              </div>
-            </form>
-
-            <div className={styles.mediaMenuBottom}>
-              {video && (
-                <video
-                  src={video}
-                  className={styles.mediaMenuBottomVideo}
-                  autoPlay={true}
-                  controls
-                ></video>
-              )}
-
-              {image && (
-                <img
-                  src={image}
-                  className={styles.mediaMenuBottomImage}
-                  alt="Imagem anexada"
-                  onClick={() => setShowFullImage(true)}
-                ></img>
-              )}
-
-              {(video || image) && (
-                <span
-                  title="Remover anexo"
-                  className={styles.mediaMenuBottomRemove}
-                  onClick={() => (
-                    setVideo(null),
-                    setImage(null),
-                    (document.getElementById("mediaMenuUpload").value = "")
-                  )}
-                >
-                  <CancelPresentation />
-                </span>
-              )}
-            </div>
-          </div>
+          <MediaMenu
+            handleSubmit={handleSubmit}
+            description={description}
+            setDescription={setDescription}
+            version={version}
+            setVersion={setVersion}
+            provider={provider}
+            setProvider={setProvider}
+            providerContext={providerContext}
+            image={image}
+            setImage={setImage}
+            video={video}
+            setVideo={setVideo}
+            type={type}
+            setType={setType}
+            types={types}
+            setShowFullImage={setShowFullImage}
+          />
         )}
-        <div
-          className={styles.tableArea}
-          style={showMenu ? { width: "60%" } : {}}
-        >
-          <table className={styles.tableStyle}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Descrição</th>
-                <th>Fornecedor</th>
-                <th>Tipo</th>
-                <th>Versão</th>
-                <th>Arquivo</th>
-                <th>Opções</th>
-              </tr>
-
-              <tr>
-                <th>
-                  <span>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {mediaContext.data.map((media) => (
-                <tr key={media.id}>
-                  <td>{media.id}</td>
-                  <td>{media.description}</td>
-                  {providerContext.data.map(
-                    (provider) =>
-                      provider.id === media.supplier_id && (
-                        <td key={provider.id}>{provider.description}</td>
-                      )
-                  )}
-                  <td>{media.type}</td>
-                  <td>{media.file_version}</td>
-                  <td>
-                    <Button
-                      style="btnAttachment"
-                      title="Visualizar"
-                      type="button"
-                      onClick={() => getFile(media.id, media.type)}
-                    >
-                      <Attachment />
-                    </Button>
-                  </td>
-                  <td>
-                    <div className={styles.tableStyleButtons}>
-                      <Button
-                        title="Editar"
-                        type="button"
-                        style="btnEdit"
-                        onClick={() => (setEditMedia(media), setShowMenu(true))}
-                      >
-                        <Create />
-                      </Button>
-                      <Button
-                        title="Excluir"
-                        type="button"
-                        style="btnDelete"
-                        onClick={() => (
-                          setDelMedia(media.id), setShowYesNoModal(true)
-                        )}
-                      >
-                        <Delete />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <MediaTable
+          mediaContext={mediaContext}
+          providerContext={providerContext}
+          showMenu={showMenu}
+          setShowMenu={setShowMenu}
+          setEditMedia={setEditMedia}
+          setDelMedia={setDelMedia}
+          setShowYesNoModal={setShowYesNoModal}
+          filterData={filterData}
+          orderMedia={orderMedia}
+        />
       </div>
     </div>
   );
