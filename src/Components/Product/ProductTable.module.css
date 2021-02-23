@@ -57,6 +57,7 @@
 .tableStyle tr {
   vertical-align: middle;
   background-color: #343434;
+  cursor: pointer;
 }
 
 .tableStyle th {

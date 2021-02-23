@@ -1,9 +1,9 @@
 import React from "react";
 import {
   GET_PRODUCT,
-  POST_PROVIDER,
-  PUT_PROVIDER,
-  DELETE_PROVIDER,
+  GET_PRODUCTSCREEN,
+  POST_PRODUCTSCREEN,
+  DELETE_PRODUCTSCREEN,
 } from "../api";
 import { UserContext } from "./UserContext";
 
@@ -15,28 +15,36 @@ export const ProductStorage = ({ children }) => {
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
+  const [dataProductImg, setDataProductImg] = React.useState([]);
 
-
-  function OpenModalProduct(modal){
+  function OpenModalProduct(modal) {
     setOpenModal(modal)
-  }  
+  }
+
+  function ListProductTable(data) {
+    setDataProductImg([...dataProductImg, data])
+  }
+
+  function RemoveListProductTable(data) {
+    let listProduct = [...dataProductImg];
+    listProduct.splice(data, 1);
+      setDataProductImg([...listProduct])
+  }
+
 
   async function GetProduct(departament, shop) {
     try {
       setError(null);
       setLoading(true);
-      console.log(departament, shop)
+  
 
-      const { url, options } = GET_PRODUCT(userContext.session,departament,shop);
+      const { url, options } = GET_PRODUCT(userContext.session, departament, shop);
       const response = await fetch(url, options);
       const json = await response.json();
-     console.log(json)
+
       if (json.error) {
         setError(json.message);
       }
-
-      // if (!response.ok) throw new Error(`Error: ${json.message}`);
-
       if (response.ok) setData(json.data);
     } catch (error) {
       setError(error.message);
@@ -45,34 +53,25 @@ export const ProductStorage = ({ children }) => {
     }
   }
 
-  // async function createProvider(name) {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-
-  //     const { url, options } = POST_PROVIDER(userContext.session, {
-  //       description: name,
-  //     });
-
-  //     const response = await fetch(url, options);
-
-  //     const json = await response.json();
-
-  //     if (json.error) {
-  //       setError(json.message);
-  //     }
-
-  //     if (!response.ok) throw new Error(`Error: ${json.message}`);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //     loadProviders();
-  //   }
-  // }
-
-
-
+  async function GetListProduct() {
+    try {
+      setError(null);
+      setLoading(true);
+      const { url, options } = GET_PRODUCTSCREEN(userContext.session, userContext.dataEdit.id);
+      console.log(url, options)
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(response)
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) console.log(json)
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <ProductContext.Provider
@@ -81,8 +80,12 @@ export const ProductStorage = ({ children }) => {
         error,
         loading,
         openModal,
+        dataProductImg,
         GetProduct,
-        OpenModalProduct
+        OpenModalProduct,
+        ListProductTable,
+        RemoveListProductTable,
+        GetListProduct
       }}
     >
       {children}

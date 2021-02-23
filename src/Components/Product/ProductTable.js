@@ -8,8 +8,8 @@ import {
 } from "@material-ui/icons";
 import { ProductContext } from '../../Contexts/ProductContext';
 
-function ProductTable({department}) {
-  const { data, GetProduct} = React.useContext(ProductContext);
+function ProductTable({ department }) {
+  const { data, GetProduct, ListProductTable, GetListProduct } = React.useContext(ProductContext);
   const [filterData, setFilterData] = React.useState([]);
   // const [dataEdit, setDataEdit] = React.useState([]);
   // const [openEdit, setOpenEdit] = React.useState(false);
@@ -18,6 +18,7 @@ function ProductTable({department}) {
   React.useEffect(() => {
     console.log(department)
     GetProduct(department, '1');
+    GetListProduct()
   }, []);
 
   // React.useEffect(() => {
@@ -28,7 +29,7 @@ function ProductTable({department}) {
   // }, [props]);
 
 
-  
+
   console.log(data)
 
   function orderProviders(order) {
@@ -117,27 +118,27 @@ function ProductTable({department}) {
           </tr>
         </thead>
 
-        { data !== undefined ? (<tbody>
-         {filterData.length > 0 ? filterData.map((data) => (
-          <tr key={data.id}>
-            <td>{data.id}</td>
-            <td>{data.description}</td>
-            <td>{data.price}</td>
-            <td>{data.price_promo}</td>      
-          </tr>
-        )) :
-          ( data.map((data) => (
+        {data !== undefined ? (<tbody>
+          {filterData.length > 0 ? filterData.map((data) => (
             <tr key={data.id}>
               <td>{data.id}</td>
               <td>{data.description}</td>
               <td>{data.price}</td>
               <td>{data.price_promo}</td>
             </tr>
-          )))}
-        </tbody>): 
-        <tbody>
-          
-        </tbody>
+          )) :
+            (data.map((data) => (
+              <tr key={data.id} onClick={()=>{ListProductTable(data)}}>
+                  <td>{data.id}</td>
+                  <td>{data.description}</td>
+                  <td>{data.price}</td>
+                  <td>{data.price_promo}</td>
+              </tr>
+            )))}
+        </tbody>) :
+          <tbody>
+
+          </tbody>
         }
       </table>
     </>

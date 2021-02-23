@@ -46,6 +46,14 @@ function ScreenRegisterEdit() {
       setDepartment(dataEdit.department_id)
     }
   }, [dataEdit]);
+  
+  React.useEffect(() => {
+    for (let i = 0; getMediaContext.length > i; i++) {
+      if (getMediaContext[i].id === parseInt(media)) {
+        setGetSelectMedia(getMediaContext[i])
+      }
+    }
+  }, [media]);
 
   function handleSubmit(e) {
     e.preventDefault();

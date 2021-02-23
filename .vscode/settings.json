@@ -8,6 +8,7 @@
     "README.md":true,
     "yarn.lock":true,
     "build": true,
+    "yarn-error.log": true,
   }
    // "homepage": "https://localhost/GLOBAL/View/Miepp",
 }

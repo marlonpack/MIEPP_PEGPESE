@@ -22,14 +22,14 @@ function ProductRegister({department}) {
      onChange={({ target }) =>  HandleChange(target.value)}
      value={selectShop}
      >
-    {dataShop.map((data)=>(<option key={data.id} value={data.external_index}>{`${data.id} - ${data.description}`}</option>))}
+    {dataShop.map((data, index)=>(<option key={index} value={data.external_index}>{`${data.id} - ${data.description}`}</option>))}
     </select>
     </div>
     <div className={styles.divSelectRight}>
       <label>Cor da lista principal:</label>
-      <Input/>
+      <Input type='color'/>
       <label>Cor da lista promoções:</label>
-      <Input/>
+      <Input type='color'/>
     </div>
   </div>
   )
