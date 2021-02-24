@@ -17,6 +17,7 @@ const Screen = () => {
   const{OpenModalProduct} = React.useContext(ProductContext);
   const [showMenu, setShowMenu] = React.useState(false);
   const [filterScreen, setfilterScreen] = React.useState(false);
+  const [typeSearch, setTypeSearch] = React.useState("");
 
   React.useEffect(() => {
     if(openEditScreen=== true){
@@ -26,7 +27,7 @@ const Screen = () => {
 
 
   function searchScreen(name) {
-    if (name === "") {
+    if (typeSearch === "") {
       setfilterScreen([]);
       return;
     }
@@ -52,6 +53,17 @@ const Screen = () => {
           <h3 className="titleSection">Lista de Telas</h3>
         </div>
         <div className={styles.topMediaRight}>
+        <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="id">ID</option>
+            <option value="description">Descrição</option>
+            <option value="time">Tempo</option>
+            <option value="media">mídia</option>
+            <option value="Department">Departamento</option>
+          </select>
           <Input
             style={styles.topMediaForm}
             label="Pesquisar"
@@ -74,7 +86,7 @@ const Screen = () => {
           className={styles.tableArea}
           style={showMenu  ? { width: "60%" } : {}}
         >
-          <ScreenTable filterScreen={filterScreen}/>
+          <ScreenTable typeSearch={typeSearch} filterScreen={filterScreen}/>
         </div>
       </div>
     </div>

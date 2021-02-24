@@ -11,7 +11,7 @@ import {
 
 
 
-function ScreenTable(props) {
+function ScreenTable({ typeSearch, filterScreen }) {
 
   const { data, loadScreen, editScreen, deleteScreen } = React.useContext(ScreenContext);
   const [filterData, setFilterData] = React.useState([]);
@@ -24,12 +24,39 @@ function ScreenTable(props) {
     loadScreen();
   }, []);
 
+  console.log(data)
   React.useEffect(() => {
-    const filter = data.filter((data) =>
-      data.description.toLowerCase().includes(props.filterScreen)
-    );
+    let filter = []
+    console.log(typeSearch)
+    switch (typeSearch) {
+      case 'id':
+        filter = data.filter((data) =>
+          String(data.id).toLowerCase().includes(filterScreen)
+        );
+        break;
+      case 'description':
+        filter = data.filter((data) =>
+          data.description.toLowerCase().includes(filterScreen)
+        );
+        break;
+      case 'time':
+        filter = data.filter((data) =>
+          data.time.toLowerCase().includes(filterScreen)
+        );
+        break;
+      case 'media':
+        filter = data.filter((data) =>
+          String(data.media_id).toLowerCase().includes(filterScreen)
+        );
+        break;
+      case 'Department':
+        filter = data.filter((data) =>
+          String(data.department_id).toLowerCase().includes(filterScreen)
+        );
+        break;
+    }
     setFilterData([...filter])
-  }, [props]);
+  }, [filterScreen]);
 
 
   function handleClick(data) {
@@ -42,7 +69,7 @@ function ScreenTable(props) {
     // deleteScreen(id)
   }
 
- 
+
 
   function orderProviders(order) {
     const filter = [...data];
@@ -55,21 +82,29 @@ function ScreenTable(props) {
           return a.description.localeCompare(b.description);
         });
         break;
-        case "time":
+      case "time":
         filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
+          return a.time.localeCompare(b.time);
         });
         break;
-        case "media":
+      case "media":
         filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
+          if (a.media_id > b.media_id)
+            return 1;
+          if (a.media_id < b.media_id)
+            return -1;
+          return 0;
         });
         break;
-        case "department":
-          filter.sort(function (a, b) {
-            return a.description.localeCompare(b.description);
-          });
-          break;
+      case "department":
+        filter.sort(function (a, b) {
+          if (a.department_id > b.department_id)
+            return 1;
+          if (a.department_id < b.department_id)
+            return -1;
+          return 0;
+        });
+        break;
       default:
         return;
     }
@@ -100,27 +135,27 @@ function ScreenTable(props) {
         <tr>
           <th>
             <span>
-              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("id")}/>
+              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("id")} />
             </span>
           </th>
           <th>
             <span>
-              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("description")}/>
+              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("description")} />
             </span>
           </th>
           <th>
             <span>
-              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("time")}/>
+              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("time")} />
             </span>
           </th>
           <th>
             <span>
-              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("media")}/>
+              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("media")} />
             </span>
           </th>
           <th>
             <span>
-              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("department")}/>
+              <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("department")} />
             </span>
           </th>
           <th></th>
@@ -129,7 +164,7 @@ function ScreenTable(props) {
       </thead>
 
       <tbody>
-        {filterData.length > 0 ?filterData.map((data, index) => (
+        {filterData.length > 0 ? filterData.map((data, index) => (
           <tr key={index}>
             <td>{data.id}</td>
             <td>{data.description}</td>
@@ -153,32 +188,32 @@ function ScreenTable(props) {
               </div>
             </td>
           </tr>
-        )):
-        (data.map((data, index) => (
-          <tr key={index}>
-            <td>{data.id}</td>
-            <td>{data.description}</td>
-            <td>{data.time}</td>
-            <td>{data.media_id}</td>
-            <td>{data.department_id}</td>
-            <td>
-              <div className={styles.tableStyleButtons}>
-                <Button
-                  title="Editar"
-                  type="button"
-                  style="btnEdit"
-                  onClick={() => {
-                    handleClick(data)
-                  }}>
-                  <Create />
-                </Button>
-                <Button title="Excluir" type="button" style="btnDelete" onClick={() => { screenDelete(data.id) }}>
-                  <Delete />
-                </Button>
-              </div>
-            </td>
-          </tr>
-        )))}
+        )) :
+          (data.map((data, index) => (
+            <tr key={index}>
+              <td>{data.id}</td>
+              <td>{data.description}</td>
+              <td>{data.time}</td>
+              <td>{data.media_id}</td>
+              <td>{data.department_id}</td>
+              <td>
+                <div className={styles.tableStyleButtons}>
+                  <Button
+                    title="Editar"
+                    type="button"
+                    style="btnEdit"
+                    onClick={() => {
+                      handleClick(data)
+                    }}>
+                    <Create />
+                  </Button>
+                  <Button title="Excluir" type="button" style="btnDelete" onClick={() => { screenDelete(data.id) }}>
+                    <Delete />
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          )))}
       </tbody>
     </table>
   )

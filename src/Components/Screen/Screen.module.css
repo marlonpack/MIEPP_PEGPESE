@@ -25,9 +25,9 @@
 }
 
 .topMedia .topMediaRight {
-  width: 30%;
+  width: 40%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   background-color: #343434;
   padding: 1rem 0;
@@ -35,8 +35,18 @@
   border: 2px solid #959595;
 }
 
-.topMediaForm {
-  width: 100%;
+.topMedia .topMediaRight select {
+  width: 20%;
+  height: 30px;
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+  border-radius: 3px;
+  padding: 0;
+}
+
+.topMedia .topMediaForm {
+  width: 65%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -49,12 +59,12 @@
 }
 
 .topMedia .topMediaRight .topMediaForm input {
-  width: 70%;
-  height: 25px;
+  width: 60%;
+  height: 30px;
   background-color: var(--grey);
   font-size: 1.2rem;
   padding: 0.5rem;
-
+  color: #fff;
   border: 1px solid transparent;
 }
 
@@ -65,7 +75,7 @@
 }
 
 .topMedia .topMediaRight button {
-  width: 10%;
+  width: 5%;
 }
 
 .mainMedia {

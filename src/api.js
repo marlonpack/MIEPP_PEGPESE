@@ -157,8 +157,7 @@ export function GET_SCREEEN(session) {
 }
 
 export function POST_SCREEEN(session, body) {
-  console.log(body)
-  return {
+    return {
     url: `${API_URL}MIEPP/Screen.php?AUTH=${session}&app_id=5`,
     options: {
       method: "POST",

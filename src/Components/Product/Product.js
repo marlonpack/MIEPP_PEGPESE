@@ -15,8 +15,7 @@ function Product({ media, department }) {
     GetListProduct()
   },[])
 
-  console.log(media)
-  console.log(dataProductImg)
+
 
   let domNode = useOutsideClick(() => {
     OpenModalProduct(!openModal)

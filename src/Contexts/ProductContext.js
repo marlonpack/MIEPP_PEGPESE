@@ -6,11 +6,14 @@ import {
   DELETE_PRODUCTSCREEN,
 } from "../api";
 import { UserContext } from "./UserContext";
+import { ScreenContext } from "./ScreenContext";
+
 
 export const ProductContext = React.createContext();
 
 export const ProductStorage = ({ children }) => {
   const userContext = React.useContext(UserContext);
+  const screenContext = React.useContext(ScreenContext);
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
@@ -57,14 +60,13 @@ export const ProductStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-      const { url, options } = GET_PRODUCTSCREEN(userContext.session, userContext.dataEdit.id);
-      console.log(url, options)
+      const { url, options } = GET_PRODUCTSCREEN(userContext.session, screenContext.dataEdit.id);
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(response)
-      if (json.error) {
-        setError(json.message);
-      }
+  
+      // if (json.error) {
+      //   setError(json.message);
+      // }
       if (response.ok) console.log(json)
     } catch (error) {
       setError(error.message);

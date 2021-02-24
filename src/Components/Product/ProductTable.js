@@ -16,7 +16,7 @@ function ProductTable({ department }) {
 
 
   React.useEffect(() => {
-    console.log(department)
+
     GetProduct(department, '1');
     GetListProduct()
   }, []);
@@ -30,7 +30,7 @@ function ProductTable({ department }) {
 
 
 
-  console.log(data)
+
 
   function orderProviders(order) {
     const filter = [...data];
