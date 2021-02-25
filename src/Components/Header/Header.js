@@ -21,8 +21,8 @@ function Header() {
     <div className={styles.container}>
       <Menu onClick={() => { OpenCloseMenu(!sideMenu) }} />
       {modalUser && (<ModalHeader close={()=>{setModalUser(false)}} />) }
-      <button className={styles.buttonImg} onClick={() => { setModalUser(!modalUser) }}>
-        <img src={"data:image/jpeg;base64," + userPhoto} className={styles.imageUser} />
+      <button className={styles.buttonImg} >
+        <img src={"data:image/jpeg;base64," + userPhoto} className={styles.imageUser} onClick={() => { setModalUser(!modalUser) }} />
       </button>
     </div>
   )

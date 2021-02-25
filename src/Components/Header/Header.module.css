@@ -3,21 +3,23 @@
   height: 10vh;
   background-color: #343434;
   display: flex;
-  margin-top: 0.3%;
+  margin-top: 1%;
   border-radius: 10px;
   align-items: center;
   justify-content: space-between;
   max-width: 96%;
-  padding: 0 4%;
+  padding: 0 2%;
+  padding-right: 1%;
 }
 
 .buttonImg {
-  width: 7%;
+  width: 6%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
+  cursor: auto;
 }
 
 .imageUser {
@@ -28,6 +30,7 @@
   border-radius: 50px;
   max-width: 65px;
   max-height: 65px;
+  cursor: pointer;
 }
 
 
