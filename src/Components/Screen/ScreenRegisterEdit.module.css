@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   border: 2px solid #959595;
+  transition: all 1s;
 }
 
 .screenMenu h4 {

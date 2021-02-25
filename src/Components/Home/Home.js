@@ -33,8 +33,6 @@ function Home(props) {
             <Route path={`${props.match.path}/cadastro/screen`} component={Screen} />
            </Switch> 
 
-
-          {/* <Media/> */}
         </div>
       </div>
     </div>

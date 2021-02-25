@@ -25,14 +25,15 @@ export const ProductStorage = ({ children }) => {
   function OpenModalProduct(modal) {
     setOpenModal(modal)
 
-    if(modal ==false){
+    if (modal == false) {
       setDataProductImg([])
       setProductList([])
     }
   }
 
+
   React.useEffect(() => {
-    if(produtList != '') setDataProductImg([...dataProductImg, produtList])
+    if (produtList != '') setDataProductImg([...dataProductImg, produtList])
   }, [produtList]);
 
 
@@ -46,14 +47,13 @@ export const ProductStorage = ({ children }) => {
       });
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json)
       if (json.error) {
         setError(json.message);
       }
       if (response.ok) {
-        if(json.message !== ('Value alredy exists')){
+        if (json.message !== ('Value alredy exists')) {
           NotificationSucess('Produto Inserido Com Sucesso');
-           setDataProductImg([...dataProductImg, data])
+          setDataProductImg([...dataProductImg, data])
         }
       }
     } catch (error) {
@@ -76,7 +76,7 @@ export const ProductStorage = ({ children }) => {
       });
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json)
+
       if (json.error) {
         setError(json.message);
       }
@@ -122,14 +122,15 @@ export const ProductStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-      console.log(screenContext.dataEdit.id)
       const { url, options } = GET_PRODUCTSCREEN(userContext.session, screenContext.dataEdit.id);
       const response = await fetch(url, options);
       const json = await response.json();
       if (json.error) {
-        setError(json.message);
+        if(json.message != 'No data')
+        setError(json.message)
       }
       if (response.ok) {
+        setDataProductImg([])
         for (let i = 0; data.length > i; i++) {
           for (let j = 0; json.data.length > j; j++) {
             if (data[i].id == json.data[j].product_id) {
@@ -140,7 +141,8 @@ export const ProductStorage = ({ children }) => {
       }
 
     } catch (error) {
-      setError(error.message);
+     if (error != 'No data')
+      setError(error)
     } finally {
       setLoading(false);
     }

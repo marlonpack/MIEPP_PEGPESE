@@ -12,6 +12,7 @@ import {
 import { MediaContext } from '../../Contexts/MediaContext';
 import { ProductContext } from '../../Contexts/ProductContext';
 import Product from '../Product/Product';
+import NotificationError from '../Notification/NotificationError';
 
 
 
@@ -40,7 +41,6 @@ function ScreenTable({ typeSearch, filterScreen }) {
 
 
   function handleModalProduct(media, department, data) {
-    console.log(data)
     editScreenProduct(data)
     for (let a = 0; mediaContext.data.length > a; a++) {
       if (mediaContext.data[a].id === parseInt(media)) {
@@ -51,7 +51,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
     for (let i = 0; dataDepartment.length > i; i++) {
       if (dataDepartment[i].id === parseInt(department)) {
         if (dataDepartment[i].external_index === null) {
-          alert('esse departamento não tem index')
+          NotificationError('esse departamento não tem index')
         } else {
           setExternalIndexDepartment(parseInt(dataDepartment[i].external_index))
           OpenModalProduct(!openModal)
@@ -77,7 +77,6 @@ function ScreenTable({ typeSearch, filterScreen }) {
 
   React.useEffect(() => {
     let filter = []
-    console.log(typeSearch)
     switch (typeSearch) {
       case 'id':
         filter = data.filter((data) =>

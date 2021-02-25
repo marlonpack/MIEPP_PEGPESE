@@ -7,10 +7,8 @@ import Input from '../Forms/Input';
 import useForm from '../../Hooks/useForm';
 import { UserContext } from '../../Contexts/UserContext';
 import Modal from './ModalPassword'
-
 import NotificationError from '../Notification/NotificationError';
-import { NotificationStore } from '../Notification/StoreNotification';
-import NotificationSucess from '../Notification/NotificationSucess';
+
 
 function Login() {
 
@@ -21,16 +19,19 @@ function Login() {
   // const [useLogin, setUseLogin]= useState(false)
 
   useEffect(() => {
-    NotificationError(error)
+    if (error != 'Authorization denied'){
+      NotificationError(error)
+    }
   }, [error]);
 
 
-  useEffect(() => {
-    if(login == true) NotificationSucess('Login feito com sucesso')
-  }, [login]);
+  // useEffect(() => {
+  //   if(login == true) NotificationSucess('Login feito com sucesso')
+  // }, [login]);
 
   function handleSubmit() {
     userLogin(username.value, password.value);
+    // NotificationError(error)
     // login? setUseLogin(true): ''
   }
 

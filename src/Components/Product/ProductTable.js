@@ -164,6 +164,13 @@ function ProductTable({ department }) {
 
         {data !== undefined ? (<tbody>
           {filterData.length > 0 ? filterData.map((data) => (
+              data.price_promo !=0 ?
+              <tr style={{color:'red'}} key={data.id} onClick={() => { ListProductTable(data) }}>
+                <td>{data.id}</td>
+                <td>{data.description}</td>
+                <td>{data.price}</td>
+                <td>{data.price_promo}</td>
+              </tr>:
             <tr key={data.id} onClick={() => { ListProductTable(data) }}>
               <td>{data.id}</td>
               <td>{data.description}</td>
@@ -172,7 +179,15 @@ function ProductTable({ department }) {
             </tr>
           )) :
             (data.map((data) => (
-              <tr key={data.id} onClick={() => { ListProductTable(data) }}>
+              data.price_promo !=0 ?
+              <tr style={{color:'red'}} key={data.id} onClick={() => { ListProductTable(data) }}>
+                <td>{data.id}</td>
+                <td>{data.description}</td>
+                <td>{data.price}</td>
+                <td>{data.price_promo}</td>
+              </tr>
+            :
+            <tr key={data.id} onClick={() => { ListProductTable(data) }}>
                 <td>{data.id}</td>
                 <td>{data.description}</td>
                 <td>{data.price}</td>

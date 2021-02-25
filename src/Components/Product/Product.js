@@ -17,7 +17,7 @@ function Product({ media, department }) {
   },[error])
 
   React.useEffect(()=>{
-    console.log(produtList)
+ 
     if(produtList != '') setDataproductList([...dataproductList, produtList]);
   },[produtList])
 
@@ -45,12 +45,18 @@ function Product({ media, department }) {
                 {dataProductImg.length> 0? 
                 <tbody>
                   { dataProductImg.map((data, index)=>(
-                    <tr key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
+                    data.price_promo !=0?
+                    <tr style={{color:'red'}} key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
+                      <td>{data.id}</td>
+                      <td>{data.description && data.description.substr(0, 20) }</td>
+                      <td>{data.price_promo}</td>
+                    </tr>
+                     :
+                     <tr key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
                       <td>{data.id}</td>
                       <td>{data.description && data.description.substr(0, 20) }</td>
                       <td>{data.price}</td>
-                    </tr>
-                     ))} 
+                    </tr>))} 
                 </tbody>
                 :
                ''

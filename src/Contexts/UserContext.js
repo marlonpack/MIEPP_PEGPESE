@@ -4,6 +4,7 @@ import { USER_GET_PHOTO, TOKEN_POST, USER_DATE } from "../api";
 import { useHistory } from "react-router-dom";
 import useLocalStorage from "../Hooks/useLocalStorage";
 import NotificationError from "../Components/Notification/NotificationError";
+import NotificationSucess from "../Components/Notification/NotificationSucess";
 
 
 export const UserContext = React.createContext();
@@ -65,8 +66,8 @@ export const UserStorage = ({ children }) => {
       const json = await response.json();
       if (json.error == false) {
         setUserPhoto(json.photo);
-        setLogin(true);
-        history.push("/home");
+        setLogin(true)
+        history.push("/home")
       } else {
         setError(json.message);
         setLogin(false);

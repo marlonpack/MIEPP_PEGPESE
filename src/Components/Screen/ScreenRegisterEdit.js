@@ -4,41 +4,38 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import { ScreenContext } from "../../Contexts/ScreenContext";
 import { MediaContext } from "../../Contexts/MediaContext";
-import Product from '../Product/Product';
-import { ProductContext } from '../../Contexts/ProductContext';
+
 
 function ScreenRegisterEdit() {
   const mediaContext = React.useContext(MediaContext);
   const { dataDepartment, dataShop, dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
-  const { openModal, OpenModalProduct } = React.useContext(ProductContext);
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
   const [department, setDepartment] = React.useState('');
   const [getMediaContext, setGetMediaContext] = React.useState([]);
-  const [modalProduct, setModalProduct] = React.useState(false);
-  const [externalIndexDepartment, setExternalIndexDepartment]= React.useState('')
+
+
   const [getSelectMedia, setGetSelectMedia] = React.useState([]);
-  const [filemedia, setFilemedia] = React.useState([]);
+  // const [filemedia, setFilemedia] = React.useState([]);
 
 
   React.useEffect(() => {
     mediaContext.loadMedia();
   }, []);
 
-  // React.useEffect(()=>{
-  //   OpenModalProduct
-  // },[])
+  
 
-  React.useEffect(() => {
-    setFilemedia(mediaContext.file);
-  }, [mediaContext.file]);
+  // React.useEffect(() => {
+  //   setFilemedia(mediaContext.file);
+  // }, [mediaContext.file]);
 
-  console.log(mediaContext.file)
+
 
   React.useEffect(() => {
     setGetMediaContext(mediaContext.data);
   }, [mediaContext.data]);
+
 
   React.useEffect(() => {
     if (dataEdit.length !== 0) {
@@ -59,34 +56,14 @@ function ScreenRegisterEdit() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // postScreen(description, time, media, department)
-    console.log(description, time, media, department)
+    postScreen(description, time, media, department)
   }
 
   function screenEdit() {
     putScreen(dataEdit.id, description, time, media, department)
   }
   
-  function handleModalProduct() {
-   
-    for(let a = 0; getMediaContext.length> a; a++){
-      if (getMediaContext[a].id === parseInt(media)){
-        mediaContext.loadMediaFile(getMediaContext[a].id, getMediaContext[a].type)
-      }
-    }
-
-    for (let i = 0; dataDepartment.length > i; i++) {
-      if (dataDepartment[i].id === parseInt(department)) {
-        if(dataDepartment[i].external_index === null){
-          alert('esse departamento não tem index')
-        }else{
-        setExternalIndexDepartment(parseInt(dataDepartment[i].external_index))
-         OpenModalProduct(!openModal)
-        }
-      }
-    }
-
-  }
+  
 
 
   function handleChangeMedia(value) {
@@ -101,7 +78,6 @@ function ScreenRegisterEdit() {
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
-      {/* {openModal && <Product media={filemedia} department={externalIndexDepartment} />} */}
       <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
 
       <form action="" onSubmit={handleSubmit}>
@@ -141,9 +117,6 @@ function ScreenRegisterEdit() {
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
-            {/* {getSelectMedia.type === 0 ? <Button style={styles.buttonProduct}
-            disabled={getSelectMedia.type !== 0 ? true : false} 
-            onClick={() => handleModalProduct()} type="button">Produtos</Button>: ''} */}
           </div>
 
           <div className={styles.screenMenuRight}>
