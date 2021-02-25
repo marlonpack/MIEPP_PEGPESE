@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { USER_GET_PHOTO, TOKEN_POST, USER_DATE } from "../api";
 import { useHistory } from "react-router-dom";
 import useLocalStorage from "../Hooks/useLocalStorage";
+import NotificationError from "../Components/Notification/NotificationError";
 
 
 export const UserContext = React.createContext();
@@ -24,13 +25,14 @@ export const UserStorage = ({ children }) => {
 
 
   useEffect(() => {
-    if(sessionLocalStorage !== 'null' && idLocalStorage !== 'null'){
+    if(sessionLocalStorage != 'null' && idLocalStorage != 'null'){
      getUser(sessionLocalStorage, idLocalStorage);
      getPhoto(sessionLocalStorage, idLocalStorage);
      setSession(sessionLocalStorage);
      setLogin(true);
     }
   },[]);
+  
 
 
   const userLogout = React.useCallback(

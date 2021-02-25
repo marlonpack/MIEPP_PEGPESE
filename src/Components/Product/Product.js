@@ -4,19 +4,24 @@ import ProductRegister from './ProductRegister';
 import ProductTable from './ProductTable';
 import { ProductContext } from '../../Contexts/ProductContext';
 import useOutsideClick from "../../Hooks/useOutsideClick";
-import { convertBase64 } from "../../utils/base64";
+
 
 function Product({ media, department }) {
-  const { openModal, OpenModalProduct, dataProductImg, RemoveListProductTable, GetListProduct } = React.useContext(ProductContext);
+  const { openModal, OpenModalProduct, dataProductImg, RemoveListProductTable, GetListProduct, produtList } = React.useContext(ProductContext);
   const [image, setImage] = React.useState('');
+  const[ dataproductList, setDataproductList] = React.useState([]);
 
 
   React.useEffect(()=>{
-    GetListProduct()
-  },[])
+    console.log(produtList)
+    if(produtList != '') setDataproductList([...dataproductList, produtList]);
+  },[produtList])
 
+  // React.useEffect(()=>{
+  //   setDataproductList([...dataproductList, dataProductImg]);
+  // },[dataProductImg])
 
-
+  console.log(dataProductImg)
   let domNode = useOutsideClick(() => {
     OpenModalProduct(!openModal)
   });
@@ -36,15 +41,19 @@ function Product({ media, department }) {
             {/* <img src={image} width='100%' height='100%'/> */}
             <div className={styles.tableProductInsert}>
               <table>
+                {dataProductImg.length> 0? 
                 <tbody>
-                  {dataProductImg.map((data, index)=>(
-                    <tr key={index} onClick={()=>{RemoveListProductTable(index)}}>
+                  { dataProductImg.map((data, index)=>(
+                    <tr key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
                       <td>{data.id}</td>
-                      <td>{data.description}</td>
+                      <td>{data.description && data.description.substr(0, 20) }</td>
                       <td>{data.price}</td>
                     </tr>
                      ))} 
                 </tbody>
+                :
+               ''
+                }
               </table>
             </div>
           </div>

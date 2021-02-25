@@ -11,10 +11,10 @@ const NotificationError = (error) => {
     NotificationStore("Erro", "Autorização negada", "danger");
 
   //Login
-  if (error.includes("(user, password, app_id) is broken"))
+  else if (error.includes("(user, password, app_id) is broken"))
     NotificationStore(
       "Erro",
-      "(user, password, app_id) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (error.includes("Default password is not permited"))
@@ -43,7 +43,7 @@ const NotificationError = (error) => {
   else if (error.includes("(description, file, type, supplier_id) is broken"))
     NotificationStore(
       "Erro",
-      "(description, file, type, supplier_id) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -51,7 +51,7 @@ const NotificationError = (error) => {
   )
     NotificationStore(
       "Erro",
-      "(id, description, file, type, supplier_id) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (error.includes("This media is in use and can not be modified"))
@@ -61,7 +61,7 @@ const NotificationError = (error) => {
       "danger"
     );
   else if (error.includes("(id) is broken"))
-    NotificationStore("Erro", "(id) esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
   else if (error.includes("Type 0, 1 and 2 is only to internal"))
     NotificationStore(
       "Erro",
@@ -76,11 +76,11 @@ const NotificationError = (error) => {
     );
   //ProductScreen
   else if (error.includes("(screen_id) is broken"))
-    NotificationStore("Erro", "(screen_id) esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
   else if (error.includes("(screen_id, product_id) is broken"))
     NotificationStore(
       "Erro",
-      "(screen_id, product_id) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -99,7 +99,7 @@ const NotificationError = (error) => {
   )
     NotificationStore(
       "Erro",
-      "(description, time, media_id, department_id)  esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -107,7 +107,7 @@ const NotificationError = (error) => {
   )
     NotificationStore(
       "Erro",
-      "(id, description, time, media_id, department_id) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -132,19 +132,19 @@ const NotificationError = (error) => {
     );
   //Supplier
   else if (error.includes("(description) is broken"))
-    NotificationStore("Erro", "(description)  esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
   else if (error.includes("(id, description) is broken"))
-    NotificationStore("Erro", "(id, description) esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
   else if (error.includes("ID 1 of internal can not be modified"))
     NotificationStore(
       "Erro",
-      "(description, time, media_id, department_id)  esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (error.includes("ID 1 of internal can not be deleted"))
     NotificationStore(
       "Erro",
-      "(description, time, media_id, department_id)  esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   //Timeline
@@ -155,7 +155,7 @@ const NotificationError = (error) => {
   )
     NotificationStore(
       "Erro",
-      "(description, initial_hour, final_hour, initial_date, final_date)  esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -165,7 +165,7 @@ const NotificationError = (error) => {
   )
     NotificationStore(
       "Erro",
-      "(id, description, initial_hour, final_hour, initial_date, final_date) esta quebrado",
+      "Preencha todos os campos",
       "danger"
     );
   else if (
@@ -224,22 +224,24 @@ const NotificationError = (error) => {
     );
   //TimeScreen
   else if (error.includes("(timeline_id) is broken"))
-    NotificationStore("Erro", "(timeline_id)  esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
   else if (error.includes("(timeline_id, screen_id, initial_time) is broken"))
     NotificationStore(
       "Erro",
-      "(timeline_id, screen_id, initial_time)  esta quebrado",
+      " Preencha todos os campos",
       "danger"
     );
   else if (error.includes("(timeline_id, screen_id) is broken"))
     NotificationStore(
       "Erro",
-      "(timeline_id, screen_id)  esta quebrado",
+      " Preencha todos os campos",
       "danger"
     );
   //TimelineShop
   else if (error.includes("(timeline_id, shop_id) is broken"))
-    NotificationStore("Erro", "(timeline_id, shop_id) esta quebrado", "danger");
+    NotificationStore("Erro", "Preencha todos os campos", "danger");
+
+   //Padrão 
   else if (NotificationStore("erro", error, "danger")) return null;
 };
 

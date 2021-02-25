@@ -6,9 +6,10 @@ import ModalHeader from './ModalHeader';
 // import useOutsideClick from '../../Hooks/useOutsideClick';
 
 function Header() {
-  const { userPhoto, OpenCloseMenu, sideMenu, data } = useContext(UserContext);
+  const {error, userPhoto, OpenCloseMenu, sideMenu, data } = useContext(UserContext);
   const [modalUser, setModalUser] = useState(false);
   const modalRef = useRef();
+
 
   // useOutsideClick(modalRef, () => {
   //   if (modalUser) setModalUser(false)

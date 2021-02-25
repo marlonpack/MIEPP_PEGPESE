@@ -12,7 +12,7 @@ import Screen from "../Screen/Screen";
 
 function Home(props) {
 
-  const { login, sideMenu } = useContext(UserContext);
+  const { error, login, sideMenu } = useContext(UserContext);
   const history = useHistory();
 
 

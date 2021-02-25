@@ -34,6 +34,8 @@ function ScreenRegisterEdit() {
     setFilemedia(mediaContext.file);
   }, [mediaContext.file]);
 
+  console.log(mediaContext.file)
+
   React.useEffect(() => {
     setGetMediaContext(mediaContext.data);
   }, [mediaContext.data]);
@@ -98,7 +100,7 @@ function ScreenRegisterEdit() {
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
-      {openModal && <Product media={filemedia} department={externalIndexDepartment} />}
+      {/* {openModal && <Product media={filemedia} department={externalIndexDepartment} />} */}
       <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
 
       <form action="" onSubmit={handleSubmit}>
@@ -138,9 +140,9 @@ function ScreenRegisterEdit() {
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}
             </select>
-            {getSelectMedia.type === 0 ? <Button style={styles.buttonProduct} 
-            // disabled={getSelectMedia.type !== 0 ? true : false} 
-            onClick={() => handleModalProduct()} type="button">Produtos</Button>: ''}
+            {/* {getSelectMedia.type === 0 ? <Button style={styles.buttonProduct}
+            disabled={getSelectMedia.type !== 0 ? true : false} 
+            onClick={() => handleModalProduct()} type="button">Produtos</Button>: ''} */}
           </div>
 
           <div className={styles.screenMenuRight}>

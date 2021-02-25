@@ -11,14 +11,14 @@ import { ProductContext } from '../../Contexts/ProductContext';
 function ProductTable({ department }) {
   const { data, GetProduct, ListProductTable, GetListProduct } = React.useContext(ProductContext);
   const [filterData, setFilterData] = React.useState([]);
-  // const [dataEdit, setDataEdit] = React.useState([]);
+  const [typeSearch, setTypeSearch] = React.useState('');
   // const [openEdit, setOpenEdit] = React.useState(false);
 
 
   React.useEffect(() => {
 
     GetProduct(department, '1');
-    GetListProduct()
+    // GetListProduct()
   }, []);
 
   // React.useEffect(() => {
@@ -28,7 +28,40 @@ function ProductTable({ department }) {
   //   setFilterData([...filter])
   // }, [props]);
 
+  
+  function searchScreen(name) {
+    if (typeSearch === "") {
+      setFilterData([]);
+      return;
+    }
+    let filter = [];
 
+    switch (typeSearch) {
+      case 'id':
+        filter = data.filter((product) =>
+          String(product.id).toLowerCase().includes(name.toLowerCase())
+        );
+        break;
+      case 'description':
+        filter = data.filter((product) =>
+          product.description.toLowerCase().includes(name.toLowerCase())
+        );
+        break;
+      case 'price':
+        filter = data.filter((product) =>
+          product.price.toLowerCase().includes(name.toLowerCase())
+        );
+        break;
+      case 'promo':
+        filter = data.filter((product) =>
+          product.price_promo.toLowerCase().includes(name.toLowerCase())
+        );
+        break;
+
+    }
+
+    setFilterData([...filter])
+  }
 
 
 
@@ -36,26 +69,27 @@ function ProductTable({ department }) {
     const filter = [...data];
     switch (order) {
       case "id":
-        filter.sort();
+        filter.sort(function (a, b) {
+          if (a.id > b.id)
+            return 1;
+          if (a.id < b.id)
+            return -1;
+          return 0;
+        });
         break;
       case "description":
         filter.sort(function (a, b) {
           return a.description.localeCompare(b.description);
         });
         break;
-      case "time":
+      case "price":
         filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
+          return a.price.localeCompare(b.price);
         });
         break;
-      case "media":
+      case "promo":
         filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
-        });
-        break;
-      case "department":
-        filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
+          return b.price_promo.localeCompare(a.price_promo);
         });
         break;
       default:
@@ -73,13 +107,23 @@ function ProductTable({ department }) {
       <div className={styles.divTopTable}>
         <h1>Lista de produtos:</h1>
         <div className={styles.inputSearch}>
+          <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="id">Código</option>
+            <option value="description">Descrição</option>
+            <option value="price">Preço</option>
+            <option value="promo">Preço promoção</option>
+          </select>
           <Input
             style={styles.topMediaForm}
             label="Pesquisar:"
             type="text"
             id="searchScreen"
             name="searchScreen"
-          // onChange={({ target }) => { searchScreen(target.value) }}
+            onChange={({ target }) => { searchScreen(target.value) }}
           />
           <Button type="button" style="btnSearch">
             <Search />
@@ -107,12 +151,12 @@ function ProductTable({ department }) {
             </th>
             <th>
               <span>
-                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("time")} />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("price")} />
               </span>
             </th>
             <th>
               <span>
-                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("media")} />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("promo")} />
               </span>
             </th>
           </tr>
@@ -120,7 +164,7 @@ function ProductTable({ department }) {
 
         {data !== undefined ? (<tbody>
           {filterData.length > 0 ? filterData.map((data) => (
-            <tr key={data.id}>
+            <tr key={data.id} onClick={() => { ListProductTable(data) }}>
               <td>{data.id}</td>
               <td>{data.description}</td>
               <td>{data.price}</td>
@@ -128,11 +172,11 @@ function ProductTable({ department }) {
             </tr>
           )) :
             (data.map((data) => (
-              <tr key={data.id} onClick={()=>{ListProductTable(data)}}>
-                  <td>{data.id}</td>
-                  <td>{data.description}</td>
-                  <td>{data.price}</td>
-                  <td>{data.price_promo}</td>
+              <tr key={data.id} onClick={() => { ListProductTable(data) }}>
+                <td>{data.id}</td>
+                <td>{data.description}</td>
+                <td>{data.price}</td>
+                <td>{data.price_promo}</td>
               </tr>
             )))}
         </tbody>) :

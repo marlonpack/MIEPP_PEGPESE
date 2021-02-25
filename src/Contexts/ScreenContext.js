@@ -7,6 +7,7 @@ import {
   PUT_SCREEEN,
   DELETE_SCREEEN,
 } from "../api";
+import NotificationSucess from "../Components/Notification/NotificationSucess";
 
 import { UserContext } from "./UserContext";
 
@@ -30,7 +31,9 @@ export const ScreenStorage = ({ children }) => {
       const { url, options } = GET_SCREEEN(userContext.session)
       const response = await fetch(url, options);
       const json = await response.json();
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
+      if (json.error) {
+        setError(json.message);
+      }
       if (response.ok) setData(json.data);
       getShopDepartment();
     } catch (error) {
@@ -69,9 +72,12 @@ export const ScreenStorage = ({ children }) => {
       })
       const response = await fetch(url, options);
       const json = await response.json();
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
-      alert(json.message)
-      if (response.ok) loadScreen()
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        NotificationSucess('Nova tela inserida com sucesso')
+        loadScreen()}
     } catch (error) {
       setError(error.message);
     } finally {
@@ -86,8 +92,12 @@ export const ScreenStorage = ({ children }) => {
        })
       const response = await fetch(url, options);
       const json = await response.json(); 
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
-      loadScreen();
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        NotificationSucess('Tela removida com sucesso')
+        loadScreen()}
     } catch (error) {
       setError(error.message);
     } finally {
@@ -106,9 +116,12 @@ export const ScreenStorage = ({ children }) => {
        })
       const response = await fetch(url, options);
       const json = await response.json(); 
-      if (!response.ok) throw new Error(`Error: ${json.message}`);
-      alert(json.message)
-      loadScreen();
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        NotificationSucess('Tela editada com sucesso')
+        loadScreen()}
     } catch (error) {
       setError(error.message);
     } finally {
@@ -122,112 +135,11 @@ export const ScreenStorage = ({ children }) => {
     setOpenEditScreen(openEdit);
   }
 
+  function editScreenProduct(data){
+    setDataEdit(data);
 
-  // async function loadProviders() {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
+  }
 
-
-  //     const { url, options } = GET_PROVIDER(userContext.session);
-
-
-  //     const response = await fetch(url, options);
-
-  //     const json = await response.json();
-
-  //     if (json.error) {
-  //       setError(json.message);
-  //     }
-
-  //     if (!response.ok) throw new Error(`Error: ${json.message}`);
-
-  //     if (response.ok) setData(json.data);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // async function createProvider(name) {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-
-  //     const { url, options } = POST_PROVIDER(userContext.session, {
-  //       description: name,
-  //     });
-
-  //     const response = await fetch(url, options);
-
-  //     const json = await response.json();
-
-  //     if (json.error) {
-  //       setError(json.message);
-  //     }
-
-  //     if (!response.ok) throw new Error(`Error: ${json.message}`);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //     loadProviders();
-  //   }
-  // }
-
-  // async function updateProvider(name, id) {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-
-  //     const { url, options } = PUT_PROVIDER(userContext.session, {
-  //       id: id,
-  //       description: name,
-  //     });
-
-  //     const response = await fetch(url, options);
-
-  //     const json = await response.json();
-
-  //     if (json.error) {
-  //       setError(json.message);
-  //     }
-
-  //     if (!response.ok) throw new Error(`Error: ${json.message}`);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //     loadProviders();
-  //   }
-  // }
-
-  // async function deleteProvider(id) {
-  //   try {
-  //     setError(null);
-  //     setLoading(true);
-
-  //     const { url, options } = DELETE_PROVIDER(userContext.session, {
-  //       id: id,
-  //     });
-
-  //     const response = await fetch(url, options);
-
-  //     const json = await response.json();
-
-  //     if (json.error) {
-  //       setError(json.message);
-  //     }
-
-  //     if (!response.ok) throw new Error(`Error: ${json.message}`);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //     loadProviders();
-  //   }
-  // }
 
   return (
     <ScreenContext.Provider
@@ -241,13 +153,12 @@ export const ScreenStorage = ({ children }) => {
         editScreen,
         setOpenEditScreen,
         putScreen,
+        editScreenProduct,
         dataEdit,
         openEditScreen,
         dataDepartment,
         dataShop
-        // createProvider,
-        // updateProvider,
-        // deleteProvider,
+
       }}
     >
       {children}

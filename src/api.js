@@ -217,23 +217,19 @@ export function GET_PRODUCTSCREEN(session, screen_id){
 export function POST_PRODUCTSCREEN(session, body){
   return{
     url:`${API_URL}MIEPP/ProductScreen.php?AUTH=${session}&app_id=5&application_id=5`,
-    options:{
       options: {
         method: "POST",
         body: JSON.stringify(body),
       }
-    }
   }
 }
 
 export function DELETE_PRODUCTSCREEN(session, body){
   return{
     url:`${API_URL}MIEPP/ProductScreen.php?AUTH=${session}&app_id=5&application_id=5`,
-    options:{
       options: {
         method: "DELETE",
         body: JSON.stringify(body),
       }
-    }
   }
 }

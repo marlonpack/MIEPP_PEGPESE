@@ -26,7 +26,6 @@ function Login() {
 
 
   useEffect(() => {
-    console.log(login)
     if(login == true) NotificationSucess('Login feito com sucesso')
   }, [login]);
 

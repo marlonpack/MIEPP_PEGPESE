@@ -6,17 +6,17 @@ import useLocalStorage from "../../Hooks/useLocalStorage";
 
 
 const ProtectedRoute = (props) => {
-  const { login } = useContext(UserContext);
-  const [loginPage, setLoginPage] = useLocalStorage('login', login);
+  const { error, login } = useContext(UserContext);
+  // const [loginPage, setLoginPage] = useLocalStorage('login', login);
   const history = useHistory();
-  
+  console.log(error)
 
   if (login) return <Route {...props} />;
-  else if (loginPage ==='true') {
-    return null;
-  }
+  // else if (loginPage ==='true') {
+  //   return null;
+  // }
 
-  else if (!login && !loginPage) {
+  else if (!login) {
     history.push("/");
     return null
   }
