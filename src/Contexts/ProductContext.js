@@ -24,10 +24,14 @@ export const ProductStorage = ({ children }) => {
 
   function OpenModalProduct(modal) {
     setOpenModal(modal)
+
+    if(modal ==false){
+      setDataProductImg([])
+      setProductList([])
+    }
   }
 
   React.useEffect(() => {
-    console.log(produtList)
     if(produtList != '') setDataProductImg([...dataProductImg, produtList])
   }, [produtList]);
 

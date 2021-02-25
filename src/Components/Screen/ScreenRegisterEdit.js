@@ -14,7 +14,7 @@ function ScreenRegisterEdit() {
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState('');
-  const [department, setDepartment] = React.useState();
+  const [department, setDepartment] = React.useState('');
   const [getMediaContext, setGetMediaContext] = React.useState([]);
   const [modalProduct, setModalProduct] = React.useState(false);
   const [externalIndexDepartment, setExternalIndexDepartment]= React.useState('')
@@ -59,7 +59,8 @@ function ScreenRegisterEdit() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    postScreen(description, time, media, department)
+    // postScreen(description, time, media, department)
+    console.log(description, time, media, department)
   }
 
   function screenEdit() {
