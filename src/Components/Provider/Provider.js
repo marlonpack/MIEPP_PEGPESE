@@ -5,7 +5,6 @@ import { ProviderContext } from "../../Contexts/ProviderContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import NotificationError from "../Notification/NotificationError";
 import ProviderTable from "./ProviderTable";
 import ProviderMenu from "./ProviderMenu";
 
@@ -29,10 +28,6 @@ const Provider = () => {
   React.useEffect(() => {
     loadProviders();
   }, []);
-
-  React.useEffect(() => {
-    NotificationError(error);
-  }, [error]);
 
   React.useEffect(() => {
     if (editProvider !== null) {

@@ -7,7 +7,6 @@ import ImageModal from "../ImageModal/ImageModal";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { ProviderContext } from "../../Contexts/ProviderContext";
-import NotificationError from "../Notification/NotificationError";
 import MediaTable from "./MediaTable";
 import MediaMenu from "./MediaMenu";
 
@@ -142,6 +141,8 @@ const Media = () => {
     setType("");
     setVideo(null);
     setImage(null);
+    setDelMedia(null);
+    setEditMedia(null);
   }
 
   function searchMedia(search) {
@@ -238,11 +239,10 @@ const Media = () => {
         <YesNoModal
           question="Tem certeza que deseja excluir?"
           close={() => (setShowYesNoModal(false), setDelMedia(null))}
-          action={() => mediaContext.deleteMedia(delMedia)}
+          action={() => (mediaContext.deleteMedia(delMedia), clear())}
         />
       )}
 
-      {mediaContext.error !== null && NotificationError(mediaContext.error)}
       <div className={styles.topMedia}>
         <div className={styles.topMediaLeft}>
           <Button
@@ -252,13 +252,6 @@ const Media = () => {
           >
             <AddBox />
           </Button>
-
-          {mediaContext.error !== null && (
-            <h1 color="#fff" style={{ fontSize: "28px" }}>
-              Teste Error
-            </h1>
-          )}
-
           <h3 className="titleSection">Lista de Mídias</h3>
         </div>
         <div className={styles.topMediaRight}>
@@ -318,6 +311,7 @@ const Media = () => {
           setShowYesNoModal={setShowYesNoModal}
           filterData={filterData}
           orderMedia={orderMedia}
+          data={mediaContext.data}
         />
       </div>
     </div>
