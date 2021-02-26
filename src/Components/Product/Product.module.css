@@ -45,13 +45,12 @@
 .ProductMenuRight {
   height: 100%;
   width: 45%;
- 
+
   /* border: 1px solid #fff; */
   /* color: #343434; */
 }
 
-
-.tableProductInsert{
+.tableProductInsert {
   /* background-color: aliceblue; */
   border-radius: 1px solid #fff;
   width: 61%;
@@ -60,18 +59,19 @@
   color: #343434;
 }
 
-.tableProductInsert table{
+.tableProductInsert table {
   width: 100%;
   height: 100%;
 }
 
-.tableProductInsert table tbody{
+.tableProductInsert table tbody {
   display: block;
   height: 100%;
   width: 100%;
+  border: none;
 }
 
-.tableProductInsert table tbody tr{
+.tableProductInsert table tbody tr {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -79,4 +79,13 @@
   padding-right: 6%;
   font-size: 100%;
   height: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+.tableProductInsert table tbody tr td {
+  padding: 0;
+}
+.tableProductInsert table tbody tr:not(:last-child) td {
+  border: none;
 }

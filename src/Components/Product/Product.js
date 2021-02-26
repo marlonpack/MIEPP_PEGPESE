@@ -4,18 +4,26 @@ import ProductRegister from './ProductRegister';
 import ProductTable from './ProductTable';
 import { ProductContext } from '../../Contexts/ProductContext';
 import useOutsideClick from "../../Hooks/useOutsideClick";
-import { convertBase64 } from "../../utils/base64";
+import NotificationError from '../Notification/NotificationError';
+
 
 function Product({ media, department }) {
-  const { openModal, OpenModalProduct, dataProductImg, RemoveListProductTable, GetListProduct } = React.useContext(ProductContext);
+  const {error, openModal, OpenModalProduct, dataProductImg, RemoveListProductTable, GetListProduct, produtList } = React.useContext(ProductContext);
   const [image, setImage] = React.useState('');
-
+  const[ dataproductList, setDataproductList] = React.useState([]);
 
   React.useEffect(()=>{
-    GetListProduct()
-  },[])
+   NotificationError(error)
+  },[error])
 
+  React.useEffect(()=>{
+ 
+    if(produtList != '') setDataproductList([...dataproductList, produtList]);
+  },[produtList])
 
+  // React.useEffect(()=>{
+  //   setDataproductList([...dataproductList, dataProductImg]);
+  // },[dataProductImg])
 
   let domNode = useOutsideClick(() => {
     OpenModalProduct(!openModal)
@@ -29,22 +37,30 @@ function Product({ media, department }) {
   return (
     <div className={styles.containerProduct}>
       <div ref={domNode} className={styles.modalProduct}>
-        {/* <div  className={styles.modalProduct}> */}
         <div className={styles.ProductMenuLeft}>
           <ProductRegister department={department} />
           <div className={styles.divImage} style={{ backgroundImage: `url(${image})`, backgroundSize: '100% 100%' }}>
-            {/* <img src={image} width='100%' height='100%'/> */}
             <div className={styles.tableProductInsert}>
               <table>
+                {dataProductImg.length> 0? 
                 <tbody>
-                  {dataProductImg.map((data, index)=>(
-                    <tr key={index} onClick={()=>{RemoveListProductTable(index)}}>
+                  { dataProductImg.map((data, index)=>(
+                    data.price_promo !=0?
+                    <tr style={{color:'red'}} key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
                       <td>{data.id}</td>
-                      <td>{data.description}</td>
-                      <td>{data.price}</td>
+                      <td>{data.description && data.description.substr(0, 20) }</td>
+                      <td>{data.price_promo}</td>
                     </tr>
-                     ))} 
+                     :
+                     <tr key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
+                      <td>{data.id}</td>
+                      <td>{data.description && data.description.substr(0, 20) }</td>
+                      <td>{data.price}</td>
+                    </tr>))} 
                 </tbody>
+                :
+               ''
+                }
               </table>
             </div>
           </div>

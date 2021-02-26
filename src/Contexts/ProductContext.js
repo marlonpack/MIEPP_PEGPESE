@@ -7,6 +7,7 @@ import {
 } from "../api";
 import { UserContext } from "./UserContext";
 import { ScreenContext } from "./ScreenContext";
+import NotificationSucess from "../Components/Notification/NotificationSucess";
 
 
 export const ProductContext = React.createContext();
@@ -19,19 +20,77 @@ export const ProductStorage = ({ children }) => {
   const [loading, setLoading] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
   const [dataProductImg, setDataProductImg] = React.useState([]);
+  const [produtList, setProductList] = React.useState([]);
 
   function OpenModalProduct(modal) {
     setOpenModal(modal)
+
+    if (modal == false) {
+      setDataProductImg([])
+      setProductList([])
+    }
   }
 
-  function ListProductTable(data) {
-    setDataProductImg([...dataProductImg, data])
+
+  React.useEffect(() => {
+    if (produtList != '') setDataProductImg([...dataProductImg, produtList])
+  }, [produtList]);
+
+
+  async function ListProductTable(data) {
+    try {
+      setError(null);
+      setLoading(true);
+      const { url, options } = POST_PRODUCTSCREEN(userContext.session, {
+        screen_id: screenContext.dataEdit.id,
+        product_id: data.id,
+      });
+      const response = await fetch(url, options);
+      const json = await response.json();
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        if (json.message !== ('Value alredy exists')) {
+          NotificationSucess('Produto Inserido Com Sucesso');
+          setDataProductImg([...dataProductImg, data])
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+
+
   }
 
-  function RemoveListProductTable(data) {
-    let listProduct = [...dataProductImg];
-    listProduct.splice(data, 1);
-      setDataProductImg([...listProduct])
+
+  async function RemoveListProductTable(data, index) {
+    try {
+      setError(null);
+      setLoading(true);
+      const { url, options } = DELETE_PRODUCTSCREEN(userContext.session, {
+        screen_id: screenContext.dataEdit.id,
+        product_id: data.id,
+      });
+      const response = await fetch(url, options);
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        NotificationSucess('Produto removido Com Sucesso');
+        let listProduct = [...dataProductImg];
+        listProduct.splice(index, 1);
+        setDataProductImg([...listProduct])
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
 
@@ -39,7 +98,7 @@ export const ProductStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-  
+
 
       const { url, options } = GET_PRODUCT(userContext.session, departament, shop);
       const response = await fetch(url, options);
@@ -48,7 +107,10 @@ export const ProductStorage = ({ children }) => {
       if (json.error) {
         setError(json.message);
       }
-      if (response.ok) setData(json.data);
+      if (response.ok) {
+        setData(json.data);
+        GetListProduct(json.data);
+      }
     } catch (error) {
       setError(error.message);
     } finally {
@@ -56,20 +118,31 @@ export const ProductStorage = ({ children }) => {
     }
   }
 
-  async function GetListProduct() {
+  async function GetListProduct(data) {
     try {
       setError(null);
       setLoading(true);
       const { url, options } = GET_PRODUCTSCREEN(userContext.session, screenContext.dataEdit.id);
       const response = await fetch(url, options);
       const json = await response.json();
-  
-      // if (json.error) {
-      //   setError(json.message);
-      // }
-      if (response.ok) console.log(json)
+      if (json.error) {
+        if(json.message != 'No data')
+        setError(json.message)
+      }
+      if (response.ok) {
+        setDataProductImg([])
+        for (let i = 0; data.length > i; i++) {
+          for (let j = 0; json.data.length > j; j++) {
+            if (data[i].id == json.data[j].product_id) {
+              setProductList(data[i])
+            }
+          }
+        }
+      }
+
     } catch (error) {
-      setError(error.message);
+     if (error != 'No data')
+      setError(error)
     } finally {
       setLoading(false);
     }
@@ -83,6 +156,7 @@ export const ProductStorage = ({ children }) => {
         loading,
         openModal,
         dataProductImg,
+        produtList,
         GetProduct,
         OpenModalProduct,
         ListProductTable,

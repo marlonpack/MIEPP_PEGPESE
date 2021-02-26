@@ -7,27 +7,76 @@ import {
   ViewList,
   Create,
   Delete,
+  ShoppingCart,
 } from "@material-ui/icons";
+import { MediaContext } from '../../Contexts/MediaContext';
+import { ProductContext } from '../../Contexts/ProductContext';
+import Product from '../Product/Product';
+import NotificationError from '../Notification/NotificationError';
 
 
 
 function ScreenTable({ typeSearch, filterScreen }) {
 
-  const { data, loadScreen, editScreen, deleteScreen } = React.useContext(ScreenContext);
+  const { editScreenProduct, dataDepartment, data, loadScreen, editScreen, deleteScreen } = React.useContext(ScreenContext);
   const [filterData, setFilterData] = React.useState([]);
   const [showYesNoModal, setShowYesNoModal] = React.useState(false);
   const [ActionDelete, setActionDelete] = React.useState('');
+  const mediaContext = React.useContext(MediaContext);
+  const [getSelectMedia, setGetSelectMedia] = React.useState([]);
+  const [filemedia, setFilemedia] = React.useState([]);
+  // const [getMediaContext, setGetMediaContext] = React.useState([]);
+  const { openModal, OpenModalProduct } = React.useContext(ProductContext);
+  const [externalIndexDepartment, setExternalIndexDepartment] = React.useState('')
+
   // const [openEdit, setOpenEdit] = React.useState(false);
 
+  React.useEffect(() => {
+    mediaContext.loadMedia();
+  }, []);
+
+  React.useEffect(() => {
+    setFilemedia(mediaContext.file);
+  }, [mediaContext.file]);
+
+
+  function handleModalProduct(media, department, data) {
+    editScreenProduct(data)
+    for (let a = 0; mediaContext.data.length > a; a++) {
+      if (mediaContext.data[a].id === parseInt(media)) {
+        mediaContext.loadMediaFile(mediaContext.data[a].id, mediaContext.data[a].type)
+      }
+    }
+
+    for (let i = 0; dataDepartment.length > i; i++) {
+      if (dataDepartment[i].id === parseInt(department)) {
+        if (dataDepartment[i].external_index === null) {
+          NotificationError('esse departamento não tem index')
+        } else {
+          setExternalIndexDepartment(parseInt(dataDepartment[i].external_index))
+          OpenModalProduct(!openModal)
+        }
+      }
+    }
+
+  }
+
+
+
+  React.useEffect(() => {
+    for (let i = 0; mediaContext.data.length > i; i++) {
+      if (mediaContext.data[i].type == 0) {
+        setGetSelectMedia(mediaContext.data[i]);
+      }
+    }
+  }, [mediaContext.data]);
 
   React.useEffect(() => {
     loadScreen();
   }, []);
 
-  console.log(data)
   React.useEffect(() => {
     let filter = []
-    console.log(typeSearch)
     switch (typeSearch) {
       case 'id':
         filter = data.filter((data) =>
@@ -113,16 +162,18 @@ function ScreenTable({ typeSearch, filterScreen }) {
   }
 
   return (
+    <>
+      {openModal && <Product media={filemedia} department={externalIndexDepartment} />}
     <table className={styles.tableStyle}>
       {showYesNoModal && (
         <YesNoModal
-          question="Tem certeza que deseja excluir?"
-          action={() => deleteScreen(ActionDelete)}
-          close={() => {
-            setShowYesNoModal(false);
-          }}
+        question="Tem certeza que deseja excluir?"
+        action={() => deleteScreen(ActionDelete)}
+        close={() => {
+          setShowYesNoModal(false);
+        }}
         />
-      )}
+        )}
       <thead>
         <tr>
           <th>ID</th>
@@ -130,6 +181,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
           <th>Tempo</th>
           <th>Mídia</th>
           <th>Departamento</th>
+          <th>Produto</th>
           <th>Opções</th>
         </tr>
         <tr>
@@ -159,6 +211,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
             </span>
           </th>
           <th></th>
+          <th></th>
 
         </tr>
       </thead>
@@ -171,6 +224,23 @@ function ScreenTable({ typeSearch, filterScreen }) {
             <td>{data.time}</td>
             <td>{data.media_id}</td>
             <td>{data.department_id}</td>
+            {getSelectMedia > 1 ? getSelectMedia.map((id) =>
+              data.media_id === id.id ? <td >
+                <Button
+                  title='Product'
+                  type='button'
+                  style='btnAttachment'
+                  onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                  <ShoppingCart />
+                </Button></td> : <td></td>
+            ) : data.media_id === getSelectMedia.id ? <td >
+              <Button
+                title='Product'
+                type='button'
+                style='btnAttachment'
+                onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                <ShoppingCart />
+              </Button></td> : <td></td>}
             <td>
               <div className={styles.tableStyleButtons}>
                 <Button
@@ -196,6 +266,30 @@ function ScreenTable({ typeSearch, filterScreen }) {
               <td>{data.time}</td>
               <td>{data.media_id}</td>
               <td>{data.department_id}</td>
+              {getSelectMedia > 1 ? getSelectMedia.map((id) =>
+                data.media_id === id.id ?
+                  <td >
+                    <Button
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
+                  </td>
+                  : <td></td>
+              ) : data.media_id === getSelectMedia.id ?
+                  <td>
+                    <Button
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
+                  </td>
+                  : <td></td>
+              }
               <td>
                 <div className={styles.tableStyleButtons}>
                   <Button
@@ -216,6 +310,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
           )))}
       </tbody>
     </table>
+  </>
   )
 }
 

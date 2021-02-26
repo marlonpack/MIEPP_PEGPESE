@@ -17,6 +17,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
+
   /* border: 1px solid #343434; */
 }
 
@@ -35,10 +36,11 @@
 }
 
  .divSelect input {
-  width: 100%;
+  width: 51%;
   padding: 3px 10px;
   background-color: #959595;
   border: 1px solid transparent;
   font-size: 1.2rem;
   border-radius: 3px;
+  height: 100%;
 }

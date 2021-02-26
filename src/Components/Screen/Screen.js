@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./Screen.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import { convertBase64 } from "../../utils/base64";
 import {
   AddBox,
   Search,
@@ -11,10 +10,11 @@ import ScreenRegisterEdit from "./ScreenRegisterEdit";
 import ScreenTable from "./ScreenTable";
 import { ScreenContext } from "../../Contexts/ScreenContext";
 import { ProductContext } from "../../Contexts/ProductContext";
+import NotificationError from '../Notification/NotificationError'
 
 const Screen = () => {
-  const { openEditScreen, editScreen } = React.useContext(ScreenContext);
-  const{OpenModalProduct} = React.useContext(ProductContext);
+  const {error, openEditScreen, editScreen } = React.useContext(ScreenContext);
+  const {OpenModalProduct} = React.useContext(ProductContext);
   const [showMenu, setShowMenu] = React.useState(false);
   const [filterScreen, setfilterScreen] = React.useState(false);
   const [typeSearch, setTypeSearch] = React.useState("");
@@ -24,6 +24,10 @@ const Screen = () => {
       setShowMenu(true)
     }
   });
+
+  React.useEffect(()=>{
+    NotificationError(error)
+  },[error])
 
 
   function searchScreen(name) {
