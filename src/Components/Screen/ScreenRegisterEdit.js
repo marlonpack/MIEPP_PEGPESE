@@ -17,7 +17,7 @@ function ScreenRegisterEdit() {
 
 
   const [getSelectMedia, setGetSelectMedia] = React.useState([]);
-  // const [filemedia, setFilemedia] = React.useState([]);
+  const [filemedia, setFilemedia] = React.useState([]);
 
 
   React.useEffect(() => {
@@ -25,10 +25,22 @@ function ScreenRegisterEdit() {
   }, []);
 
   
+  React.useEffect(()=>{
+    for (let a = 0; mediaContext.data.length > a; a++) {
+      if (mediaContext.data[a].id === parseInt(media)) {
+        mediaContext.loadMediaFile(mediaContext.data[a].id, mediaContext.data[a].type)
+      }
+    }
+  },[media])
 
-  // React.useEffect(() => {
-  //   setFilemedia(mediaContext.file);
-  // }, [mediaContext.file]);
+
+  React.useEffect(() => {
+    if (mediaContext.file != null)
+    setFilemedia(mediaContext.file.file);
+    // if(mediaContext.file.file.includes('video')) {console.log(mediaContext.file.file, 'video')}
+    // else
+    // {console.log(mediaContext.file.file, 'img')}}
+  }, [mediaContext.file]);
 
 
 
@@ -78,9 +90,9 @@ function ScreenRegisterEdit() {
 
   return (
     <div className={[styles.screenMenu, "animeLeft"].join(" ")}>
-      <h4 className="titleActionPage">Cadastrar / Editar Tela</h4>
+      <h4 className="titleActionPage" style={{height: '10%'}}>Cadastrar / Editar Tela</h4>
 
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit} style={{height:'45%'}}>
         <div className={styles.screenMenuFormTop}>
           <Input
             value={description}
@@ -138,6 +150,13 @@ function ScreenRegisterEdit() {
           </div>
         </div>
       </form>
+      <div style={{height:'45%', width:'100%'}}>
+      {filemedia.includes('video')?
+      <video src={filemedia} autoPlay={true} controls style={{height:'100%', width:'100%'}}/>
+      :
+      <img src={filemedia} style={{height:'100%', width:'100%'}}/>
+        }
+      </div>
     </div>
   )
 
