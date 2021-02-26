@@ -45,27 +45,6 @@ const Media = () => {
   }, [mediaContext.data]);
 
   React.useEffect(() => {
-    let options = [];
-
-    if (+provider !== 0) {
-      options = [
-        { id: 3, description: "Imagem" },
-        { id: 4, description: "Video" },
-      ];
-    }
-
-    if (+provider === 1) {
-      options = [
-        { id: 0, description: "Produtos" },
-        { id: 1, description: "Imagem" },
-        { id: 2, description: "Video" },
-      ];
-    }
-
-    setTypes(options);
-  }, [provider]);
-
-  React.useEffect(() => {
     if (mediaContext.file) {
       if (
         mediaContext.file.type === 3 ||
@@ -101,37 +80,6 @@ const Media = () => {
 
   function getFile(id, type) {
     mediaContext.loadMediaFile(id, type);
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    let media = image !== null ? image : video !== null ? video : null;
-
-    // Send only base64
-    media = media ? media.split(",") : [null];
-
-    let response;
-
-    if (editMedia) {
-      response = await mediaContext.updateMedia(
-        editMedia.id,
-        description,
-        type,
-        media[1],
-        provider
-      );
-    } else {
-      response = await mediaContext.createMedia(
-        description,
-        type,
-        media[1],
-        provider
-      );
-    }
-
-    if (response) {
-      clear();
-    }
   }
 
   function clear() {
@@ -201,34 +149,6 @@ const Media = () => {
     setFilterData(filter ? [...filter] : []);
   }
 
-  function orderMedia(order) {
-    const filter = [...mediaContext.data];
-    switch (order) {
-      case "id":
-        filter.sort();
-        break;
-      case "description":
-        filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
-        });
-        break;
-      case "provider":
-        filter.sort(function (a, b) {
-          return a.supplier_id > b.supplier_id;
-        });
-        break;
-      case "type":
-        filter.sort(function (a, b) {
-          return a.type > b.type;
-        });
-        break;
-      default:
-        return;
-    }
-
-    setFilterData(filter);
-  }
-
   return (
     <div className={styles.containerMedia}>
       {showFullImage && (
@@ -283,7 +203,6 @@ const Media = () => {
       <div className={styles.mainMedia}>
         {showMenu && (
           <MediaMenu
-            handleSubmit={handleSubmit}
             description={description}
             setDescription={setDescription}
             version={version}
@@ -299,6 +218,10 @@ const Media = () => {
             setType={setType}
             types={types}
             setShowFullImage={setShowFullImage}
+            mediaContext={mediaContext}
+            editMedia={editMedia}
+            clear={clear}
+            setTypes={setTypes}
           />
         )}
         <MediaTable
@@ -310,7 +233,7 @@ const Media = () => {
           setDelMedia={setDelMedia}
           setShowYesNoModal={setShowYesNoModal}
           filterData={filterData}
-          orderMedia={orderMedia}
+          setFilterData={setFilterData}
           data={mediaContext.data}
         />
       </div>

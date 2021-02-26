@@ -12,13 +12,41 @@ const MediaTable = ({
   setDelMedia,
   setShowYesNoModal,
   filterData,
-  orderMedia,
+  setFilterData,
   data,
 }) => {
   function getFile(id, type) {
     if (showMenu) {
       mediaContext.loadMediaFile(id, type);
     }
+  }
+
+  function orderMedia(order) {
+    const filter = [...mediaContext.data];
+    switch (order) {
+      case "id":
+        filter.sort();
+        break;
+      case "description":
+        filter.sort(function (a, b) {
+          return a.description.localeCompare(b.description);
+        });
+        break;
+      case "provider":
+        filter.sort(function (a, b) {
+          return a.supplier_id > b.supplier_id;
+        });
+        break;
+      case "type":
+        filter.sort(function (a, b) {
+          return a.type > b.type;
+        });
+        break;
+      default:
+        return;
+    }
+
+    setFilterData(filter);
   }
   return (
     <div className={styles.tableArea} style={showMenu ? { width: "60%" } : {}}>
