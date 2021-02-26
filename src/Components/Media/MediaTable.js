@@ -13,10 +13,12 @@ const MediaTable = ({
   setShowYesNoModal,
   filterData,
   orderMedia,
-  data
+  data,
 }) => {
   function getFile(id, type) {
-    mediaContext.loadMediaFile(id, type);
+    if (showMenu) {
+      mediaContext.loadMediaFile(id, type);
+    }
   }
   return (
     <div className={styles.tableArea} style={showMenu ? { width: "60%" } : {}}>
