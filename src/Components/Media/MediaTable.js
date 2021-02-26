@@ -34,12 +34,20 @@ const MediaTable = ({
         break;
       case "provider":
         filter.sort(function (a, b) {
-          return a.supplier_id > b.supplier_id;
+          if (a.supplier_id > b.supplier_id) {
+            return 1;
+          } else {
+            return -1;
+          }
         });
         break;
       case "type":
         filter.sort(function (a, b) {
-          return a.type > b.type;
+          if (a.type > b.type) {
+            return 1;
+          } else {
+            return -1;
+          }
         });
         break;
       default:
