@@ -1,0 +1,87 @@
+.containerCreateTimeline {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.topCreateTimeline {
+  padding: 0 2rem;
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topCreateTimeline .topCreateTimelineLeft {
+  display: flex;
+  align-items: center;
+}
+
+.topCreateTimeline .topCreateTimelineLeft button {
+  position: relative;
+  right: 1.3rem;
+}
+
+.topCreateTimeline .topCreateTimelineRight {
+  width: 40%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #343434;
+  padding: 1rem 0;
+  border-radius: 5px;
+  border: 2px solid #959595;
+}
+
+.topCreateTimeline .topCreateTimelineRight select {
+  width: 20%;
+  height: 30px;
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+  border-radius: 3px;
+  padding: 0;
+}
+
+.topCreateTimeline .topCreateTimelineForm {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.topCreateTimeline .topCreateTimelineRight .topCreateTimelineForm label {
+  text-align: center;
+  font-size: 1.2rem;
+  width: 30%;
+}
+
+.topCreateTimeline .topCreateTimelineRight .topCreateTimelineForm input {
+  width: 60%;
+  height: 30px;
+  background-color: var(--grey);
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.topCreateTimeline .topCreateTimelineRight .topCreateTimelineForm input:focus {
+  background-color: #2b2b2b;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.topCreateTimeline .topCreateTimelineRight button {
+  width: 5%;
+}
+
+.mainCreateTimeline {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem 2rem 2rem;
+  width: 100%;
+  height: 85%;
+}

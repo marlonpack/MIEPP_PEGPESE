@@ -13,6 +13,7 @@ const MediaTable = ({
   setShowYesNoModal,
   filterData,
   orderMedia,
+  data
 }) => {
   function getFile(id, type) {
     mediaContext.loadMediaFile(id, type);
@@ -107,7 +108,7 @@ const MediaTable = ({
                   </td>
                 </tr>
               ))
-            : mediaContext.data.map((media) => (
+            : data.map((media) => (
                 <tr key={media.id}>
                   <td>{media.id}</td>
                   <td>{media.description}</td>
