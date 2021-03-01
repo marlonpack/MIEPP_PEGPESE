@@ -7,7 +7,6 @@ import ImageModal from "../ImageModal/ImageModal";
 import YesNoModal from "../YesNoModal/YesNoModal";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { ProviderContext } from "../../Contexts/ProviderContext";
-import NotificationError from "../Notification/NotificationError";
 import MediaTable from "./MediaTable";
 import MediaMenu from "./MediaMenu";
 
@@ -44,27 +43,6 @@ const Media = () => {
       suppliers.map((supplier) => providerContext.loadProvider(supplier));
     }
   }, [mediaContext.data]);
-
-  React.useEffect(() => {
-    let options = [];
-
-    if (+provider !== 0) {
-      options = [
-        { id: 3, description: "Imagem" },
-        { id: 4, description: "Video" },
-      ];
-    }
-
-    if (+provider === 1) {
-      options = [
-        { id: 0, description: "Produtos" },
-        { id: 1, description: "Imagem" },
-        { id: 2, description: "Video" },
-      ];
-    }
-
-    setTypes(options);
-  }, [provider]);
 
   React.useEffect(() => {
     if (mediaContext.file) {
@@ -104,37 +82,6 @@ const Media = () => {
     mediaContext.loadMediaFile(id, type);
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    let media = image !== null ? image : video !== null ? video : null;
-
-    // Send only base64
-    media = media ? media.split(",") : [null];
-
-    let response;
-
-    if (editMedia) {
-      response = await mediaContext.updateMedia(
-        editMedia.id,
-        description,
-        type,
-        media[1],
-        provider
-      );
-    } else {
-      response = await mediaContext.createMedia(
-        description,
-        type,
-        media[1],
-        provider
-      );
-    }
-
-    if (response) {
-      clear();
-    }
-  }
-
   function clear() {
     setDescription("");
     setVersion("");
@@ -142,6 +89,8 @@ const Media = () => {
     setType("");
     setVideo(null);
     setImage(null);
+    setDelMedia(null);
+    setEditMedia(null);
   }
 
   function searchMedia(search) {
@@ -200,34 +149,6 @@ const Media = () => {
     setFilterData(filter ? [...filter] : []);
   }
 
-  function orderMedia(order) {
-    const filter = [...mediaContext.data];
-    switch (order) {
-      case "id":
-        filter.sort();
-        break;
-      case "description":
-        filter.sort(function (a, b) {
-          return a.description.localeCompare(b.description);
-        });
-        break;
-      case "provider":
-        filter.sort(function (a, b) {
-          return a.supplier_id > b.supplier_id;
-        });
-        break;
-      case "type":
-        filter.sort(function (a, b) {
-          return a.type > b.type;
-        });
-        break;
-      default:
-        return;
-    }
-
-    setFilterData(filter);
-  }
-
   return (
     <div className={styles.containerMedia}>
       {showFullImage && (
@@ -238,11 +159,10 @@ const Media = () => {
         <YesNoModal
           question="Tem certeza que deseja excluir?"
           close={() => (setShowYesNoModal(false), setDelMedia(null))}
-          action={() => mediaContext.deleteMedia(delMedia)}
+          action={() => (mediaContext.deleteMedia(delMedia), clear())}
         />
       )}
 
-      {mediaContext.error !== null && NotificationError(mediaContext.error)}
       <div className={styles.topMedia}>
         <div className={styles.topMediaLeft}>
           <Button
@@ -252,13 +172,6 @@ const Media = () => {
           >
             <AddBox />
           </Button>
-
-          {mediaContext.error !== null && (
-            <h1 color="#fff" style={{ fontSize: "28px" }}>
-              Teste Error
-            </h1>
-          )}
-
           <h3 className="titleSection">Lista de Mídias</h3>
         </div>
         <div className={styles.topMediaRight}>
@@ -290,7 +203,6 @@ const Media = () => {
       <div className={styles.mainMedia}>
         {showMenu && (
           <MediaMenu
-            handleSubmit={handleSubmit}
             description={description}
             setDescription={setDescription}
             version={version}
@@ -306,6 +218,10 @@ const Media = () => {
             setType={setType}
             types={types}
             setShowFullImage={setShowFullImage}
+            mediaContext={mediaContext}
+            editMedia={editMedia}
+            clear={clear}
+            setTypes={setTypes}
           />
         )}
         <MediaTable
@@ -317,7 +233,8 @@ const Media = () => {
           setDelMedia={setDelMedia}
           setShowYesNoModal={setShowYesNoModal}
           filterData={filterData}
-          orderMedia={orderMedia}
+          setFilterData={setFilterData}
+          data={mediaContext.data}
         />
       </div>
     </div>

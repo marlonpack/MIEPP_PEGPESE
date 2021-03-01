@@ -8,6 +8,7 @@ import {
   PUT_MEDIA,
 } from "../api";
 import NotificationSucess from "../Components/Notification/NotificationSucess";
+import NotificationError from "../Components/Notification/NotificationError";
 
 export const MediaContext = React.createContext();
 
@@ -31,11 +32,14 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
+        return;
       }
 
       if (response.ok) setData(json.data);
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
     }
@@ -52,9 +56,16 @@ export const MediaStorage = ({ children }) => {
 
       const json = await response.json();
 
+      if(json.error){
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
       if (response.ok) setFile({ file: json.data[0], type: type });
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
     }
@@ -78,6 +89,7 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
 
@@ -85,6 +97,7 @@ export const MediaStorage = ({ children }) => {
       return true;
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       loadMedia();
       setLoading(false);
@@ -110,6 +123,7 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
 
@@ -117,6 +131,7 @@ export const MediaStorage = ({ children }) => {
       return true;
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       loadMedia();
       setLoading(false);
@@ -136,11 +151,13 @@ export const MediaStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
       NotificationSucess("A mídia foi apagada");
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
       loadMedia();

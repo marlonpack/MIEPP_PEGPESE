@@ -12,10 +12,49 @@ const MediaTable = ({
   setDelMedia,
   setShowYesNoModal,
   filterData,
-  orderMedia,
+  setFilterData,
+  data,
 }) => {
   function getFile(id, type) {
-    mediaContext.loadMediaFile(id, type);
+    if (showMenu) {
+      mediaContext.loadMediaFile(id, type);
+    }
+  }
+
+  function orderMedia(order) {
+    const filter = [...mediaContext.data];
+    switch (order) {
+      case "id":
+        filter.sort();
+        break;
+      case "description":
+        filter.sort(function (a, b) {
+          return a.description.localeCompare(b.description);
+        });
+        break;
+      case "provider":
+        filter.sort(function (a, b) {
+          if (a.supplier_id > b.supplier_id) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        break;
+      case "type":
+        filter.sort(function (a, b) {
+          if (a.type > b.type) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        break;
+      default:
+        return;
+    }
+
+    setFilterData(filter);
   }
   return (
     <div className={styles.tableArea} style={showMenu ? { width: "60%" } : {}}>
@@ -107,7 +146,7 @@ const MediaTable = ({
                   </td>
                 </tr>
               ))
-            : mediaContext.data.map((media) => (
+            : data.map((media) => (
                 <tr key={media.id}>
                   <td>{media.id}</td>
                   <td>{media.description}</td>
