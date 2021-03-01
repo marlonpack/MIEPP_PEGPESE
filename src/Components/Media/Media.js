@@ -39,8 +39,8 @@ const Media = () => {
     if (mediaContext.data) {
       let suppliers = [];
       mediaContext.data.map((supplier) => suppliers.push(supplier.supplier_id));
-      suppliers = [...new Set(suppliers)];
-      suppliers.map((supplier) => providerContext.loadProvider(supplier));
+      suppliers = [...new Set(suppliers)]; // Remove values repeated
+      suppliers.map((supplier) => providerContext.loadProvider(supplier)); // load info providers
     }
   }, [mediaContext.data]);
 

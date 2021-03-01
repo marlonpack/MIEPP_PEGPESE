@@ -32,6 +32,7 @@ function Home(props) {
             <Route path={`${props.match.path}/cadastro/fornecedor`} component={Provider} />
             <Route path={`${props.match.path}/cadastro/midia`} component={Media} />
             <Route path={`${props.match.path}/cadastro/screen`} component={Screen} />
+            <Route path={`${props.match.path}/configuracao/timeline`} component={CreateTimeline} />
            </Switch> 
 
           {/* <CreateTimeline /> */}

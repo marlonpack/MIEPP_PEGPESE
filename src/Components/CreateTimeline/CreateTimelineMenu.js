@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./CreateTimelineMenu.module.css";
-import "react-input-range/lib/css/index.css";
 import Slider from "@material-ui/core/Slider";
 import { Alarm } from "@material-ui/icons";
 import Button from "../Forms/Button";

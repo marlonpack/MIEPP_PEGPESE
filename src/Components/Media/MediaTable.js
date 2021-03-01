@@ -146,7 +146,7 @@ const MediaTable = ({
                   </td>
                 </tr>
               ))
-            : data.map((media) => (
+            : data && data.map((media) => (
                 <tr key={media.id}>
                   <td>{media.id}</td>
                   <td>{media.description}</td>

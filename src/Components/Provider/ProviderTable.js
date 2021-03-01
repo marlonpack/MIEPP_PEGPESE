@@ -69,7 +69,7 @@ const ProviderTable = ({
                   </td>
                 </tr>
               ))
-            : data.map((provider) => (
+            : data && data.map((provider) => (
                 <tr key={provider.id}>
                   <td>{provider.id}</td>
                   <td>{provider.description}</td>

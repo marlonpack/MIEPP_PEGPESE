@@ -14,6 +14,15 @@ const CreateTimeline = () => {
   const [showYesNoModal, setShowYesNoModal] = React.useState(false);
   const [delTimeline, setDelTimeline] = React.useState(null);
   const [editTimeline, setEditTimeline] = React.useState(null);
+  const [filterData, setFilterData] = React.useState([]);
+  const [typeSearch, setTypeSearch] = React.useState("");
+
+  React.useEffect(() => {
+    if (typeSearch === "") {
+      setFilterData([]);
+      document.getElementById("searchTimeline").value = "";
+    }
+  }, [typeSearch]);
 
   React.useEffect(() => {
     timelineContext.loadTimelines();
@@ -49,6 +58,45 @@ const CreateTimeline = () => {
     setEditTimeline(null);
   }
 
+  function searchTimeline(search) {
+    if (typeSearch === "") {
+      setFilterData([]);
+      return;
+    }
+
+    let filter = [];
+
+    const timelineDesc = search.toLowerCase();
+
+    switch (typeSearch) {
+      case "description":
+        filter = timelineContext.data.filter((timeline) =>
+          timeline.description.toLowerCase().includes(timelineDesc)
+        );
+        break;
+
+      case "id":
+        filter = timelineContext.data.filter((timeline) =>
+          String(timeline.id).includes(search)
+        );
+        break;
+      case "initialDate":
+        filter = timelineContext.data.filter((timeline) =>
+          String(timeline.initial_date).includes(search)
+        );
+
+        break;
+      case "finalDate":
+        filter = timelineContext.data.filter((timeline) =>
+          String(timeline.final_date).includes(search)
+        );
+
+        break;
+    }
+
+    setFilterData(filter ? [...filter] : []);
+  }
+
   return (
     <div className={styles.containerCreateTimeline}>
       {showYesNoModal && (
@@ -71,21 +119,23 @@ const CreateTimeline = () => {
           <h3 className="titleSection">Lista de Timelines</h3>
         </div>
         <div className={styles.topCreateTimelineRight}>
-          <select value={{}} onChange={({ target }) => {}}>
+          <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
             <option value="">Selecione</option>
             <option value="description">Descrição</option>
             <option value="id">ID</option>
-            <option value="provider">Fornecedor</option>
-            <option value="type">Tipo</option>
-            <option value="file_version">Versão</option>
+            <option value="initialDate">Data inicial</option>
+            <option value="finalDate">Data final</option>
           </select>
           <Input
             style={styles.topCreateTimelineForm}
             label="Pesquisar"
             type="text"
-            id="searchTimeLine"
-            name="searchTimeLine"
-            onChange={({ target }) => {}}
+            id="searchTimeline"
+            name="searchTimeline"
+            onChange={({ target }) => searchTimeline(target.value)}
           />
           <Button type="button" style="btnSearch">
             <Search />
@@ -94,7 +144,9 @@ const CreateTimeline = () => {
       </div>
 
       <div className={styles.mainCreateTimeline}>
-        {showMenu && <CreateTimelineMenu clear={clear} editTimeline={editTimeline}/>}
+        {showMenu && (
+          <CreateTimelineMenu clear={clear} editTimeline={editTimeline} />
+        )}
         <CreateTimelineTable
           showMenu={showMenu}
           data={timelineContext.data}
@@ -102,6 +154,8 @@ const CreateTimeline = () => {
           setDelTimeline={setDelTimeline}
           setEditTimeline={setEditTimeline}
           setShowMenu={setShowMenu}
+          filterData={filterData}
+          setFilterData={setFilterData}
         />
       </div>
     </div>

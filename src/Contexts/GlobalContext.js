@@ -15,11 +15,9 @@ export const GlobalStorage = ({ children }) => {
         <ProviderStorage>
           <ScreenStorage>
             <MediaStorage>
-            <TimelineStorage>
-              <ProductStorage>
-                {children}
-              </ProductStorage>
-             </TimelineStorage>
+              <TimelineStorage>
+                <ProductStorage>{children}</ProductStorage>
+              </TimelineStorage>
             </MediaStorage>
           </ScreenStorage>
         </ProviderStorage>
