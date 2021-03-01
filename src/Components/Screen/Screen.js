@@ -11,6 +11,7 @@ import ScreenTable from "./ScreenTable";
 import { ScreenContext } from "../../Contexts/ScreenContext";
 import { ProductContext } from "../../Contexts/ProductContext";
 import NotificationError from '../Notification/NotificationError'
+import { MediaContext } from "../../Contexts/MediaContext";
 
 const Screen = () => {
   const {error, openEditScreen, editScreen } = React.useContext(ScreenContext);
@@ -18,6 +19,11 @@ const Screen = () => {
   const [showMenu, setShowMenu] = React.useState(false);
   const [filterScreen, setfilterScreen] = React.useState(false);
   const [typeSearch, setTypeSearch] = React.useState("");
+  const mediaContext = React.useContext(MediaContext);
+
+   React.useEffect(() => {
+    mediaContext.loadMedia();
+  }, []);
 
   React.useEffect(() => {
     if(openEditScreen=== true){

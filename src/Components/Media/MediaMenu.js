@@ -141,8 +141,6 @@ const MediaMenu = ({
               </select>
             </div>
 
-            {console.log(type)}
-
             <Input
               onChange={({ target }) => loadFile(target)}
               name="mediaMenuUpload"

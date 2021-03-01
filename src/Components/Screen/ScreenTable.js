@@ -32,9 +32,9 @@ function ScreenTable({ typeSearch, filterScreen }) {
 
   // const [openEdit, setOpenEdit] = React.useState(false);
 
-  React.useEffect(() => {
-    mediaContext.loadMedia();
-  }, []);
+  // React.useEffect(() => {
+  //   mediaContext.loadMedia();
+  // }, []);
 
   React.useEffect(() => {
     setFilemedia(mediaContext.file);
@@ -66,13 +66,19 @@ function ScreenTable({ typeSearch, filterScreen }) {
   }
 
   React.useEffect(() => {
-    for (let i = 0; mediaContext.data.length > i; i++) {
-      if (mediaContext.data[i].type == 0) {
-        setGetSelectMedia(mediaContext.data[i]);
-      }
-    }
+    let test = []
+
+ 
+      mediaContext.data.forEach((media)=>{
+        if (media.type == 0){ 
+          test.push(media)}
+      })
+    
+
+    setGetSelectMedia(test);
   }, [mediaContext.data]);
 
+  console.log(getSelectMedia)
   React.useEffect(() => {
     loadScreen();
   }, []);
@@ -158,9 +164,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
 
   return (
     <>
-      {openModal && (
-        <Product media={filemedia} department={externalIndexDepartment} />
-      )}
+      {openModal && <Product media={filemedia} department={externalIndexDepartment} />}
       <table className={styles.tableStyle}>
         {showYesNoModal && (
           <YesNoModal
@@ -184,42 +188,27 @@ function ScreenTable({ typeSearch, filterScreen }) {
           <tr>
             <th>
               <span>
-                <ViewList
-                  className={styles.tableStyleOrder}
-                  onClick={() => orderProviders("id")}
-                />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("id")} />
               </span>
             </th>
             <th>
               <span>
-                <ViewList
-                  className={styles.tableStyleOrder}
-                  onClick={() => orderProviders("description")}
-                />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("description")} />
               </span>
             </th>
             <th>
               <span>
-                <ViewList
-                  className={styles.tableStyleOrder}
-                  onClick={() => orderProviders("time")}
-                />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("time")} />
               </span>
             </th>
             <th>
               <span>
-                <ViewList
-                  className={styles.tableStyleOrder}
-                  onClick={() => orderProviders("media")}
-                />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("media")} />
               </span>
             </th>
             <th>
               <span>
-                <ViewList
-                  className={styles.tableStyleOrder}
-                  onClick={() => orderProviders("department")}
-                />
+                <ViewList className={styles.tableStyleOrder} onClick={() => orderProviders("department")} />
               </span>
             </th>
             <th></th>
@@ -228,163 +217,100 @@ function ScreenTable({ typeSearch, filterScreen }) {
         </thead>
 
         <tbody>
-          {filterData.length > 0
-            ? filterData.map((data, index) => (
-                <tr key={index}>
-                  <td>{data.id}</td>
-                  <td>{data.description}</td>
-                  <td>{data.time}</td>
-                  <td>{data.media_id}</td>
-                  <td>{data.department_id}</td>
-                  {getSelectMedia > 1 ? (
-                    getSelectMedia.map((id) =>
-                      data.media_id === id.id ? (
-                        <td>
-                          <Button
-                            title="Product"
-                            type="button"
-                            style="btnAttachment"
-                            onClick={() => {
-                              handleModalProduct(
-                                data.media_id,
-                                data.department_id,
-                                data
-                              );
-                            }}
-                          >
-                            <ShoppingCart />
-                          </Button>
-                        </td>
-                      ) : (
-                        <td></td>
-                      )
-                    )
-                  ) : data.media_id === getSelectMedia.id ? (
-                    <td>
+          {filterData.length > 0 ? filterData.map((data, index) => (
+            <tr key={index}>
+              <td>{data.id}</td>
+              <td>{data.description}</td>
+              <td>{data.time}</td>
+              <td>{data.media_id}</td>
+              <td>{data.department_id}</td>
+              {getSelectMedia.length > 0? getSelectMedia.map((id) =>
+                data.media_id == id.id ? <td >
+                  {console.log(id)}
+                  <Button
+                    title='Product'
+                    type='button'
+                    style='btnAttachment'
+                    onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                    <ShoppingCart />
+                  </Button></td> : <td></td>
+              ) : data.media_id === getSelectMedia.id ? <td >
+                <Button
+                  title='Product'
+                  type='button'
+                  style='btnAttachment'
+                  onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                  <ShoppingCart />
+                </Button></td> : <td></td>}
+              <td>
+                <div className={styles.tableStyleButtons}>
+                  <Button
+                    title="Editar"
+                    type="button"
+                    style="btnEdit"
+                    onClick={() => {
+                      handleClick(data)
+                    }}>
+                    <Create />
+                  </Button>
+                  <Button title="Excluir" type="button" style="btnDelete" onClick={() => { screenDelete(data.id) }}>
+                    <Delete />
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          )) :
+            (data.map((data, index) => (
+              <tr key={index}>
+                <td>{data.id}</td>
+                <td>{data.description}</td>
+                <td>{data.time}</td>
+                <td>{data.media_id}</td>
+                <td>{data.department_id}</td>
+                <td>{getSelectMedia.length > 1 ? getSelectMedia.map((id, index) =>
+                  data.media_id === id.id ?
                       <Button
-                        title="Product"
-                        type="button"
-                        style="btnAttachment"
-                        onClick={() => {
-                          handleModalProduct(
-                            data.media_id,
-                            data.department_id,
-                            data
-                          );
-                        }}
-                      >
+                      key={index}
+                        title='Product'
+                        type='button'
+                        style='btnAttachment'
+                        onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
                         <ShoppingCart />
                       </Button>
-                    </td>
-                  ) : (
-                    <td></td>
-                  )}
-                  <td>
-                    <div className={styles.tableStyleButtons}>
+                    : ''
+                ) : 
+                data.media_id === getSelectMedia.id ?
                       <Button
-                        title="Editar"
-                        type="button"
-                        style="btnEdit"
-                        onClick={() => {
-                          handleClick(data);
-                        }}
-                      >
-                        <Create />
-                      </Button>
-                      <Button
-                        title="Excluir"
-                        type="button"
-                        style="btnDelete"
-                        onClick={() => {
-                          screenDelete(data.id);
-                        }}
-                      >
-                        <Delete />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            : data.map((data, index) => (
-                <tr key={index}>
-                  <td>{data.id}</td>
-                  <td>{data.description}</td>
-                  <td>{data.time}</td>
-                  <td>{data.media_id}</td>
-                  <td>{data.department_id}</td>
-                  {getSelectMedia > 1 ? (
-                    getSelectMedia.map((id) =>
-                      data.media_id === id.id ? (
-                        <td>
-                          <Button
-                            title="Product"
-                            type="button"
-                            style="btnAttachment"
-                            onClick={() => {
-                              handleModalProduct(
-                                data.media_id,
-                                data.department_id,
-                                data
-                              );
-                            }}
-                          >
-                            <ShoppingCart />
-                          </Button>
-                        </td>
-                      ) : (
-                        <td></td>
-                      )
-                    )
-                  ) : data.media_id === getSelectMedia.id ? (
-                    <td>
-                      <Button
-                        title="Product"
-                        type="button"
-                        style="btnAttachment"
-                        onClick={() => {
-                          handleModalProduct(
-                            data.media_id,
-                            data.department_id,
-                            data
-                          );
-                        }}
-                      >
+                        title='Product'
+                        type='button'
+                        style='btnAttachment'
+                        onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
                         <ShoppingCart />
                       </Button>
-                    </td>
-                  ) : (
-                    <td></td>
-                  )}
-                  <td>
-                    <div className={styles.tableStyleButtons}>
-                      <Button
-                        title="Editar"
-                        type="button"
-                        style="btnEdit"
-                        onClick={() => {
-                          handleClick(data);
-                        }}
-                      >
-                        <Create />
-                      </Button>
-                      <Button
-                        title="Excluir"
-                        type="button"
-                        style="btnDelete"
-                        onClick={() => {
-                          screenDelete(data.id);
-                        }}
-                      >
-                        <Delete />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    :''
+                }</td>
+                <td>
+                  <div className={styles.tableStyleButtons}>
+                    <Button
+                      title="Editar"
+                      type="button"
+                      style="btnEdit"
+                      onClick={() => {
+                        handleClick(data)
+                      }}>
+                      <Create />
+                    </Button>
+                    <Button title="Excluir" type="button" style="btnDelete" onClick={() => { screenDelete(data.id) }}>
+                      <Delete />
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            )))}
         </tbody>
       </table>
     </>
-  );
+  )
 }
 
 export default ScreenTable;
