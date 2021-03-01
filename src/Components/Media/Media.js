@@ -86,7 +86,7 @@ const Media = () => {
     setDescription("");
     setVersion("");
     setProvider(0);
-    setType("");
+    setType("-1");
     setVideo(null);
     setImage(null);
     setDelMedia(null);

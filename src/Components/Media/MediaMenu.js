@@ -94,6 +94,7 @@ const MediaMenu = ({
       ];
     }
 
+    setType("-1");
     setTypes(options);
   }, [provider]);
 
@@ -140,6 +141,8 @@ const MediaMenu = ({
               </select>
             </div>
 
+            {console.log(type)}
+
             <Input
               onChange={({ target }) => loadFile(target)}
               name="mediaMenuUpload"
@@ -147,7 +150,14 @@ const MediaMenu = ({
               id="mediaMenuUpload"
               type="file"
               label="Upload"
-              accept="video/mp4,image/png,image/gif, image/jpeg,image/jpg"
+              accept={
+                +type === 0 || +type === 1 || +type === 3
+                  ? "image/png,image/gif, image/jpeg,image/jpg"
+                  : +type === 4 || +type === 2
+                  ? "video/mp4"
+                  : ""
+              }
+              disabled={+type === -1}
             />
           </div>
 
