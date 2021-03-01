@@ -21,6 +21,10 @@ const MediaMenu = ({
   setType,
   types,
   setShowFullImage,
+  mediaContext,
+  editMedia,
+  clear,
+  setTypes,
 }) => {
   async function loadFile(e) {
     const file = e.files[0];
@@ -40,6 +44,58 @@ const MediaMenu = ({
       }
     }
   }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let media = image !== null ? image : video !== null ? video : null;
+
+    // Send only base64
+    media = media ? media.split(",") : [null];
+
+    let response;
+
+    if (editMedia) {
+      response = await mediaContext.updateMedia(
+        editMedia.id,
+        description,
+        type,
+        media[1],
+        provider
+      );
+    } else {
+      response = await mediaContext.createMedia(
+        description,
+        type,
+        media[1],
+        provider
+      );
+    }
+
+    if (response) {
+      clear();
+    }
+  }
+
+  React.useEffect(() => {
+    let options = [];
+
+    if (+provider !== 0) {
+      options = [
+        { id: 3, description: "Imagem" },
+        { id: 4, description: "Video" },
+      ];
+    }
+
+    if (+provider === 1) {
+      options = [
+        { id: 0, description: "Produtos" },
+        { id: 1, description: "Imagem" },
+        { id: 2, description: "Video" },
+      ];
+    }
+
+    setTypes(options);
+  }, [provider]);
 
   return (
     <div className={[styles.mediaMenu, "animeLeft"].join(" ")}>

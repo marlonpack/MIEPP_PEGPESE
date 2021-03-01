@@ -7,8 +7,9 @@
     "package-lock.json":true,
     "README.md":true,
     "yarn.lock":true,
+    "yarn-error.log":true,
     "build": true,
     "yarn-error.log": true,
   }
-   // "homepage": "https://localhost/GLOBAL/View/Miepp",
+  //  "homepage": "https://localhost/GLOBAL/View/Miepp",
 }

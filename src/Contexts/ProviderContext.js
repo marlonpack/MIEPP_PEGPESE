@@ -8,6 +8,7 @@ import {
 } from "../api";
 import NotificationSucess from "../Components/Notification/NotificationSucess";
 import { UserContext } from "./UserContext";
+import NotificationError from "../Components/Notification/NotificationError";
 
 export const ProviderContext = React.createContext();
 
@@ -31,11 +32,14 @@ export const ProviderStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
+        return;
       }
 
       if (response.ok) setData(json.data);
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
     }
@@ -57,12 +61,15 @@ export const ProviderStorage = ({ children }) => {
 
         if (json.error) {
           setError(json.message);
+          NotificationError(json.message);
+          return;
         }
 
         if (response.ok)
           setProvider((oldarray) => [...oldarray, { ...json.data[0], id: id }]);
       } catch (error) {
         setError(error.message);
+        NotificationError(error.message);
       } finally {
         setLoading(false);
       }
@@ -84,12 +91,14 @@ export const ProviderStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
 
       NotificationSucess("O fornecedor foi adicionado");
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
       loadProviders();
@@ -112,11 +121,13 @@ export const ProviderStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
       NotificationSucess("O fornecedor foi atualizado");
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
       loadProviders();
@@ -138,12 +149,14 @@ export const ProviderStorage = ({ children }) => {
 
       if (json.error) {
         setError(json.message);
+        NotificationError(json.message);
         return;
       }
 
       NotificationSucess("O fornecedor foi apagado");
     } catch (error) {
       setError(error.message);
+      NotificationError(error.message);
     } finally {
       setLoading(false);
       loadProviders();
