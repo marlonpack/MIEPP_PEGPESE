@@ -35,10 +35,10 @@ function NavContainer() {
       <NavLink activeClassName={styles.active} to='/home/cadastro/fornecedor' >Fornecedor</NavLink>
       <NavLink activeClassName={styles.active} to='/home/cadastro/midia'>Midia</NavLink>
       <NavLink activeClassName={styles.active} to='/home/cadastro/screen'>Screen</NavLink>
+      <NavLink activeClassName={styles.active} to='/home/cadastro/timeline' >Timeline</NavLink>
     </div>}
-    <NavLink to={submenuConfig ? '/home/configuracao' : '/home/configuracao/timeline'} activeClassName={styles.active} onClick={() => setSubmenuConfig(true)}>Configuração</NavLink>
+    <NavLink to={submenuConfig ? '/home/configuracao' : '/home/configuracao/telatimeline'} activeClassName={styles.active} onClick={() => setSubmenuConfig(true)}>Configuração</NavLink>
     {submenuConfig && <div className={styles.subMenuRegister}>
-      <NavLink activeClassName={styles.active} to='/home/configuracao/timeline' >Timeline</NavLink>
       <NavLink activeClassName={styles.active} to='/home/configuracao/telatimeline'>Telas do Timeline</NavLink>
       <NavLink activeClassName={styles.active} to='/home/configuracao/lojatimeline'>Lojas do Timeline</NavLink>
     </div>}

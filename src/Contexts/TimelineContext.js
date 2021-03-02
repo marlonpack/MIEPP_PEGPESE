@@ -24,6 +24,7 @@ export const TimelineStorage = ({ children }) => {
   const [finalDate, setFinalDate] = React.useState("");
   const [value, setValue] = React.useState([0, 3600]);
 
+
   async function loadTimelines() {
     try {
       setError(null);

@@ -77,6 +77,8 @@ const NotificationError = (error) => {
   //ProductScreen
   else if (error.includes("(screen_id) is broken"))
     NotificationStore("Erro", "Preencha todos os campos", "danger");
+    else if (error.includes("Maximum value of products has been exceeded"))
+    NotificationStore("Erro", "Valor máximo de produtos exercido", "danger");
   else if (error.includes("(screen_id, product_id) is broken"))
     NotificationStore(
       "Erro",
@@ -240,6 +242,8 @@ const NotificationError = (error) => {
   //TimelineShop
   else if (error.includes("(timeline_id, shop_id) is broken"))
     NotificationStore("Erro", "Preencha todos os campos", "danger");
+    else if (error.includes("Value alredy exists"))
+    NotificationStore("Erro", "Valor ja existe", "danger");
 
    //Padrão 
   else if (NotificationStore("erro", error, "danger")) return null;

@@ -1,0 +1,64 @@
+.shoptimelinemenu{
+  width: 39%;
+  height: 100%;
+  background-color: #343434;
+  border-radius: 3px;
+  transition: all 1s;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 2px solid #959595;
+}
+
+
+.shoptimelinemenu h4{
+  height: 5%;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.shoptimelinemenu form{
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.shoptimelinemenu form button{
+  background-color: var(--green);
+  font-size: 1.1rem;
+  width: 50%;
+  padding: 0.5rem;
+  color: #fff;
+  margin: 0 auto;
+
+}
+
+.menuSelect{
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin: 12% 0;
+}
+
+
+.menuRigth, .MenuLeft{
+  width: 45%;
+} 
+
+
+.menuRigth p, .MenuLeft p{
+  font-size: 1.2rem;
+}
+
+.menuRigth select, .MenuLeft select{
+background-color: #959595;
+padding: 3px 10px;
+font-size: 1.2rem;
+color: #fff;
+border-radius: 3px;
+width: 100%;
+}

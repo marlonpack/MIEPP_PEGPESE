@@ -68,12 +68,13 @@ function ScreenTable({ typeSearch, filterScreen }) {
   React.useEffect(() => {
     let test = []
 
- 
-      mediaContext.data.forEach((media)=>{
-        if (media.type == 0){ 
-          test.push(media)}
-      })
-    
+
+    mediaContext.data.forEach((media) => {
+      if (media.type == 0) {
+        test.push(media)
+      }
+    })
+
 
     setGetSelectMedia(test);
   }, [mediaContext.data]);
@@ -224,24 +225,28 @@ function ScreenTable({ typeSearch, filterScreen }) {
               <td>{data.time}</td>
               <td>{data.media_id}</td>
               <td>{data.department_id}</td>
-              {getSelectMedia.length > 0? getSelectMedia.map((id) =>
-                data.media_id == id.id ? <td >
-                  {console.log(id)}
-                  <Button
-                    title='Product'
-                    type='button'
-                    style='btnAttachment'
-                    onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
-                    <ShoppingCart />
-                  </Button></td> : <td></td>
-              ) : data.media_id === getSelectMedia.id ? <td >
-                <Button
-                  title='Product'
-                  type='button'
-                  style='btnAttachment'
-                  onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
-                  <ShoppingCart />
-                </Button></td> : <td></td>}
+              <td>{getSelectMedia.length > 1 ? getSelectMedia.map((id, index) =>
+                  data.media_id === id.id ?
+                    <Button
+                      key={index}
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
+                    : ''
+                ) :
+                  data.media_id === getSelectMedia.id ?
+                    <Button
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
+                    : ''}
+                </td>
               <td>
                 <div className={styles.tableStyleButtons}>
                   <Button
@@ -269,26 +274,26 @@ function ScreenTable({ typeSearch, filterScreen }) {
                 <td>{data.department_id}</td>
                 <td>{getSelectMedia.length > 1 ? getSelectMedia.map((id, index) =>
                   data.media_id === id.id ?
-                      <Button
+                    <Button
                       key={index}
-                        title='Product'
-                        type='button'
-                        style='btnAttachment'
-                        onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
-                        <ShoppingCart />
-                      </Button>
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
                     : ''
-                ) : 
-                data.media_id === getSelectMedia.id ?
-                      <Button
-                        title='Product'
-                        type='button'
-                        style='btnAttachment'
-                        onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
-                        <ShoppingCart />
-                      </Button>
-                    :''
-                }</td>
+                ) :
+                  data.media_id === getSelectMedia.id ?
+                    <Button
+                      title='Product'
+                      type='button'
+                      style='btnAttachment'
+                      onClick={() => { handleModalProduct(data.media_id, data.department_id, data) }}>
+                      <ShoppingCart />
+                    </Button>
+                    : ''}
+                </td>
                 <td>
                   <div className={styles.tableStyleButtons}>
                     <Button

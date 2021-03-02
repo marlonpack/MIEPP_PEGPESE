@@ -15,6 +15,7 @@ import { UserContext } from "../../Contexts/UserContext";
 import Media from "../Media/Media";
 import Screen from "../Screen/Screen";
 import CreateTimeline from "../CreateTimeline/CreateTimeline";
+import ShopTimeLine from "../ShopTimeline/ShopTimeline";
 
 function Home(props) {
   const { login, sideMenu } = useContext(UserContext);
@@ -32,7 +33,8 @@ function Home(props) {
             <Route path={`${props.match.path}/cadastro/fornecedor`} component={Provider} />
             <Route path={`${props.match.path}/cadastro/midia`} component={Media} />
             <Route path={`${props.match.path}/cadastro/screen`} component={Screen} />
-            <Route path={`${props.match.path}/configuracao/timeline`} component={CreateTimeline} />
+            <Route path={`${props.match.path}/cadastro/timeline`} component={CreateTimeline} />
+            <Route path={`${props.match.path}/configuracao/lojatimeline`} component={ShopTimeLine} />
            </Switch> 
 
           {/* <CreateTimeline /> */}

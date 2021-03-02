@@ -154,6 +154,7 @@ export const ScreenStorage = ({ children }) => {
         setOpenEditScreen,
         putScreen,
         editScreenProduct,
+        getShopDepartment,
         dataEdit,
         openEditScreen,
         dataDepartment,

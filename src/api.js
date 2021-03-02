@@ -260,3 +260,33 @@ export function DELETE_PRODUCTSCREEN(session, body) {
     },
   };
 }
+
+
+export function GET_SHOPTIMELINE(session, timeline_id) {
+  return {
+    url: `${API_URL}MIEPP/TimelineShop.php?AUTH=${session}&app_id=5&application_id=5&timeline_id=${timeline_id}`,
+    options: {
+      method: "GET",
+    },
+  };
+}
+
+export function POST_SHOPTIMELINE(session, body) {
+  return {
+    url: `${API_URL}MIEPP/TimelineShop.php?AUTH=${session}&app_id=5&application_id=5`,
+    options: {
+      method: "POST",
+      body: JSON.stringify(body),
+    },
+  };
+}
+
+export function DELETE_SHOPTIMELINE(session, body) {
+  return {
+    url: `${API_URL}MIEPP/TimelineShop.php?AUTH=${session}&app_id=5&application_id=5`,
+    options: {
+      method: "DELETE",
+      body: JSON.stringify(body),
+    },
+  };
+}
