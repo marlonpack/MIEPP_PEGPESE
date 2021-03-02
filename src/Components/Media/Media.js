@@ -9,6 +9,7 @@ import { MediaContext } from "../../Contexts/MediaContext";
 import { ProviderContext } from "../../Contexts/ProviderContext";
 import MediaTable from "./MediaTable";
 import MediaMenu from "./MediaMenu";
+import Loading from "../Loading/Loading";
 
 const Media = () => {
   const mediaContext = React.useContext(MediaContext);
@@ -151,6 +152,8 @@ const Media = () => {
 
   return (
     <div className={styles.containerMedia}>
+      {mediaContext.loading && <Loading loading={mediaContext.loading} />}
+
       {showFullImage && (
         <ImageModal src={image} close={() => setShowFullImage(false)} />
       )}
