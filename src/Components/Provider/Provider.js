@@ -7,6 +7,7 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import ProviderTable from "./ProviderTable";
 import ProviderMenu from "./ProviderMenu";
+import Loading from "../Loading/Loading";
 
 const Provider = () => {
   const [showMenu, setShowMenu] = React.useState(false);
@@ -18,6 +19,7 @@ const Provider = () => {
     deleteProvider,
     data,
     error,
+    loading,
   } = React.useContext(ProviderContext);
   const [provider, setProvider] = React.useState("");
   const [editProvider, setEditProvider] = React.useState(null);
@@ -107,6 +109,7 @@ const Provider = () => {
 
   return (
     <div className={styles.containerProvider}>
+      {loading && <Loading loading={loading} />}
       {showYesNoModal && (
         <YesNoModal
           question="Tem certeza que deseja excluir?"
@@ -158,7 +161,8 @@ const Provider = () => {
       </div>
       <div className={styles.mainProvider}>
         {showMenu && (
-          <ProviderMenu handleSubmit={handleSubmit}
+          <ProviderMenu
+            handleSubmit={handleSubmit}
             provider={provider}
             setProvider={setProvider}
           />

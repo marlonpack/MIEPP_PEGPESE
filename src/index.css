@@ -139,8 +139,8 @@ input {
 }
 
 .btnAdd {
-  height: 2rem;
-  width: 4rem;
+  height: 48px;
+  width: 48px;
   color: var(--green);
   display: flex;
   align-items: center;
@@ -156,7 +156,7 @@ input {
 .btnEdit {
   color: #fff;
   height: 2.5rem;
-  width: 3rem;
+  width: 2.5rem;
   background-color: var(--orange);
   display: flex;
   align-items: center;
@@ -171,7 +171,7 @@ input {
 .btnDelete {
   color: #fff;
   height: 2.5rem;
-  width: 3rem;
+  width: 2.5rem;
   background-color: var(--red);
   display: flex;
   align-items: center;
@@ -208,7 +208,7 @@ input {
   margin: 0 auto;
   color: #fff;
   height: 2.5rem;
-  width: 3rem;
+  width: 2.5rem;
   background-color: var(--blue);
 }
 

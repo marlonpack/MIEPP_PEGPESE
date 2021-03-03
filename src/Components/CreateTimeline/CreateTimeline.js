@@ -7,6 +7,7 @@ import CreateTimelineTable from "./CreateTimelineTable";
 import CreateTimelineMenu from "./CreateTimelineMenu";
 import { TimelineContext } from "../../Contexts/TimelineContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
+import Loading from "../Loading/Loading";
 
 const CreateTimeline = () => {
   const timelineContext = React.useContext(TimelineContext);
@@ -99,6 +100,7 @@ const CreateTimeline = () => {
 
   return (
     <div className={styles.containerCreateTimeline}>
+      {timelineContext.loading && <Loading loading={timelineContext.loading} />}
       {showYesNoModal && (
         <YesNoModal
           action={() => timelineContext.deleteTimeline(delTimeline)}

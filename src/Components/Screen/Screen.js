@@ -2,39 +2,38 @@ import React from "react";
 import styles from "./Screen.module.css";
 import Button from "../Forms/Button";
 import Input from "../Forms/Input";
-import {
-  AddBox,
-  Search,
-} from "@material-ui/icons";
+import { AddBox, Search } from "@material-ui/icons";
 import ScreenRegisterEdit from "./ScreenRegisterEdit";
 import ScreenTable from "./ScreenTable";
 import { ScreenContext } from "../../Contexts/ScreenContext";
 import { ProductContext } from "../../Contexts/ProductContext";
-import NotificationError from '../Notification/NotificationError'
+import NotificationError from "../Notification/NotificationError";
 import { MediaContext } from "../../Contexts/MediaContext";
+import Loading from "../Loading/Loading";
 
 const Screen = () => {
-  const {error, openEditScreen, editScreen } = React.useContext(ScreenContext);
-  const {OpenModalProduct} = React.useContext(ProductContext);
+  const { error, openEditScreen, editScreen, loading } = React.useContext(
+    ScreenContext
+  );
+  const productContext = React.useContext(ProductContext);
   const [showMenu, setShowMenu] = React.useState(false);
   const [filterScreen, setfilterScreen] = React.useState(false);
   const [typeSearch, setTypeSearch] = React.useState("");
   const mediaContext = React.useContext(MediaContext);
 
-   React.useEffect(() => {
+  React.useEffect(() => {
     mediaContext.loadMedia();
   }, []);
 
   React.useEffect(() => {
-    if(openEditScreen=== true){
-      setShowMenu(true)
+    if (openEditScreen === true) {
+      setShowMenu(true);
     }
   });
 
-  React.useEffect(()=>{
-    NotificationError(error)
-  },[error])
-
+  React.useEffect(() => {
+    NotificationError(error);
+  }, [error]);
 
   function searchScreen(name) {
     if (typeSearch === "") {
@@ -47,14 +46,20 @@ const Screen = () => {
 
   return (
     <div className={styles.containerMedia}>
+      {loading ? (
+        <Loading loading={loading} />
+      ) : productContext.loading ? (
+        <Loading loading={productContext.loading} />
+      ) : null}
+
       <div className={styles.topMedia}>
         <div className={styles.topMediaLeft}>
           <Button
             type="button"
             style="btnAdd"
             onClick={() => {
-              setShowMenu(!showMenu)
-              editScreen([], false)
+              setShowMenu(!showMenu);
+              editScreen([], false);
             }}
           >
             <AddBox />
@@ -63,7 +68,7 @@ const Screen = () => {
           <h3 className="titleSection">Lista de Telas</h3>
         </div>
         <div className={styles.topMediaRight}>
-        <select
+          <select
             value={typeSearch}
             onChange={({ target }) => setTypeSearch(target.value)}
           >
@@ -80,7 +85,9 @@ const Screen = () => {
             type="text"
             id="searchScreen"
             name="searchScreen"
-            onChange={({target})=>{searchScreen(target.value)}}
+            onChange={({ target }) => {
+              searchScreen(target.value);
+            }}
           />
           <Button type="button" style="btnSearch">
             <Search />
@@ -89,18 +96,16 @@ const Screen = () => {
       </div>
 
       <div className={styles.mainMedia}>
-        {showMenu && (
-          <ScreenRegisterEdit />
-        )}
+        {showMenu && <ScreenRegisterEdit />}
         <div
           className={styles.tableArea}
-          style={showMenu  ? { width: "60%" } : {}}
+          style={showMenu ? { width: "60%" } : {}}
         >
-          <ScreenTable typeSearch={typeSearch} filterScreen={filterScreen}/>
+          <ScreenTable typeSearch={typeSearch} filterScreen={filterScreen} />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Screen;

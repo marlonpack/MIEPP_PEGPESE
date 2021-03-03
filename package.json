@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "GNU General Public License (GPL)",
   "private": true,
-  "homepage": "https://localhost/GLOBAL/View/Miepp",
+
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
@@ -18,6 +18,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "react-spinners-kit": "^1.9.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
