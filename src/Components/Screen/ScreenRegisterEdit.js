@@ -24,6 +24,16 @@ function ScreenRegisterEdit() {
     mediaContext.loadMedia();
   }, []);
 
+//  React.useEffect(() => {
+//    for(let i=0; dataDepartment.length>i; i++){
+//      if(dataDepartment[i].description.indexOf('(')> -1){
+//        let tes= dataDepartment[i].description.split('(')
+//        let arrayTest = [tes[0]]
+//        console.log(arrayTest)
+//      }
+//    }
+//   }, [getSelectMedia]);
+
 
   React.useEffect(() => {
     console.log(media)
@@ -126,7 +136,7 @@ function ScreenRegisterEdit() {
               }}
               value={media}
             >
-              <option value='0'>Select</option>
+              <option value=''>Select</option>
               {getMediaContext.map((data, index) => (
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}

@@ -66,7 +66,7 @@ function Product({ media, department }) {
           </div>
         </div>
         <div className={styles.ProductMenuRight}>
-          <ProductTable department={department} />
+          <ProductTable department={parseInt(department.external_index)} />
         </div>
       </div>
     </div>

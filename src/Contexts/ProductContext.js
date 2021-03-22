@@ -98,7 +98,7 @@ export const ProductStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-
+      console.log("departament, shop", departament, shop)
 
       const { url, options } = GET_PRODUCT(userContext.session, departament, shop);
       const response = await fetch(url, options);

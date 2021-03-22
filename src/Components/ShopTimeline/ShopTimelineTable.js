@@ -5,11 +5,12 @@ import YesNoModal from "../YesNoModal/YesNoModal";
 import { ViewList, Create, Delete, ShoppingCart } from "@material-ui/icons";
 import styles from './ShopTimelineTable.module.css';
 import { ShopTimelineContext } from '../../Contexts/ShopTimelinecontext';
+import { TimelineContext } from '../../Contexts/TimelineContext';
 
 
 
 function ShopTimelineTable({ typeSearch, filterScreen }) {
- 
+
 
   const [filterData, setFilterData] = React.useState([]);
   const [showYesNoModal, setShowYesNoModal] = React.useState(false);
@@ -17,40 +18,59 @@ function ShopTimelineTable({ typeSearch, filterScreen }) {
   const [shopId, setShopId] = React.useState('');
   const [getShopTimeline, setGetShopTimeline] = React.useState([]);
   const ShopTimeline = React.useContext(ShopTimelineContext);
+  const screen = React.useContext(ScreenContext);
+  const timeline = React.useContext(TimelineContext);
 
   
 
   React.useEffect(() => {
     let test = []
     ShopTimeline.data.forEach((timeline) => {
-      if(ShopTimeline.data.length >0)
-      test.push(...timeline)
-      })
-      setGetShopTimeline( test);
-    }, [ShopTimeline.data]);
-    
-    
-  
+      if (ShopTimeline.data.length > 0)
+        test.push(...timeline)
+    })
+    setGetShopTimeline(test);
+  }, [ShopTimeline.data]);
+
+
+
 
   React.useEffect(() => {
     let filter = [];
+    let filterTime = [timeline.data];
+    let filterShop = [...screen.dataShop];
     switch (typeSearch) {
       case "id":
-        filter = getShopTimeline.filter((data) =>
-          String(data.timeline_id).toLowerCase().includes(filterScreen)
+        filterTime = timeline.data.filter((data) =>
+          String(data.description).toLowerCase().includes(filterScreen)
         );
+        for (let i = 0;  filterTime.length > i; i++) {
+          for (let o = 0; getShopTimeline.length > o; o++) {
+            if (getShopTimeline[o].timeline_id == filterTime[i].id) {
+              // console.log(getShopTimeline[o], filterTime[i])
+              filter.push(getShopTimeline[o]);
+            }
+          }
+        }
         break;
       case "shop_id":
-        filter = getShopTimeline.filter((data) =>
-          String(data.shop_id).toLowerCase().includes(filterScreen)
+        filterShop = screen.dataShop.filter((data) =>
+          String(data.description).toLowerCase().includes(filterScreen)
         );
+        for (let i = 0;  filterShop.length > i; i++) {
+          for (let o = 0; getShopTimeline.length > o; o++) {
+            if (getShopTimeline[o].shop_id == filterShop[i].id) {
+              filter.push(getShopTimeline[o]);
+            }
+          }
+        }
         break;
-   
+
     }
     setFilterData([...filter]);
   }, [filterScreen]);
 
- 
+
 
   function screenDelete(timeline_id, shop_id) {
     setShowYesNoModal(true);
@@ -61,36 +81,54 @@ function ShopTimelineTable({ typeSearch, filterScreen }) {
 
 
   function orderProviders(order) {
-    const filter = [getShopTimeline];
+    const filter = [];
+    const filterTime = [...screen.dataShop];
+    const filterShop = [...timeline.data];
     switch (order) {
       case "id":
-        filter.sort();
+        filterShop.sort(function (a, b) {
+          return a.description.localeCompare(b.description);
+        });
+       
+        for (let i = 0;  filterShop.length > i; i++) {
+          for (let o = 0; getShopTimeline.length > o; o++) {
+            if (getShopTimeline[o].timeline_id == filterShop[i].id) {
+              filter.push(getShopTimeline[o]);
+            }
+          }
+        }
         break;
       case "shop_id":
-        filter.sort(function (a, b) {
-          if (a.media_id > b.media_id) return 1;
-          if (a.media_id < b.media_id) return -1;
-          return 0;
+        filterTime.sort(function (a, b) {
+          return a.description.localeCompare(b.description);
         });
+        for (let i = 0;  filterTime.length > i; i++) {
+          for (let o = 0; getShopTimeline.length > o; o++) {
+            if (getShopTimeline[o].shop_id == filterTime[i].id) {
+              filter.push(getShopTimeline[o]);
+            }
+          }
+        }
         break;
       default:
         return;
     }
-    setFilterData(...filter);
+   
+    setFilterData(filter);
   }
-  
-  
-  return(
+
+
+  return (
     <>
-        {showYesNoModal && (
-          <YesNoModal
-            question="Tem certeza que deseja excluir?"
-            action={() => ShopTimeline.deleteTimelineShop(timelineIdDelete, shopId)}
-            close={() => {
-              setShowYesNoModal(false);
-            }}
-          />
-        )}
+      {showYesNoModal && (
+        <YesNoModal
+          question="Tem certeza que deseja excluir?"
+          action={() => ShopTimeline.deleteTimelineShop(timelineIdDelete, shopId)}
+          close={() => {
+            setShowYesNoModal(false);
+          }}
+        />
+      )}
       <table className={styles.tableStyle}>
         <thead>
           <tr>
@@ -114,11 +152,21 @@ function ShopTimelineTable({ typeSearch, filterScreen }) {
         </thead>
 
         <tbody>
-          
+
           {filterData.length > 0 ? filterData.map((data, index) => (
             <tr key={index}>
-              <td>{data.timeline_id}</td>
-              <td>{data.shop_id}</td>
+
+               <td>{timeline.data.map((timeline) => (
+                  data.timeline_id == timeline.id ?
+                    timeline.description : ''
+                ))}</td>
+
+                {/* <td>{data.shop_id}</td> */}
+                <td>{screen.dataShop.map((shop) => (
+                  data.shop_id == shop.id ?
+                    shop.description : ''
+                ))}</td>
+
               <td>
                 <div className={styles.tableStyleButtons}>
                   {/* <Button
@@ -139,9 +187,19 @@ function ShopTimelineTable({ typeSearch, filterScreen }) {
           )) :
             (getShopTimeline.map((data, index) => (
               <tr key={index}>
-   
-                <td>{data.timeline_id}</td>
-                <td>{data.shop_id}</td>
+
+                <td>{timeline.data.map((timeline) => (
+                  data.timeline_id == timeline.id ?
+                    timeline.description : ''
+                ))}</td>
+
+                {/* <td>{data.shop_id}</td> */}
+                <td>{screen.dataShop.map((shop) => (
+                  data.shop_id == shop.id ?
+                    shop.description : ''
+                ))}</td>
+
+
                 <td>
                   <div className={styles.tableStyleButtons}>
                     {/* <Button

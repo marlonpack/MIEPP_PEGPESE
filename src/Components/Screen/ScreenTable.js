@@ -26,9 +26,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
   const [filemedia, setFilemedia] = React.useState([]);
   // const [getMediaContext, setGetMediaContext] = React.useState([]);
   const { openModal, OpenModalProduct } = React.useContext(ProductContext);
-  const [externalIndexDepartment, setExternalIndexDepartment] = React.useState(
-    ""
-  );
+  const [externalIndexDepartment, setExternalIndexDepartment] = React.useState("");
 
   // const [openEdit, setOpenEdit] = React.useState(false);
 
@@ -56,9 +54,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
         if (dataDepartment[i].external_index === null) {
           NotificationError("esse departamento não tem index");
         } else {
-          setExternalIndexDepartment(
-            parseInt(dataDepartment[i].external_index)
-          );
+          setExternalIndexDepartment(dataDepartment[i]);
           OpenModalProduct(!openModal);
         }
       }
@@ -79,7 +75,7 @@ function ScreenTable({ typeSearch, filterScreen }) {
     setGetSelectMedia(test);
   }, [mediaContext.data]);
 
-  console.log(getSelectMedia)
+ 
   React.useEffect(() => {
     loadScreen();
   }, []);

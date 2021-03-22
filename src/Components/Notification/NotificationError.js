@@ -78,7 +78,7 @@ const NotificationError = (error) => {
   else if (error.includes("(screen_id) is broken"))
     NotificationStore("Erro", "Preencha todos os campos", "danger");
     else if (error.includes("Maximum value of products has been exceeded"))
-    NotificationStore("Erro", "Valor máximo de produtos exercido", "danger");
+    NotificationStore("Erro", "Valor máximo de produtos excedido", "danger");
   else if (error.includes("(screen_id, product_id) is broken"))
     NotificationStore(
       "Erro",
