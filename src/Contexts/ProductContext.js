@@ -98,9 +98,9 @@ export const ProductStorage = ({ children }) => {
     try {
       setError(null);
       setLoading(true);
-      console.log("departament, shop", departament, shop)
 
-      const { url, options } = GET_PRODUCT(userContext.session, departament, shop);
+
+      const { url, options } = GET_PRODUCT(userContext.session, departament.external_index, shop);
       const response = await fetch(url, options);
       const json = await response.json();
 
@@ -126,13 +126,13 @@ export const ProductStorage = ({ children }) => {
       const response = await fetch(url, options);
       const json = await response.json();
       if (json.error) {
-        if(json.message != 'No data')
-        setError(json.message)
+        if (json.message != 'No data')
+          setError(json.message)
       }
       if (response.ok) {
         setDataProductImg([])
-        for (let i = 0; data.length > i; i++) {
-          for (let j = 0; json.data.length > j; j++) {
+        for (let j = 0; json.data.length > j; j++) {
+          for (let i = 0; data.length > i; i++) {
             if (data[i].id == json.data[j].product_id) {
               setProductList(data[i])
             }
@@ -141,8 +141,8 @@ export const ProductStorage = ({ children }) => {
       }
 
     } catch (error) {
-     if (error != 'No data')
-      setError(error)
+      if (error != 'No data')
+        setError(error)
     } finally {
       setLoading(false);
     }

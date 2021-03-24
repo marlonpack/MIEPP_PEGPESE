@@ -7,17 +7,16 @@ import styles from "./ProductRegister.module.css";
 function ProductRegister({ department }) {
   const { dataShop, dataDepartment } = React.useContext(ScreenContext);
   const { GetProduct } = React.useContext(ProductContext);
-  const [selectShop, setSelectShop] = React.useState('1');
   const [shop, setShop] = React.useState(dataShop);
+  const [selectShop, setSelectShop] = React.useState(shop[0].external_index);
+
+
 
   function HandleChange(value) {
     setSelectShop(value)
-    GetProduct(department, value);
   }
 
   React.useEffect(() => {
-
-
     let arrayTest= []
     for (let i = 0; dataDepartment.length > i; i++) {
       if(department.id === parseInt(dataDepartment[i].id)){
@@ -41,7 +40,12 @@ function ProductRegister({ department }) {
     }
     setShop(company)
   }
+
 }, [])
+
+React.useEffect(()=>{
+  GetProduct(department, selectShop);
+},[selectShop])
 
 
   return (

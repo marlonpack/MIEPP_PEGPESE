@@ -112,6 +112,14 @@ const NotificationError = (error) => {
       "Preencha todos os campos",
       "danger"
     );
+    else if (
+      error.includes("The screen cannot be updated while this is a product")
+    )
+      NotificationStore(
+        "Erro",
+        "A tela não pode ser atualizada enquanto estiver com produtos inseridos",
+        "danger"
+      );
   else if (
     error.includes(
       "Type 0 that corresponds to product list can not be configurated without department"

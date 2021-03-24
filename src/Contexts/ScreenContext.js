@@ -124,6 +124,7 @@ export const ScreenStorage = ({ children }) => {
       });
       const response = await fetch(url, options);
       const json = await response.json();
+      console.log(json)
       if (json.error) {
         setError(json.message);
       }
