@@ -12,7 +12,7 @@ function ScreenRegisterEdit() {
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState(0);
-  const [department, setDepartment] = React.useState('');
+  const [department, setDepartment] = React.useState(0);
   const [getMediaContext, setGetMediaContext] = React.useState([]);
 
 
@@ -36,7 +36,7 @@ function ScreenRegisterEdit() {
 
 
   React.useEffect(() => {
-    console.log(media)
+
     // if(media == ' '|| media.length < 0 || media == null|| media == undefined || media == NaN){
     setFilemedia([])
     // }else{
@@ -146,7 +146,7 @@ function ScreenRegisterEdit() {
           <div className={styles.screenMenuRight}>
             <p>Departamento</p>
             <select
-              disabled={getSelectMedia.type == 3 || getSelectMedia.type == 4 ? true : false}
+              // disabled={getSelectMedia.type == 3 || getSelectMedia.type == 4 ? true : false}
               onChange={({ target }) => setDepartment(target.value)}
               value={department}
             >

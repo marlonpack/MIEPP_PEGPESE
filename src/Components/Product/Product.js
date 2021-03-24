@@ -42,9 +42,10 @@ function Product({ media, department }) {
           <div className={styles.divImage} style={{ backgroundImage: `url(${image})`, backgroundSize: '100% 100%' }}>
             <div className={styles.tableProductInsert}>
               <table>
-                {dataProductImg.length> 0? 
                 <tbody>
-                  { dataProductImg.map((data, index)=>(
+                {
+                dataProductImg.length> 0 ?(
+                   dataProductImg.map((data, index)=>(
                     data.price_promo !=0?
                     <tr style={{color:'red'}} key={index} onClick={()=>{RemoveListProductTable(data, index)}}>
                       <td>{data.id}</td>
@@ -56,11 +57,9 @@ function Product({ media, department }) {
                       <td>{data.id}</td>
                       <td>{data.description && data.description.substr(0, 20) }</td>
                       <td>{data.price}</td>
-                    </tr>))} 
-                </tbody>
-                :
-               ''
+                    </tr>)) ): null
                 }
+                </tbody>
               </table>
             </div>
           </div>

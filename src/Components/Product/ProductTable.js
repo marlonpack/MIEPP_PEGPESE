@@ -15,11 +15,11 @@ function ProductTable({ department }) {
   // const [openEdit, setOpenEdit] = React.useState(false);
 
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
 
-    GetProduct(department, '1');
+    // GetProduct(department, '1');
     // GetListProduct()
-  }, []);
+  // }, []);
 
   // React.useEffect(() => {
   //   const filter = data.filter((data) =>
@@ -162,8 +162,8 @@ function ProductTable({ department }) {
           </tr>
         </thead>
 
-        {data !== undefined ? (<tbody>
-          {filterData.length > 0 ? filterData.map((data) => (
+         <tbody> {data !== undefined ?(
+          filterData.length > 0 ? filterData.map((data) => (
               data.price_promo !=0 ?
               <tr style={{color:'red'}} key={data.id} onClick={() => { ListProductTable(data) }}>
                 <td>{data.id}</td>
@@ -193,12 +193,9 @@ function ProductTable({ department }) {
                 <td>{data.price}</td>
                 <td>{data.price_promo}</td>
               </tr>
-            )))}
-        </tbody>) :
-          <tbody>
-
-          </tbody>
-        }
+            )))):''}
+        </tbody> 
+        
       </table>
     </>
   )
