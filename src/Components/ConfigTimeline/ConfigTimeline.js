@@ -82,6 +82,7 @@ const ConfigTimeline = () => {
       screen.x = 0;
       screen.width = timelineContext.calcSeconds(screen.time);
       screen.column = SCREEN;
+      // console.log(timelineContext.calcSeconds(screen.time));
     });
     setScreens([...copyArray]);
   }, [screenContext.data]);
@@ -130,11 +131,11 @@ const ConfigTimeline = () => {
               </div> */}
               {/* <div className={styles.screenColumn}></div> */}
               <Column
-                title={TIMELINE}
+                title={SCREEN}
                 styles={styles.screenColumn}
                 items={screens}
                 setItems={setScreens}
-                id="timeline"
+                id="screen"
                 interval={interval}
                 setInterval={setInterval}
               >
@@ -148,7 +149,18 @@ const ConfigTimeline = () => {
               </Button>
             </div>
             <div className={styles.contentMainTimeline}>
-              <div className={styles.timelineColumn}></div>
+              {/* <div className={styles.timelineColumn}></div> */}
+              <Column
+                title={TIMELINE}
+                styles={styles.timelineColumn}
+                items={screens}
+                setItems={setScreens}
+                id="timeline"
+                interval={interval}
+                setInterval={setInterval}
+              >
+                {returnItemsForColumn(TIMELINE)}
+              </Column>
             </div>
             <div className={styles.actions}>
               <Button type="button" style={styles.btnCancel}>

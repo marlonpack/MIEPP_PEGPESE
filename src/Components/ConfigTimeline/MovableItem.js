@@ -14,6 +14,7 @@ const MovableItem = ({
   id,
   items,
   interval,
+  styles,
 }) => {
   // Change item for column timeline or screen
   const changeItemColumn = (currentItem, columnName) => {
@@ -126,27 +127,26 @@ const MovableItem = ({
     <div
       ref={ref}
       id={id}
+      className={currentColumnName === SCREEN ? styles : {}}
       style={
         currentColumnName === TIMELINE
           ? {
               opacity,
               position: ' absolute',
-              backgroundColor: item.backColor,
+              backgroundColor: '#4f4f4f',
+              height: '100%',
               cursor: 'move',
               color: '#fff',
-              width: widthItem + '%',
-              height: '100%',
-              margin: '0 auto',
+              width: Math.floor(widthItem) + '%',
               left: `${x}px`,
             }
           : {
               opacity,
-              backgroundColor: item.backColor,
+              // backgroundColor: item.backColor,
               cursor: 'move',
               color: '#fff',
               width: '250px',
-              height: '150px',
-              margin: '0 auto',
+              margin: '0 1em',
               display: 'flex',
               marginTop: '30px',
             }

@@ -30,9 +30,9 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
         let result = difference * (interval / timeLinePosition.width);
         const { hours, minute, seconds } = getTime(result);
         if (items.column == 'timeline') {
-          document.querySelector(
-            '#hoursTimeline',
-          ).innerHTML = `a ${items.description} começa ${hours}:${minute}:${seconds}`;
+          // document.querySelector(
+          //   '#hoursTimeline',
+          // ).innerHTML = `a ${items.description} começa ${hours}:${minute}:${seconds}`;
         }
       }
     });
@@ -60,7 +60,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
               alert('você chegou ao limite');
               moveBox(items.id, items.x - espaceSecond);
             }
-            document.querySelector('#hoursTimeline').innerHTML = 'horas';
+            // document.querySelector('#hoursTimeline').innerHTML = 'horas';
           } else if (
             event.code === 'ArrowLeft' &&
             items.column == 'timeline' &&
@@ -73,9 +73,9 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
             } else {
               alert('você chegou ao limite');
             }
-            document.querySelector('#hoursTimeline').innerHTML = 'horas';
+            // document.querySelector('#hoursTimeline').innerHTML = 'horas';
           } else {
-            moveBox(items.id, itemMove.x);
+            // moveBox(items.id, itemMove.x);
             console.log('items', itemMove.x);
             alert('você chegou ao limite');
           }
@@ -94,7 +94,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
     }),
 
     hover(item, monitor) {
-      document.querySelector('#hoursTimeline').innerHTML = 'horas';
+      // document.querySelector('#hoursTimeline').innerHTML = 'horas';
       const timeLine = document.getElementById('timeline');
       const timeLinePosition = timeLine.getBoundingClientRect();
       const left = timeLinePosition.left;
@@ -102,9 +102,9 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
       let result = difference * (interval / timeLinePosition.width);
       const { hours, minute, seconds } = getTime(result);
       if (monitor.getSourceClientOffset().x <= timeLinePosition.width) {
-        document.querySelector(
-          '#hoursTimeline',
-        ).innerHTML = `a ${item.name} começa ${hours}:${minute}:${seconds}`;
+        // document.querySelector(
+        //   '#hoursTimeline',
+        // ).innerHTML = `a ${item.name} começa ${hours}:${minute}:${seconds}`;
       }
     },
 
@@ -144,6 +144,8 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
             item,
             timeLinePosition.right,
           );
+
+          alert(canChangePosition);
 
           if (canChangePosition) {
             alert('movendo x');
@@ -201,32 +203,44 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
   function verifyColision(position, item) {
     let canMove = true;
 
+    // console.log('x ', position);
+
     const timeLineSpaceTotal = document
       .getElementById('timeline')
       .getBoundingClientRect().width;
 
+    const calcPercentNewItem = calcPercent(item.width, interval);
+
+    const calcWidthPxNewItem = secondsToPixels(
+      calcPercentNewItem,
+      timeLineSpaceTotal,
+    );
+
     items.map((itemf) => {
-      let positionElement = document
-        .getElementById(itemf.id)
-        .getBoundingClientRect();
-      const calcPercentNewItem = calcPercent(item.width, interval);
+      if (itemf.id && itemf.column === TIMELINE) {
+        let positionElement = document
+          .getElementById(itemf.id)
+          .getBoundingClientRect();
 
-      const calcWidthPxNewItem = secondsToPixels(
-        calcPercentNewItem,
-        timeLineSpaceTotal,
-      );
-
-      if (
-        (position > positionElement.left &&
-          position < positionElement.right &&
-          item.id !== itemf.id) ||
-        (position + calcWidthPxNewItem > positionElement.left &&
-          position < positionElement.right &&
-          item.id !== itemf.id)
-      ) {
-        canMove = false;
+        if (
+          (position > positionElement.left &&
+            position < positionElement.right &&
+            item.id !== itemf.id) ||
+          (position + calcWidthPxNewItem > positionElement.left &&
+            position < positionElement.right &&
+            item.id !== itemf.id)
+        ) {
+          canMove = false;
+        }
       }
     });
+
+    if (position > timeLineSpaceTotal) {
+      console.log(position + calcWidthPxNewItem);
+      console.log(position);
+      console.log(calcWidthPxNewItem);
+      canMove = false;
+    }
 
     return canMove;
   }
@@ -316,19 +330,20 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
   const getBackgroundColor = () => {
     if (isOver) {
       if (canDrop) {
-        return 'rgb(188,251,255)';
+        return '#ddd';
       } else if (!canDrop) {
         return '#000';
       }
     } else {
-      return '#ddd';
+      return '#2b2b2b';
     }
   };
 
   return (
     <div
       ref={drop}
-      style={{ ...styles, backgroundColor: getBackgroundColor() }}
+      style={{ backgroundColor: getBackgroundColor() }}
+      className={styles}
       id={id}
     >
       {children}
