@@ -76,8 +76,8 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
             // document.querySelector('#hoursTimeline').innerHTML = 'horas';
           } else {
             // moveBox(items.id, itemMove.x);
-            console.log('items', itemMove.x);
-            alert('você chegou ao limite');
+            // console.log('items', itemMove.x);
+            // alert('você chegou ao limite');
           }
         }
       });
@@ -145,9 +145,9 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
             timeLinePosition.right,
           );
 
-          alert(canChangePosition);
+          // alert(canChangePosition);
 
-          if (canChangePosition) {
+          if (canChangePosition && interval !== null) {
             alert('movendo x');
             const left = timeLinePosition.left;
             const right = timeLinePosition.right;
@@ -203,17 +203,19 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
   function verifyColision(position, item) {
     let canMove = true;
 
-    // console.log('x ', position);
-
-    const timeLineSpaceTotal = document
+    const timelineSpaceTotal = document
       .getElementById('timeline')
       .getBoundingClientRect().width;
+
+    const timelineLimit = document
+      .getElementById('timeline')
+      .getBoundingClientRect().right;
 
     const calcPercentNewItem = calcPercent(item.width, interval);
 
     const calcWidthPxNewItem = secondsToPixels(
       calcPercentNewItem,
-      timeLineSpaceTotal,
+      timelineSpaceTotal,
     );
 
     items.map((itemf) => {
@@ -235,10 +237,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
       }
     });
 
-    if (position > timeLineSpaceTotal) {
-      console.log(position + calcWidthPxNewItem);
-      console.log(position);
-      console.log(calcWidthPxNewItem);
+    if (position + calcWidthPxNewItem > timelineLimit) {
       canMove = false;
     }
 
@@ -342,7 +341,11 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
   return (
     <div
       ref={drop}
-      style={{ backgroundColor: getBackgroundColor() }}
+      style={
+        interval === null && title === TIMELINE
+          ? { border: '1px solid red' }
+          : { backgroundColor: getBackgroundColor() }
+      }
       className={styles}
       id={id}
     >

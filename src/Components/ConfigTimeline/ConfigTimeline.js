@@ -82,12 +82,40 @@ const ConfigTimeline = () => {
       screen.x = 0;
       screen.width = timelineContext.calcSeconds(screen.time);
       screen.column = SCREEN;
-      // console.log(timelineContext.calcSeconds(screen.time));
+      screen.backColor = getRandomColor();
     });
     setScreens([...copyArray]);
   }, [screenContext.data]);
 
-  // console.log(screens);
+  console.log(screens);
+
+  function getRandomColor() {
+    let color = '#';
+    const hexadecimal = [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+    ];
+
+    for (let i = 0; i < 6; i++) {
+      color += hexadecimal[Math.floor(Math.random() * hexadecimal.length)];
+    }
+
+    return color;
+  }
 
   return (
     <div className={styles.containerConfigTimeline}>
@@ -113,23 +141,6 @@ const ConfigTimeline = () => {
               </article>
             </div>
             <div className={styles.contentMainScreens}>
-              {/* <div className={styles.screenColumn}>
-                {screens.map((screen) => (
-                  <div key={screen.id} className={styles.screen}>
-                    {screen.description}
-                  </div>
-                ))}
-                <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              <div className={styles.screen}></div>
-              </div> */}
-              {/* <div className={styles.screenColumn}></div> */}
               <Column
                 title={SCREEN}
                 styles={styles.screenColumn}
@@ -149,7 +160,6 @@ const ConfigTimeline = () => {
               </Button>
             </div>
             <div className={styles.contentMainTimeline}>
-              {/* <div className={styles.timelineColumn}></div> */}
               <Column
                 title={TIMELINE}
                 styles={styles.timelineColumn}

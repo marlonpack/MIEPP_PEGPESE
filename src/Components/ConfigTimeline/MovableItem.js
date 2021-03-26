@@ -39,6 +39,15 @@ const MovableItem = ({
 
         let lastItem = { x: 0 };
 
+        const timelineLimit = document
+          .getElementById('timeline')
+          .getBoundingClientRect().right;
+        const timelineWidth = document
+          .getElementById('timeline')
+          .getBoundingClientRect().width;
+        const percentNewItem = calcPercent(item.width, interval);
+        const pxNewItem = secondsToPixels(percentNewItem, timelineWidth);
+
         items.forEach((itemf) => {
           if (itemf.column === TIMELINE) {
             const positionLastItem = document
@@ -54,16 +63,9 @@ const MovableItem = ({
           const positionLastItem = document
             .getElementById(lastItem.id)
             .getBoundingClientRect();
-          const timelineLimit = document
-            .getElementById('timeline')
-            .getBoundingClientRect().right;
-          const timelineWidth = document
-            .getElementById('timeline')
-            .getBoundingClientRect().width;
-          const percentNewItem = calcPercent(item.width, interval);
-          const pxNewItem = secondsToPixels(percentNewItem, timelineWidth);
 
           // Position of new item cant to surpass limit of timeline
+
           if (
             positionLastItem.right + pxNewItem > timelineLimit &&
             item.id !== lastItem.id
@@ -73,7 +75,11 @@ const MovableItem = ({
           }
         }
 
-        if (canChangeColumn === true) {
+        if (pxNewItem > timelineWidth) {
+          canChangeColumn = false;
+        }
+
+        if (canChangeColumn === true && interval !== null) {
           switch (name) {
             case TIMELINE:
               changeItemColumn(item, TIMELINE);
@@ -117,7 +123,7 @@ const MovableItem = ({
     },
   });
 
-  const opacity = isDragging ? 0.4 : 1;
+  const opacity = isDragging ? 0.3 : 0.8;
 
   drag(drop(ref));
 
@@ -127,13 +133,14 @@ const MovableItem = ({
     <div
       ref={ref}
       id={id}
+      title={currentColumnName === TIMELINE ? item.description : ''}
       className={currentColumnName === SCREEN ? styles : {}}
       style={
         currentColumnName === TIMELINE
           ? {
               opacity,
               position: ' absolute',
-              backgroundColor: '#4f4f4f',
+              backgroundColor: item.backColor,
               height: '100%',
               cursor: 'move',
               color: '#fff',
@@ -142,7 +149,7 @@ const MovableItem = ({
             }
           : {
               opacity,
-              // backgroundColor: item.backColor,
+              backgroundColor: '#4f4f4f',
               cursor: 'move',
               color: '#fff',
               width: '250px',
@@ -152,7 +159,7 @@ const MovableItem = ({
             }
       }
     >
-      {item.description + ' ' + item.time}
+      {currentColumnName === SCREEN ? item.description + ' ' + item.time : ''}
     </div>
   );
 };
