@@ -2,6 +2,7 @@ import React from 'react';
 import {
   DELETE_TIMELINE,
   GET_TIMELINE,
+  GET_TIMELINE_SCREEN,
   POST_TIMELINE,
   POST_TIMELINE_SCREEN,
   PUT_TIMELINE,
@@ -17,7 +18,7 @@ export const TimelineStorage = ({ children }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const userContext = React.useContext(UserContext);
-
+  const [vinculatedScreens, setVinculatedScreens] = React.useState([]);
   const [initialDuration, setInitialDuration] = React.useState('0:0:0');
   const [finalDuration, setFinalDuration] = React.useState('1:0:0');
   const [description, setDescription] = React.useState('');
@@ -192,6 +193,34 @@ export const TimelineStorage = ({ children }) => {
     }
   }
 
+  async function getTimelineScreen(id) {
+    try {
+      setLoading(true);
+      setError(false);
+
+      const { url, options } = GET_TIMELINE_SCREEN(userContext.session, id);
+
+      const response = await fetch(url, options);
+
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
+      // console.log(json);
+
+      if (response.ok) setVinculatedScreens(json.data);
+    } catch (error) {
+      setError(error.message);
+      NotificationError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function calcTime(seconds) {
     const total = seconds;
     const hours = Math.floor(total / 3600);
@@ -253,6 +282,8 @@ export const TimelineStorage = ({ children }) => {
         calcSeconds,
         loading,
         vinculateScreenTimeline,
+        getTimelineScreen,
+        vinculatedScreens,
       }}
     >
       {children}

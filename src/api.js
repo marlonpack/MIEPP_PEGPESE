@@ -299,3 +299,12 @@ export function POST_TIMELINE_SCREEN(session, body) {
     },
   };
 }
+
+export function GET_TIMELINE_SCREEN(session, id) {
+  return {
+    url: `${API_URL}MIEPP/TimelineScreen.php?AUTH=${session}&app_id=5&timeline_id=${id}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}

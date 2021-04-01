@@ -9,7 +9,7 @@ import { ScreenContext } from '../../Contexts/ScreenContext';
 import { TimelineContext } from '../../Contexts/TimelineContext';
 import { SCREEN, TIMELINE } from './constants';
 import MovableItem from './MovableItem';
-import Column from './Column';
+import Column, { calcPercent, secondsToPixels } from './Column';
 import ModalTimeline from './ModalTimeline';
 
 const ConfigTimeline = () => {
@@ -89,7 +89,49 @@ const ConfigTimeline = () => {
     setScreens([...copyArray]);
   }, [screenContext.data]);
 
-  // console.log(screens);
+  React.useEffect(() => {
+    if (timeline.interval !== 0) {
+      timelineContext.getTimelineScreen(timeline.id);
+    }
+  }, [timeline]);
+
+  React.useEffect(() => {
+    const timelineContainer = document
+      .getElementById('timeline')
+      .getBoundingClientRect();
+    const interval = timeline.interval;
+
+    timelineContext.vinculatedScreens.forEach((screenVinculated) => {
+      screenVinculated.width = timelineContext.calcSeconds(
+        screenVinculated.total_time,
+      );
+      const initial = timelineContext.calcSeconds(
+        screenVinculated.initial_time,
+      );
+
+      console.log('intervalo maximo em segundos ', interval);
+      console.log('tempo inicial em segundos da tela ', initial);
+      const finalHourTimeline = timelineContext.calcSeconds(
+        timeline.final_hour,
+      );
+      const initialHourTimeline = timelineContext.calcSeconds(
+        timeline.initial_hour,
+      );
+      // const percent = calcPercent(screenVinculated.width, interval);
+      const position = finalHourTimeline - initial - screenVinculated.width;
+      const percent = calcPercent(initial, finalHourTimeline);
+
+      // alert(Math.round(percent));
+      // alert('final ' + finalHourTimeline);
+
+      screenVinculated.x = initial / interval + 200;
+      screenVinculated.column = TIMELINE;
+      screenVinculated.id = screenVinculated.screen_id;
+      screenVinculated.backColor = getRandomColor();
+    });
+
+    setScreens([...screens, ...timelineContext.vinculatedScreens]);
+  }, [timelineContext.vinculatedScreens]);
 
   function getRandomColor() {
     let color = '#';
