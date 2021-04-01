@@ -1,0 +1,111 @@
+.containerModal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.modal {
+  width: 60%;
+  height: 70%;
+  background-color: #2f2f2f;
+  border-radius: 3px;
+  padding: 2rem;
+  border: 1px solid #fff;
+}
+
+.modalTop {
+  height: 20%;
+  /* border: 1px solid #fff; */
+  display: flex;
+  align-items: center;
+}
+
+.searchTimeline {
+  width: 20rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-left: 2em; */
+}
+
+.searchTimeline input {
+  width: 70%;
+  height: 30px;
+  background-color: var(--grey);
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.searchTimeline input:focus {
+  background-color: #2b2b2b;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.searchTimeline label {
+  width: 30%;
+  font-size: 1.2rem;
+}
+
+.btnSearchTimeline {
+  margin-left: 1em;
+}
+
+.modalMain {
+  height: 80%;
+  /* border: 1px solid tomato; */
+  width: 100%;
+  overflow: auto;
+}
+
+/* Table */
+.tableStyle {
+  min-width: 100%;
+  max-height: 100%;
+  border-spacing: 0;
+  text-align: center;
+  border: 2px solid var(--grey);
+  border-radius: 3px;
+  font-size: 1.1rem;
+}
+
+.tableStyle tr {
+  vertical-align: middle;
+  background-color: #343434;
+}
+
+.tableStyle tbody tr:hover {
+  background-color: #2b2b2b;
+  cursor: pointer;
+}
+
+.tableStyle th {
+  border-top: 1px solid #959595;
+  border-bottom: 1px solid #959595;
+  padding: 0.5rem;
+}
+
+.tableStyle th:last-child {
+  width: 20%;
+}
+
+.tableStyle tr td {
+  padding: 1rem;
+}
+
+.tableStyle tr:not(:last-child) td {
+  border-bottom: 1px solid #959595;
+}
+
+.tableStyleOrder {
+  cursor: pointer;
+}

@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import { SCREEN, TIMELINE } from './constants';
 
 // Dropable area
-const Column = ({ children, title, styles, items, setItems, id, interval }) => {
+const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
   const [itemArrowMove, setItemArrowMove] = React.useState('');
   const [itemMove, setItemMove] = React.useState();
 
@@ -19,7 +19,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
     const timeLine = document.getElementById('timeline');
     const timeLinePosition = timeLine.getBoundingClientRect();
     //function to know how many pixels it has in  a second
-    let intervalAndRight = interval / timeLinePosition.width;
+    let intervalAndRight = timeline.interval / timeLinePosition.width;
     let espaceSecond = 1 / intervalAndRight;
 
     items.map((items) => {
@@ -27,7 +27,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
         setItemMove(items);
         //calculation to know the seconds the screen starts
         let difference = items.x - 0;
-        let result = difference * (interval / timeLinePosition.width);
+        let result = difference * (timeline.interval / timeLinePosition.width);
         const { hours, minute, seconds } = getTime(result);
         if (items.column == 'timeline') {
           // document.querySelector(
@@ -41,7 +41,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
     const ArrowMoveItem = (event) => {
       itemMove && moveBox(items.id, itemMove.x);
       items.map((items) => {
-        let calcPercent = Math.round((items.width / interval) * 100);
+        let calcPercent = Math.round((items.width / timeline.interval) * 100);
         let calcWidthPx = Math.round(
           (calcPercent * timeLinePosition.width) / 100,
         );
@@ -99,7 +99,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
       const timeLinePosition = timeLine.getBoundingClientRect();
       const left = timeLinePosition.left;
       let difference = monitor.getSourceClientOffset().x - left;
-      let result = difference * (interval / timeLinePosition.width);
+      let result = difference * (timeline.interval / timeLinePosition.width);
       const { hours, minute, seconds } = getTime(result);
       if (monitor.getSourceClientOffset().x <= timeLinePosition.width) {
         // document.querySelector(
@@ -147,17 +147,20 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
 
           // alert(canChangePosition);
 
-          if (canChangePosition && interval !== null) {
+          if (canChangePosition && timeline.interval !== null) {
             alert('movendo x');
             const left = timeLinePosition.left;
             const right = timeLinePosition.right;
 
-            const calcPercentItem = calcPercent(item.width, interval);
+            const calcPercentItem = calcPercent(item.width, timeline.interval);
 
             const calcWidthPxItem = secondsToPixels(
               calcPercentItem,
               timeLinePosition.width,
             );
+
+            console.log('porcentagem do item ', calcPercentItem);
+            console.log('largura em px do item  ', calcWidthPxItem);
 
             if (x > left && x + calcWidthPxItem < right) {
               const copyArray = items.filter(
@@ -211,7 +214,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
       .getElementById('timeline')
       .getBoundingClientRect().right;
 
-    const calcPercentNewItem = calcPercent(item.width, interval);
+    const calcPercentNewItem = calcPercent(item.width, timeline.interval);
 
     const calcWidthPxNewItem = secondsToPixels(
       calcPercentNewItem,
@@ -261,11 +264,11 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
       }
     });
 
-    const totalItemsPercent = calcPercent(timeTotalItems, interval);
+    const totalItemsPercent = calcPercent(timeTotalItems, timeline.interval);
 
     const totalItemsPx = secondsToPixels(totalItemsPercent, timeLineSpaceTotal);
 
-    const calcPercentNewItem = calcPercent(item.width, interval);
+    const calcPercentNewItem = calcPercent(item.width, timeline.interval);
 
     const calcWidthPxNewItem = secondsToPixels(
       calcPercentNewItem,
@@ -342,7 +345,7 @@ const Column = ({ children, title, styles, items, setItems, id, interval }) => {
     <div
       ref={drop}
       style={
-        interval === null && title === TIMELINE
+        timeline.interval === 0 && title === TIMELINE
           ? { border: '1px solid red' }
           : { backgroundColor: getBackgroundColor() }
       }
@@ -359,7 +362,7 @@ export function secondsToPixels(percent, space) {
 }
 
 export function calcPercent(seconds, interval) {
-  return Math.round((seconds / interval) * 100);
+  return (seconds / interval) * 100;
 }
 
 export default Column;

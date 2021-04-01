@@ -3,17 +3,19 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './ConfigTimeline.module.css';
 import Input from '../Forms/Input';
-import { Search } from '@material-ui/icons';
+import { Done, Search } from '@material-ui/icons';
 import Button from '../Forms/Button';
 import { ScreenContext } from '../../Contexts/ScreenContext';
 import { TimelineContext } from '../../Contexts/TimelineContext';
 import { SCREEN, TIMELINE } from './constants';
 import MovableItem from './MovableItem';
 import Column from './Column';
+import ModalTimeline from './ModalTimeline';
 
 const ConfigTimeline = () => {
   const screenContext = React.useContext(ScreenContext);
   const timelineContext = React.useContext(TimelineContext);
+  const [showTimelines, setShowTimelines] = React.useState(false);
   const [screens, setScreens] = React.useState([
     {
       id: 1,
@@ -25,7 +27,7 @@ const ConfigTimeline = () => {
       backColor: '#a6d77d',
     },
   ]);
-  const [interval, setInterval] = React.useState(3600);
+  const [timeline, setTimeline] = React.useState({ interval: 0 });
 
   const moveCardHandler = (dragIndex, hoverIndex) => {
     const dragItem = screens[dragIndex];
@@ -61,8 +63,8 @@ const ConfigTimeline = () => {
             setItems={setScreens}
             index={index}
             x={item.x}
-            interval={interval}
-            setInterval={setInterval}
+            timeline={timeline}
+            setTimeline={setTimeline}
             moveCardHandler={moveCardHandler}
           />
         ));
@@ -87,7 +89,7 @@ const ConfigTimeline = () => {
     setScreens([...copyArray]);
   }, [screenContext.data]);
 
-  console.log(screens);
+  // console.log(screens);
 
   function getRandomColor() {
     let color = '#';
@@ -117,8 +119,41 @@ const ConfigTimeline = () => {
     return color;
   }
 
+  // console.log(timeline);
+
+  function done() {
+    const screensTimeline = screens.filter(
+      (screen) => screen.column === TIMELINE,
+    );
+
+    const timelineContainer = document
+      .getElementById('timeline')
+      .getBoundingClientRect();
+    const interval = timeline.interval;
+
+    screensTimeline.forEach((screen) => {
+      const difference = screen.x - 0;
+      let result = difference * (interval / timelineContainer.width);
+      result += timelineContext.calcSeconds(timeline.initial_hour);
+      const time = timelineContext.calcTime(result);
+
+      timelineContext.vinculateScreenTimeline(timeline.id, screen.id, time);
+    });
+
+    screenContext.loadScreen();
+
+    setTimeline({ interval: 0 });
+  }
+
   return (
     <div className={styles.containerConfigTimeline}>
+      {showTimelines && (
+        <ModalTimeline
+          setShowTimelines={setShowTimelines}
+          setTimeline={setTimeline}
+          calcSeconds={timelineContext.calcSeconds}
+        />
+      )}
       <DndProvider backend={HTML5Backend}>
         <div className={styles.contentConfigTimeline}>
           <section className={styles.contentTitlePage}>
@@ -147,15 +182,19 @@ const ConfigTimeline = () => {
                 items={screens}
                 setItems={setScreens}
                 id="screen"
-                interval={interval}
-                setInterval={setInterval}
+                timeline={timeline}
+                setTimeline={setTimeline}
               >
                 {returnItemsForColumn(SCREEN)}
               </Column>
             </div>
             <div className={styles.contentSelectTimeline}>
               <h4 className={styles.subtitle}>Timeline</h4>
-              <Button type="button" style={styles.btnSelectTimeline}>
+              <Button
+                type="button"
+                style={styles.btnSelectTimeline}
+                onClick={() => setShowTimelines(true)}
+              >
                 Selecionar Timeline
               </Button>
             </div>
@@ -166,19 +205,34 @@ const ConfigTimeline = () => {
                 items={screens}
                 setItems={setScreens}
                 id="timeline"
-                interval={interval}
-                setInterval={setInterval}
+                timeline={timeline}
+                setTimeline={setTimeline}
               >
                 {returnItemsForColumn(TIMELINE)}
               </Column>
             </div>
             <div className={styles.actions}>
-              <Button type="button" style={styles.btnCancel}>
-                Cancelar
-              </Button>
-              <Button type="button" style={styles.btnDone}>
-                Finalizar
-              </Button>
+              {timeline.interval !== 0 && (
+                <>
+                  <Button
+                    type="button"
+                    style={styles.btnCancel}
+                    onClick={() => {
+                      setTimeline({ interval: 0 });
+                      screenContext.loadScreen();
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    style={styles.btnDone}
+                    onClick={() => done()}
+                  >
+                    Finalizar
+                  </Button>
+                </>
+              )}
             </div>
           </section>
         </div>

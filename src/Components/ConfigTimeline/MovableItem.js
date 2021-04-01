@@ -13,7 +13,7 @@ const MovableItem = ({
   x,
   id,
   items,
-  interval,
+  timeline,
   styles,
 }) => {
   // Change item for column timeline or screen
@@ -45,7 +45,7 @@ const MovableItem = ({
         const timelineWidth = document
           .getElementById('timeline')
           .getBoundingClientRect().width;
-        const percentNewItem = calcPercent(item.width, interval);
+        const percentNewItem = calcPercent(item.width, timeline.interval);
         const pxNewItem = secondsToPixels(percentNewItem, timelineWidth);
 
         items.forEach((itemf) => {
@@ -79,7 +79,7 @@ const MovableItem = ({
           canChangeColumn = false;
         }
 
-        if (canChangeColumn === true && interval !== null) {
+        if (canChangeColumn === true && timeline.interval !== null) {
           switch (name) {
             case TIMELINE:
               changeItemColumn(item, TIMELINE);
@@ -127,7 +127,7 @@ const MovableItem = ({
 
   drag(drop(ref));
 
-  const widthItem = (item.width / interval) * 100;
+  const widthItem = (item.width / timeline.interval) * 100;
 
   return (
     <div
@@ -144,7 +144,7 @@ const MovableItem = ({
               height: '100%',
               cursor: 'move',
               color: '#fff',
-              width: Math.floor(widthItem) + '%',
+              width: widthItem + '%',
               left: `${x}px`,
             }
           : {
