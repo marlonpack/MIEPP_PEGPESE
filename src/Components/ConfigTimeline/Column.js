@@ -30,9 +30,9 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
         let result = difference * (timeline.interval / timeLinePosition.width);
         const { hours, minute, seconds } = getTime(result);
         if (items.column == 'timeline') {
-          // document.querySelector(
-          //   '#hoursTimeline',
-          // ).innerHTML = `a ${items.description} começa ${hours}:${minute}:${seconds}`;
+          document.querySelector(
+            '#time',
+          ).innerHTML = `a ${items.description} começa ${hours}:${minute}:${seconds}`;
         }
       }
     });
@@ -73,7 +73,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
             } else {
               alert('você chegou ao limite');
             }
-            // document.querySelector('#hoursTimeline').innerHTML = 'horas';
+            document.querySelector('#time').innerHTML = 'horas';
           } else {
             // moveBox(items.id, itemMove.x);
             // console.log('items', itemMove.x);
@@ -102,9 +102,9 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
       let result = difference * (timeline.interval / timeLinePosition.width);
       const { hours, minute, seconds } = getTime(result);
       if (monitor.getSourceClientOffset().x <= timeLinePosition.width) {
-        // document.querySelector(
-        //   '#hoursTimeline',
-        // ).innerHTML = `a ${item.name} começa ${hours}:${minute}:${seconds}`;
+        document.querySelector(
+          '#time',
+        ).innerHTML = `a ${item.name} começa ${hours}:${minute}:${seconds}`;
       }
     },
 
@@ -158,9 +158,6 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
               calcPercentItem,
               timeLinePosition.width,
             );
-
-            console.log('porcentagem do item ', calcPercentItem);
-            console.log('largura em px do item  ', calcWidthPxItem);
 
             if (x > left && x + calcWidthPxItem < right) {
               const copyArray = items.filter(
