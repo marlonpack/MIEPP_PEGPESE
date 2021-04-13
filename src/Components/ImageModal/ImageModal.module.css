@@ -1,25 +1,25 @@
-.containerImageModal{
-    position:absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.5);
+.containerImageModal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modalImageModal{
-    max-width: 1000px;
-    max-height: 700px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.modalImageModal {
+  max-width: 1000px;
+  max-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.modalImageModal img{
-    width: 100%;
-    height: 100%;
+.modalImageModal img {
+  width: 100%;
+  height: 100%;
 }

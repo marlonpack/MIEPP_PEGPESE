@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./ImageModal.module.css";
-import useOutsideClick from "../../Hooks/useOutsideClick";
+import React from 'react';
+import styles from './ImageModal.module.css';
+import useOutsideClick from '../../Hooks/useOutsideClick';
 
 const ImageModal = ({ src, close }) => {
   let domNode = useOutsideClick(() => {
