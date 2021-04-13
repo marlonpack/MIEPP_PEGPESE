@@ -4,10 +4,12 @@ import Input from '../Forms/Input';
 import styles from './ModalTimeline.module.css';
 import { Search, ViewList } from '@material-ui/icons';
 import { TimelineContext } from '../../Contexts/TimelineContext';
+import { ScreenContext } from '../../Contexts/ScreenContext';
 import useOutsideClick from '../../Hooks/useOutsideClick';
 
 const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
   const timelineContext = React.useContext(TimelineContext);
+  const screenContext = React.useContext(ScreenContext);
   const [filterData, setFilterData] = React.useState([]);
 
   React.useEffect(() => {
@@ -98,6 +100,7 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
                       key={timeline.id}
                       key={timeline.id}
                       onClick={() => {
+                        screenContext.loadScreen();
                         const initial = calcSeconds(timeline.initial_hour);
                         const final = calcSeconds(timeline.final_hour);
                         let item = { ...timeline, interval: final - initial };
