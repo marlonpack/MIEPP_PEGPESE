@@ -105,6 +105,15 @@ export function GET_MEDIA_FILE(session, id) {
   };
 }
 
+export function GET_MEDIA_TYPE(session, id) {
+  return {
+    url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5&id=${id}&field=type`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
 export function POST_MEDIA(session, body) {
   return {
     url: `${API_URL}MIEPP/Media.php?AUTH=${session}&app_id=5`,
@@ -300,11 +309,31 @@ export function POST_TIMELINE_SCREEN(session, body) {
   };
 }
 
+export function PUT_TIMELINE_SCREEN(session, body) {
+  return {
+    url: `${API_URL}MIEPP/TimelineScreen.php?AUTH=${session}&app_id=5`,
+    options: {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    },
+  };
+}
+
 export function GET_TIMELINE_SCREEN(session, id) {
   return {
     url: `${API_URL}MIEPP/TimelineScreen.php?AUTH=${session}&app_id=5&timeline_id=${id}`,
     options: {
       method: 'GET',
+    },
+  };
+}
+
+export function DELETE_TIMELINE_SCREEN(session, body) {
+  return {
+    url: `${API_URL}MIEPP/TimelineScreen.php?AUTH=${session}&app_id=5`,
+    options: {
+      method: 'DELETE',
+      body: JSON.stringify(body),
     },
   };
 }

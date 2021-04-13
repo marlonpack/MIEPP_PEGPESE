@@ -3,31 +3,34 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import styles from './ConfigTimeline.module.css';
 import Input from '../Forms/Input';
-import { Done, Search } from '@material-ui/icons';
+import { Search } from '@material-ui/icons';
 import Button from '../Forms/Button';
 import { ScreenContext } from '../../Contexts/ScreenContext';
 import { TimelineContext } from '../../Contexts/TimelineContext';
 import { SCREEN, TIMELINE } from './constants';
 import MovableItem from './MovableItem';
-import Column, { calcPercent, secondsToPixels } from './Column';
+import Column, { secondsToPixels } from './Column';
 import ModalTimeline from './ModalTimeline';
+import { GET_TIMELINE_SCREEN } from '../../api';
+import { UserContext } from '../../Contexts/UserContext';
+import { MediaContext } from '../../Contexts/MediaContext';
+import VideoModal from '../VideoModal/VideoModal';
+import ImageModal from '../ImageModal/ImageModal';
 
 const ConfigTimeline = () => {
   const screenContext = React.useContext(ScreenContext);
+  const userContext = React.useContext(UserContext);
+  const mediaContext = React.useContext(MediaContext);
   const timelineContext = React.useContext(TimelineContext);
   const [showTimelines, setShowTimelines] = React.useState(false);
-  const [screens, setScreens] = React.useState([
-    {
-      id: 1,
-      description: 'Tela1',
-      time: '00:30:00',
-      column: SCREEN,
-      x: 0,
-      width: 1800, // 30 minutes
-      backColor: '#a6d77d',
-    },
-  ]);
+  const [screens, setScreens] = React.useState([]);
   const [timeline, setTimeline] = React.useState({ interval: 0 });
+  const [updateScreens, setUpdateScreens] = React.useState([]);
+  const [removeScreens, setRemoveScreens] = React.useState([]);
+  const [showVideo, setShowVideo] = React.useState(false);
+  const [video, setVideo] = React.useState(false);
+  const [showImage, setShowImage] = React.useState(false);
+  const [image, setImage] = React.useState(false);
 
   const moveCardHandler = (dragIndex, hoverIndex) => {
     const dragItem = screens[dragIndex];
@@ -66,6 +69,14 @@ const ConfigTimeline = () => {
             timeline={timeline}
             setTimeline={setTimeline}
             moveCardHandler={moveCardHandler}
+            setShowVideo={setShowVideo}
+            showImage={showImage}
+            setVideo={setVideo}
+            showVideo={showVideo}
+            setShowImage={setShowImage}
+            setImage={setImage}
+            setRemoveScreens={setRemoveScreens}
+            verifyIfScreenExistOnData={verifyIfScreenExistOnData}
           />
         ));
     }
@@ -77,93 +88,33 @@ const ConfigTimeline = () => {
     screenContext.loadScreen();
   }, []);
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
     const copyArray = [...screenContext.data];
 
     copyArray.forEach((screen) => {
       screen.x = 0;
       screen.width = timelineContext.calcSeconds(screen.time);
       screen.column = SCREEN;
-      screen.backColor = getRandomColor();
+      screen.backColor = '#474747';
+      mediaContext.getMediaType(screen.media_id).then((response) => {
+        screen.media_type = response[0].type;
+        if (
+          +response[0].type === 0 ||
+          +response[0].type === 1 ||
+          +response[0].type === 3
+        ) {
+          mediaContext
+            .loadMediaFile(screen.media_id)
+            .then((media) => (screen.media = media[0]));
+        }
+      });
     });
     setScreens([...copyArray]);
   }, [screenContext.data]);
 
-  React.useEffect(() => {
-    if (timeline.interval !== 0) {
-      timelineContext.getTimelineScreen(timeline.id);
-    }
-  }, [timeline]);
-
-  React.useEffect(() => {
-    const timelineContainer = document
-      .getElementById('timeline')
-      .getBoundingClientRect();
-    const interval = timeline.interval;
-
-    timelineContext.vinculatedScreens.forEach((screenVinculated) => {
-      screenVinculated.width = timelineContext.calcSeconds(
-        screenVinculated.total_time,
-      );
-      const initial = timelineContext.calcSeconds(
-        screenVinculated.initial_time,
-      );
-
-      console.log('intervalo maximo em segundos ', interval);
-      console.log('tempo inicial em segundos da tela ', initial);
-      const finalHourTimeline = timelineContext.calcSeconds(
-        timeline.final_hour,
-      );
-      const initialHourTimeline = timelineContext.calcSeconds(
-        timeline.initial_hour,
-      );
-      // const percent = calcPercent(screenVinculated.width, interval);
-      const position = finalHourTimeline - initial - screenVinculated.width;
-      const percent = calcPercent(initial, finalHourTimeline);
-
-      // alert(Math.round(percent));
-      // alert('final ' + finalHourTimeline);
-
-      screenVinculated.x = initial / interval + 200;
-      screenVinculated.column = TIMELINE;
-      screenVinculated.id = screenVinculated.screen_id;
-      screenVinculated.backColor = getRandomColor();
-    });
-
-    setScreens([...screens, ...timelineContext.vinculatedScreens]);
-  }, [timelineContext.vinculatedScreens]);
-
-  function getRandomColor() {
-    let color = '#';
-    const hexadecimal = [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-    ];
-
-    for (let i = 0; i < 6; i++) {
-      color += hexadecimal[Math.floor(Math.random() * hexadecimal.length)];
-    }
-
-    return color;
-  }
-
-  // console.log(timeline);
-
   function done() {
+    removeScreensDatabase();
+
     const screensTimeline = screens.filter(
       (screen) => screen.column === TIMELINE,
     );
@@ -179,12 +130,106 @@ const ConfigTimeline = () => {
       result += timelineContext.calcSeconds(timeline.initial_hour);
       const time = timelineContext.calcTime(result);
 
-      timelineContext.vinculateScreenTimeline(timeline.id, screen.id, time);
+      if (verifyIfScreenExistOnData(screen) === true) {
+        timelineContext.updateScreenTimeline(timeline.id, screen.id, time);
+      } else {
+        timelineContext.vinculateScreenTimeline(timeline.id, screen.id, time);
+      }
     });
 
     screenContext.loadScreen();
 
     setTimeline({ interval: 0 });
+    setUpdateScreens([]);
+  }
+
+  function removeScreensDatabase() {
+    if (removeScreens.length > 0) {
+      removeScreens.forEach((screen) => {
+        timelineContext.removeTimelineScreen(timeline.id, screen.id);
+      });
+    }
+  }
+
+  function verifyIfScreenExistOnData(screen) {
+    return updateScreens.some((item) => item.screen_id === screen.id);
+  }
+
+  React.useEffect(() => {
+    async function getTimelineScreens() {
+      try {
+        const { url, options } = GET_TIMELINE_SCREEN(
+          userContext.session,
+          timeline.id,
+        );
+
+        const response = await fetch(url, options);
+
+        const json = await response.json();
+
+        if (json.error) {
+          console.log(json.error);
+          return;
+        }
+
+        return json.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    let copyArray = [...screens];
+
+    copyArray.forEach((screen) => (screen.column = SCREEN));
+
+    if (timeline.id) {
+      getTimelineScreens().then((response) => {
+        console.log(response);
+        setUpdateScreens([...response]);
+        if (response) {
+          copyArray.forEach((screen) => {
+            response.forEach((screenTimeline) => {
+              if (screen.id == screenTimeline.screen_id) {
+                screen.x = calcPositionX(
+                  timelineContext.calcSeconds(screenTimeline.initial_time),
+                  timelineContext.calcSeconds(timeline.initial_hour),
+                  timeline.interval,
+                );
+                screen.width = timelineContext.calcSeconds(
+                  screenTimeline.total_time,
+                );
+                screen.column = TIMELINE;
+                screen.backColor = '#474747';
+              }
+            });
+          });
+          setScreens([...copyArray]);
+        }
+      });
+    } else {
+      setUpdateScreens([]);
+    }
+  }, [timeline]);
+
+  function calcPositionX(initialScreen, initialTimeline, interval) {
+    const posInterval = Math.abs(initialScreen - initialTimeline);
+
+    const calcPercent = (posInterval / interval) * 100;
+
+    const timelineLimit = document
+      .getElementById('timeline')
+      .getBoundingClientRect().width;
+
+    const calcPosPx = secondsToPixels(calcPercent, timelineLimit);
+
+    return calcPosPx;
+  }
+
+  function clearList() {
+    const copyArray = [...screens];
+    copyArray.forEach((screen) => (screen.column = SCREEN));
+    setScreens([...copyArray]);
+    setUpdateScreens([]);
+    setRemoveScreens([]);
   }
 
   return (
@@ -194,6 +239,27 @@ const ConfigTimeline = () => {
           setShowTimelines={setShowTimelines}
           setTimeline={setTimeline}
           calcSeconds={timelineContext.calcSeconds}
+          screenContext={screenContext}
+        />
+      )}
+
+      {showImage && (
+        <ImageModal
+          close={() => {
+            setShowImage(false);
+            setImage(null);
+          }}
+          src={image}
+        />
+      )}
+
+      {showVideo && (
+        <VideoModal
+          close={() => {
+            setShowVideo(false);
+            setVideo(null);
+          }}
+          src={video}
         />
       )}
       <DndProvider backend={HTML5Backend}>
@@ -231,7 +297,10 @@ const ConfigTimeline = () => {
               </Column>
             </div>
             <div className={styles.contentSelectTimeline}>
-              <h4 className={styles.subtitle}>Timeline</h4>
+              <h4 className={styles.subtitle}>
+                Timeline: {timeline.id ? timeline.description : ''}
+              </h4>
+              <h3 id="time"></h3>
               <Button
                 type="button"
                 style={styles.btnSelectTimeline}
@@ -261,7 +330,7 @@ const ConfigTimeline = () => {
                     style={styles.btnCancel}
                     onClick={() => {
                       setTimeline({ interval: 0 });
-                      screenContext.loadScreen();
+                      clearList();
                     }}
                   >
                     Cancelar

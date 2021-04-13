@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { SCREEN, TIMELINE } from './constants';
 import { calcPercent, secondsToPixels } from './Column';
+import stylesContent from './MovableItems.module.css';
+import { MediaContext } from '../../Contexts/MediaContext';
 
 const MovableItem = ({
   name,
@@ -15,7 +17,17 @@ const MovableItem = ({
   items,
   timeline,
   styles,
+  setShowVideo,
+  setVideo,
+  setShowImage,
+  setImage,
+  verifyIfScreenExistOnData,
+  setRemoveScreens,
+  showImage,
+  showVideo,
 }) => {
+  const mediaContext = React.useContext(MediaContext);
+
   // Change item for column timeline or screen
   const changeItemColumn = (currentItem, columnName) => {
     setItems((prevState) => {
@@ -85,6 +97,10 @@ const MovableItem = ({
               changeItemColumn(item, TIMELINE);
               break;
             case SCREEN:
+              if (verifyIfScreenExistOnData(item) === true) {
+                // list to remove screen of database if exist
+                setRemoveScreens((oldArray) => [...oldArray, item]);
+              }
               changeItemColumn(item, SCREEN);
               break;
             default:
@@ -129,12 +145,17 @@ const MovableItem = ({
 
   const widthItem = (item.width / timeline.interval) * 100;
 
+  async function takeVideo(id) {
+    const response = await mediaContext.loadMediaFile(id);
+
+    return response;
+  }
+
   return (
     <div
       ref={ref}
       id={id}
-      title={currentColumnName === TIMELINE ? item.description : ''}
-      className={currentColumnName === SCREEN ? styles : {}}
+      className={currentColumnName === SCREEN ? styles : ''}
       style={
         currentColumnName === TIMELINE
           ? {
@@ -159,7 +180,61 @@ const MovableItem = ({
             }
       }
     >
-      {currentColumnName === SCREEN ? item.description + ' ' + item.time : ''}
+      {currentColumnName === SCREEN ? (
+        <>
+          <div className={stylesContent.area}>
+            {+item.media_type === 0 ||
+            +item.media_type === 1 ||
+            +item.media_type === 3 ? (
+              <img
+                src={item.media}
+                alt=""
+                onClick={() => {
+                  setShowImage(true);
+                  setImage(item.media);
+                }}
+              />
+            ) : (
+              <div
+                className={stylesContent.video}
+                onClick={() => {
+                  setShowVideo(true);
+                  takeVideo(item.media_id).then((media) => setVideo(media[0]));
+                }}
+              >
+                <h3>Video</h3>
+                <p>Clique para visualizar</p>
+              </div>
+            )}
+          </div>
+          <h2>
+            {item.description} - {item.time}
+          </h2>
+        </>
+      ) : (
+        <div
+          className={stylesContent.tooltip}
+          onClick={() => {
+            if (
+              +item.media_type === 0 ||
+              +item.media_type === 1 ||
+              +item.media_type === 3
+            ) {
+              setShowImage(true);
+              setImage(item.media);
+            } else {
+              setShowVideo(true);
+              takeVideo(item.media_id).then((media) => setVideo(media[0]));
+            }
+          }}
+        >
+          {showImage === false && showVideo === false && (
+            <span className={stylesContent.tooltipText}>
+              {item.description}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };

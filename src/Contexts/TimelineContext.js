@@ -1,11 +1,13 @@
 import React from 'react';
 import {
   DELETE_TIMELINE,
+  DELETE_TIMELINE_SCREEN,
   GET_TIMELINE,
   GET_TIMELINE_SCREEN,
   POST_TIMELINE,
   POST_TIMELINE_SCREEN,
   PUT_TIMELINE,
+  PUT_TIMELINE_SCREEN,
 } from '../api';
 import NotificationError from '../Components/Notification/NotificationError';
 import NotificationSucess from '../Components/Notification/NotificationSucess';
@@ -183,7 +185,6 @@ export const TimelineStorage = ({ children }) => {
         return;
       }
 
-      // console.log(json);
       NotificationSucess('Tela vinculada a timeline');
     } catch (error) {
       setError(error.message);
@@ -193,12 +194,16 @@ export const TimelineStorage = ({ children }) => {
     }
   }
 
-  async function getTimelineScreen(id) {
+  async function updateScreenTimeline(timeline_id, screen_id, initial_time) {
     try {
-      setLoading(true);
       setError(false);
+      setLoading(true);
 
-      const { url, options } = GET_TIMELINE_SCREEN(userContext.session, id);
+      const { url, options } = PUT_TIMELINE_SCREEN(userContext.session, {
+        timeline_id: timeline_id,
+        screen_id: screen_id,
+        initial_time: initial_time,
+      });
 
       const response = await fetch(url, options);
 
@@ -210,9 +215,36 @@ export const TimelineStorage = ({ children }) => {
         return;
       }
 
-      // console.log(json);
+      NotificationSucess('O vínculo foi atualizado com sucesso');
+    } catch (error) {
+      setError(error.message);
+      NotificationError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-      if (response.ok) setVinculatedScreens(json.data);
+  async function removeTimelineScreen(timeline_id, screen_id) {
+    try {
+      setLoading(true);
+      setError(false);
+
+      const { url, options } = DELETE_TIMELINE_SCREEN(userContext.session, {
+        timeline_id: timeline_id,
+        screen_id: screen_id,
+      });
+
+      const response = await fetch(url, options);
+
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
+      NotificationSucess('O vínculo foi removido com sucesso');
     } catch (error) {
       setError(error.message);
       NotificationError(error.message);
@@ -282,8 +314,8 @@ export const TimelineStorage = ({ children }) => {
         calcSeconds,
         loading,
         vinculateScreenTimeline,
-        getTimelineScreen,
-        vinculatedScreens,
+        updateScreenTimeline,
+        removeTimelineScreen,
       }}
     >
       {children}
