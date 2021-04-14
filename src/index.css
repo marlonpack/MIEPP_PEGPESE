@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
 
 * {
   margin: 0;
@@ -81,7 +81,7 @@ ul {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Titillium Web", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 input:focus {
@@ -89,7 +89,7 @@ input:focus {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -131,7 +131,7 @@ input {
 }
 
 .titleSection::after {
-  content: "";
+  content: '';
   display: block;
   width: 100%;
   height: 2px;
@@ -193,7 +193,7 @@ input {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  cursor: default;
+  cursor: pointer;
 }
 
 .btnSearch .MuiSvgIcon-root {

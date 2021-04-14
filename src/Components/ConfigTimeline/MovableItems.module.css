@@ -1,0 +1,57 @@
+/* Style image when column screen */
+.area {
+  width: 100%;
+  height: 80%;
+}
+
+.area img {
+  width: 100%;
+  height: 100%;
+}
+
+/* div for video */
+.video {
+  height: 100%;
+  width: 100%;
+  background-color: #9f9f9f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+/* toolTip */
+.tooltip {
+  height: 100%;
+  position: relative;
+}
+
+.tooltipText {
+  visibility: hidden;
+  width: 140px;
+  background-color: black;
+  color: #fff;
+  top: 50px;
+  right: -148px;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 2;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+}
+
+.tooltip .tooltipText::after {
+  content: '';
+  position: absolute;
+  top: 30%;
+  right: 100%;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}

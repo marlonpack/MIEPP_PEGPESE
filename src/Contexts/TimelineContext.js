@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   DELETE_TIMELINE,
+  DELETE_TIMELINE_SCREEN,
   GET_TIMELINE,
   POST_TIMELINE,
+  POST_TIMELINE_SCREEN,
   PUT_TIMELINE,
-} from "../api";
-import NotificationError from "../Components/Notification/NotificationError";
-import NotificationSucess from "../Components/Notification/NotificationSucess";
-import { UserContext } from "./UserContext";
+  PUT_TIMELINE_SCREEN,
+} from '../api';
+import NotificationError from '../Components/Notification/NotificationError';
+import NotificationSucess from '../Components/Notification/NotificationSucess';
+import { UserContext } from './UserContext';
 
 export const TimelineContext = React.createContext();
 
@@ -17,13 +20,12 @@ export const TimelineStorage = ({ children }) => {
   const [error, setError] = React.useState(null);
   const userContext = React.useContext(UserContext);
 
-  const [initialDuration, setInitialDuration] = React.useState("0:0:0");
-  const [finalDuration, setFinalDuration] = React.useState("1:0:0");
-  const [description, setDescription] = React.useState("");
-  const [initialDate, setInitialDate] = React.useState("");
-  const [finalDate, setFinalDate] = React.useState("");
+  const [initialDuration, setInitialDuration] = React.useState('0:0:0');
+  const [finalDuration, setFinalDuration] = React.useState('1:0:0');
+  const [description, setDescription] = React.useState('');
+  const [initialDate, setInitialDate] = React.useState('');
+  const [finalDate, setFinalDate] = React.useState('');
   const [value, setValue] = React.useState([0, 3600]);
-
 
   async function loadTimelines() {
     try {
@@ -53,7 +55,7 @@ export const TimelineStorage = ({ children }) => {
     initial_hour,
     final_hour,
     initial_date,
-    final_date
+    final_date,
   ) {
     try {
       setError(null);
@@ -77,7 +79,7 @@ export const TimelineStorage = ({ children }) => {
         return;
       }
 
-      NotificationSucess("A timeline foi adicionada");
+      NotificationSucess('A timeline foi adicionada');
 
       return true;
     } catch (error) {
@@ -95,7 +97,7 @@ export const TimelineStorage = ({ children }) => {
     initial_hour,
     final_hour,
     initial_date,
-    final_date
+    final_date,
   ) {
     try {
       setError(null);
@@ -120,7 +122,7 @@ export const TimelineStorage = ({ children }) => {
         return;
       }
 
-      NotificationSucess("A timeline foi atualizada");
+      NotificationSucess('A timeline foi atualizada');
 
       return true;
     } catch (error) {
@@ -149,7 +151,7 @@ export const TimelineStorage = ({ children }) => {
         return;
       }
 
-      NotificationSucess("A timeline foi apagada");
+      NotificationSucess('A timeline foi apagada');
 
       return true;
     } catch (error) {
@@ -161,17 +163,106 @@ export const TimelineStorage = ({ children }) => {
     }
   }
 
+  async function vinculateScreenTimeline(timeline_id, screen_id, initial_time) {
+    try {
+      setError(false);
+      setLoading(true);
+
+      const { url, options } = POST_TIMELINE_SCREEN(userContext.session, {
+        timeline_id: timeline_id,
+        screen_id: screen_id,
+        initial_time: initial_time,
+      });
+
+      const response = await fetch(url, options);
+
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
+      NotificationSucess('Tela vinculada a timeline');
+    } catch (error) {
+      setError(error.message);
+      NotificationError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function updateScreenTimeline(timeline_id, screen_id, initial_time) {
+    try {
+      setError(false);
+      setLoading(true);
+
+      const { url, options } = PUT_TIMELINE_SCREEN(userContext.session, {
+        timeline_id: timeline_id,
+        screen_id: screen_id,
+        initial_time: initial_time,
+      });
+
+      const response = await fetch(url, options);
+
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
+      NotificationSucess('O vínculo foi atualizado com sucesso');
+    } catch (error) {
+      setError(error.message);
+      NotificationError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function removeTimelineScreen(timeline_id, screen_id) {
+    try {
+      setLoading(true);
+      setError(false);
+
+      const { url, options } = DELETE_TIMELINE_SCREEN(userContext.session, {
+        timeline_id: timeline_id,
+        screen_id: screen_id,
+      });
+
+      const response = await fetch(url, options);
+
+      const json = await response.json();
+
+      if (json.error) {
+        setError(json.message);
+        NotificationError(json.message);
+        return;
+      }
+
+      NotificationSucess('O vínculo foi removido com sucesso');
+    } catch (error) {
+      setError(error.message);
+      NotificationError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function calcTime(seconds) {
     const total = seconds;
     const hours = Math.floor(total / 3600);
     const minutes = Math.floor((total - hours * 3600) / 60);
     const sec = Math.floor(total % 60);
 
-    return hours + ":" + minutes + ":" + sec;
+    return hours + ':' + minutes + ':' + sec;
   }
 
   function calcSeconds(time) {
-    const total = time.split(":");
+    const total = time.split(':');
     const hours = Math.floor(+total[0] * 3600);
     const minutes = Math.floor(+total[1] * 60);
     const sec = Math.floor(+total[2]);
@@ -180,20 +271,20 @@ export const TimelineStorage = ({ children }) => {
   }
 
   function formatDate(date, type) {
-    if (date === "") {
+    if (date === '') {
       return date;
     }
 
-    const formatDate = date.split("-");
+    const formatDate = date.split('-');
     const day = formatDate[2];
     const month = formatDate[1];
     const year = formatDate[0];
 
     if (type === 0) {
-      return year + "-" + month + "-" + day;
+      return year + '-' + month + '-' + day;
     }
 
-    return day + "-" + month + "-" + year;
+    return day + '-' + month + '-' + year;
   }
 
   return (
@@ -221,6 +312,9 @@ export const TimelineStorage = ({ children }) => {
         setValue,
         calcSeconds,
         loading,
+        vinculateScreenTimeline,
+        updateScreenTimeline,
+        removeTimelineScreen,
       }}
     >
       {children}
