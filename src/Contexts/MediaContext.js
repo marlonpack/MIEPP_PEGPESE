@@ -85,11 +85,9 @@ export const MediaStorage = ({ children }) => {
         file: file,
         supplier_id: supplier_id,
       });
-
       const response = await fetch(url, options);
-
+      
       const json = await response.json();
-
       if (json.error) {
         setError(json.message);
         NotificationError(json.message);
@@ -99,6 +97,7 @@ export const MediaStorage = ({ children }) => {
       NotificationSucess('A mídia foi adicionada');
       return true;
     } catch (error) {
+      console.log(error);
       setError(error.message);
       NotificationError(error.message);
     } finally {

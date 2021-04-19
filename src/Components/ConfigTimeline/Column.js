@@ -14,25 +14,30 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
     let seconds = Math.trunc(result % 60);
     return { hours, minute, seconds };
   };
-
+  // console.log(timeline)
   React.useEffect(() => {
     const timeLine = document.getElementById('timeline');
     const timeLinePosition = timeLine.getBoundingClientRect();
     //function to know how many pixels it has in  a second
     let intervalAndRight = timeline.interval / timeLinePosition.width;
     let espaceSecond = 1 / intervalAndRight;
-
+    
+    
     items.map((items) => {
       if (items.id === itemArrowMove.id) {
+        const timelineHour = timeline.initial_hour.split(':');
+        console.log(timelineHour)
         setItemMove(items);
-        //calculation to know the seconds the screen starts
-        let difference = items.x - 0;
+        //calculation to know the seconds the screen starts 0.890625 + (0.890625*4 )
+        let difference = items.x;
         let result = difference * (timeline.interval / timeLinePosition.width);
+        // let result = difference *1451.80;
+        console.log( espaceSecond, items, items.x, difference, result, timeline.interval, timeLinePosition.width, timeLinePosition.right,  timeLinePosition.left);
         const { hours, minute, seconds } = getTime(result);
         if (items.column == 'timeline') {
           document.querySelector(
             '#time',
-          ).innerHTML = `a ${items.description} começa ${hours}:${minute}:${seconds}`;
+          ).innerHTML = `a tela ${items.description} começa ${hours+ parseInt(timelineHour[0])}:${minute+ parseInt(timelineHour[1])}:${seconds+ parseInt(timelineHour[2])}`;
         }
       }
     });
@@ -45,14 +50,16 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
         let calcWidthPx = Math.round(
           (calcPercent * timeLinePosition.width) / 100,
         );
-
         if (items.id === itemArrowMove.id) {
+          console.log(items)
           if (
             event.code === 'ArrowRight' &&
             items.column == 'timeline' &&
-            items.x + calcWidthPx < timeLinePosition.width
-          ) {
-            let x = Math.round(items.x + espaceSecond + timeLinePosition.left);
+            items.x + calcWidthPx < timeLinePosition.right
+            ) {
+              // let x = items.x + espaceSecond + timeLinePosition.left;
+              let x = items.x + timeLinePosition.left ;
+              console.log('caiu', items.x, espaceSecond)
             let response = verifyColision(x, items);
             if (response) {
               moveBox(items.id, items.x + espaceSecond);
@@ -74,11 +81,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
               alert('você chegou ao limite');
             }
             document.querySelector('#time').innerHTML = 'horas';
-          } else {
-            // moveBox(items.id, itemMove.x);
-            // console.log('items', itemMove.x);
-            // alert('você chegou ao limite');
-          }
+          } 
         }
       });
     };
@@ -98,13 +101,14 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
       const timeLine = document.getElementById('timeline');
       const timeLinePosition = timeLine.getBoundingClientRect();
       const left = timeLinePosition.left;
+      const timelineHour = timeline.initial_hour.split(':');
       let difference = monitor.getSourceClientOffset().x - left;
       let result = difference * (timeline.interval / timeLinePosition.width);
       const { hours, minute, seconds } = getTime(result);
-      if (monitor.getSourceClientOffset().x <= timeLinePosition.width) {
+      if (monitor.getSourceClientOffset().x <= timeLinePosition.right) {
         document.querySelector(
           '#time',
-        ).innerHTML = `a ${item.name} começa ${hours}:${minute}:${seconds}`;
+        ).innerHTML = `a tela ${item.name} começa ${hours+ parseInt(timelineHour[0])}:${minute+ parseInt(timelineHour[1])}:${seconds+ parseInt(timelineHour[2])}`;
       }
     },
 
