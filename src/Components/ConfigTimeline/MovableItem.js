@@ -28,8 +28,8 @@ const MovableItem = ({
 }) => {
   const mediaContext = React.useContext(MediaContext);
 
-  function hoursScreen(xOfItem){
-    const timelineHour = timeline.initial_hour.split(":");
+  function hoursScreen(xOfItem) {
+    const timelineHour = timeline.initial_hour.split(':');
     const timeLine = document.getElementById('timeline');
     const timeLinePosition = timeLine.getBoundingClientRect();
     let difference = xOfItem;
@@ -37,7 +37,9 @@ const MovableItem = ({
     let hours = Math.floor(result / 3600);
     let minute = Math.floor((result - hours * 3600) / 60);
     let seconds = Math.trunc(result % 60);
-    return  `${hours+ parseInt(timelineHour[0])}:${minute+ parseInt(timelineHour[1])}:${seconds+ parseInt(timelineHour[2])}`
+    return `${hours + parseInt(timelineHour[0])}:${
+      minute + parseInt(timelineHour[1])
+    }:${seconds + parseInt(timelineHour[2])}`;
   }
   // Change item for column timeline or screen
   const changeItemColumn = (currentItem, columnName) => {
@@ -243,7 +245,6 @@ const MovableItem = ({
             <span className={stylesContent.tooltipText}>
               {item.description} começa as {hoursScreen(item.x)}
             </span>
-            
           )}
         </div>
       )}
