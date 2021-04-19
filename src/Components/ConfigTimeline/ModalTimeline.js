@@ -20,6 +20,15 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
     setShowTimelines(false);
   });
 
+  function searchTimeline(search) {
+    const input = search.toLowerCase();
+    const filter = timelineContext.data.filter((timeline) =>
+      timeline.description.toLowerCase().includes(input),
+    );
+    setFilterData([...filter]);
+    if (!filter.length) setFilterData([{}]);
+  }
+
   return (
     <div className={styles.containerModal}>
       <div className={styles.modal} ref={domNode}>
@@ -30,6 +39,7 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
             name="searchTimeline"
             type="text"
             style={styles.searchTimeline}
+            onChange={({ target }) => searchTimeline(target.value)}
           />
           <Button type="button" style={`btnSearch ${styles.btnSearchTimeline}`}>
             <Search />
@@ -74,7 +84,7 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
             </thead>
 
             <tbody>
-              {filterData.length > 0
+              {filterData.length
                 ? filterData.map((timeline) => (
                     <tr
                       key={timeline.id}
