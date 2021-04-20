@@ -52,7 +52,7 @@ const ConfigTimeline = () => {
   };
 
   const returnItemsForColumn = (columnName) => {
-    if (filterData && columnName === SCREEN) {
+    if (filterData.length && columnName === SCREEN) {
       return filterData
         .filter((item) => item.column === columnName)
         .map((item, index) => (
@@ -62,7 +62,7 @@ const ConfigTimeline = () => {
             key={item.id}
             name={item.description}
             item={item}
-            items={[]}
+            items={screens}
             currentColumnName={item.column}
             setItems={setScreens}
             index={index}
@@ -92,7 +92,7 @@ const ConfigTimeline = () => {
             key={item.id}
             name={item.description}
             item={item}
-            items={[]}
+            items={screens}
             currentColumnName={item.column}
             setItems={setScreens}
             index={index}
