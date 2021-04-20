@@ -31,6 +31,7 @@ const ConfigTimeline = () => {
   const [video, setVideo] = React.useState(false);
   const [showImage, setShowImage] = React.useState(false);
   const [image, setImage] = React.useState(false);
+  const [filterData, setFilterData] = React.useState([]);
 
   const moveCardHandler = (dragIndex, hoverIndex) => {
     const dragItem = screens[dragIndex];
@@ -51,6 +52,36 @@ const ConfigTimeline = () => {
   };
 
   const returnItemsForColumn = (columnName) => {
+    if (filterData && columnName === SCREEN) {
+      return filterData
+        .filter((item) => item.column === columnName)
+        .map((item, index) => (
+          <MovableItem
+            id={item.id}
+            styles={styles.screen}
+            key={item.id}
+            name={item.description}
+            item={item}
+            items={[]}
+            currentColumnName={item.column}
+            setItems={setScreens}
+            index={index}
+            x={item.x}
+            timeline={timeline}
+            setTimeline={setTimeline}
+            moveCardHandler={moveCardHandler}
+            setShowVideo={setShowVideo}
+            showImage={showImage}
+            setVideo={setVideo}
+            showVideo={showVideo}
+            setShowImage={setShowImage}
+            setImage={setImage}
+            setRemoveScreens={setRemoveScreens}
+            verifyIfScreenExistOnData={verifyIfScreenExistOnData}
+          />
+        ));
+    }
+
     if (screens) {
       return screens
         .filter((item) => item.column === columnName)
@@ -61,7 +92,7 @@ const ConfigTimeline = () => {
             key={item.id}
             name={item.description}
             item={item}
-            items={screens}
+            items={[]}
             currentColumnName={item.column}
             setItems={setScreens}
             index={index}
@@ -232,6 +263,15 @@ const ConfigTimeline = () => {
     setRemoveScreens([]);
   }
 
+  function searchScreen(input) {
+    const search = input.toLowerCase();
+    const filter = screens.filter((screen) =>
+      screen.description.toLowerCase().includes(search),
+    );
+    setFilterData([...filter]);
+    if (!filter.length) setFilterData([]);
+  }
+
   return (
     <div className={styles.containerConfigTimeline}>
       {showTimelines && (
@@ -277,6 +317,7 @@ const ConfigTimeline = () => {
                   name="searchScreen"
                   id="searchScreen"
                   style={styles.searchScreen}
+                  onChange={({ target }) => searchScreen(target.value)}
                 />
                 <Button type="button" style="btnSearch">
                   <Search />

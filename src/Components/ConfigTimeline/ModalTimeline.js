@@ -56,31 +56,6 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
                 <th>Horário inicial</th>
                 <th>Horário final</th>
               </tr>
-
-              <tr>
-                <th>
-                  <span onClick={() => {}}>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span onClick={() => {}}>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span onClick={() => {}}>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th>
-                  <span onClick={() => {}}>
-                    <ViewList className={styles.tableStyleOrder} />
-                  </span>
-                </th>
-                <th></th>
-                <th></th>
-              </tr>
             </thead>
 
             <tbody>
