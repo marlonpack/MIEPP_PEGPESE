@@ -337,3 +337,21 @@ export function DELETE_TIMELINE_SCREEN(session, body) {
     },
   };
 }
+
+export function GET_PREVIEW_SCREEN(shop, department) {
+  return {
+    url: `${API_URL}MIEPP/ApplicationExecution.php?shop_id=${shop}&department_id=${department}`,
+    options: {
+      method: 'GET',
+    },
+  };
+}
+
+export function APLICATIONEXECUTION_GETPRODUCTLIST(shop,screen) {
+  return {
+    url: `${API_URL}MIEPP/ApplicationExecution.php?shop_id=${shop}&screen_id=${screen}`,
+    options: {
+      method: "GET",
+    },
+  };
+}

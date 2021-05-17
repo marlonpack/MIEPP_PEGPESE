@@ -17,6 +17,7 @@ import Screen from '../Screen/Screen';
 import CreateTimeline from '../CreateTimeline/CreateTimeline';
 import ShopTimeLine from '../ShopTimeline/ShopTimeline';
 import ConfigTimeline from '../ConfigTimeline/ConfigTimeline';
+import Preview from '../Preview/Preview';
 
 function Home(props) {
   const { login, sideMenu } = useContext(UserContext);
@@ -54,6 +55,10 @@ function Home(props) {
             <Route
               path={`${props.match.path}/configuracao/telatimeline`}
               component={ConfigTimeline}
+            />
+              <Route
+              path={`${props.match.path}/preview`}
+              component={Preview}
             />
           </Switch>
 

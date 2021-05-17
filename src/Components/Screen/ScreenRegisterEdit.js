@@ -150,7 +150,7 @@ function ScreenRegisterEdit() {
               onChange={({ target }) => setDepartment(target.value)}
               value={department}
             >
-              <option>Select</option>
+              <option value={0} >Select</option>
               {dataDepartment.map((data, index) => (
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}

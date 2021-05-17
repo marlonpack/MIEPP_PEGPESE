@@ -29,7 +29,7 @@ const MovableItem = ({
   const mediaContext = React.useContext(MediaContext);
 
   function hoursScreen(xOfItem) {
-    const timelineHour = timeline.initial_hour.split(':');
+     const timelineHour = timeline && timeline.initial_hour.split(':');
     const timeLine = document.getElementById('timeline');
     const timeLinePosition = timeLine.getBoundingClientRect();
     let difference = xOfItem;
