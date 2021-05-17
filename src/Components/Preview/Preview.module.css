@@ -1,0 +1,58 @@
+.button {
+  background-color: var(--green);
+  font-size: 1.1rem;
+  /* width: 100%; */
+  padding: 0.5rem;
+  color: #fff;
+  margin: 0;
+  /* margin-top: 20%; */
+}
+
+.select {
+  background-color: #959595;
+  padding: 3px 10px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.p {
+  font-size: 1.2rem;
+}
+
+.table {
+  min-width: 100%;
+  min-height: 100%;
+  border-spacing: 0;
+  text-align: center;
+  /* display: block; */
+  /* border: 2px solid var(--grey); */
+  border-radius: 3px;
+  font-size: 100%;
+  overflow: auto;
+  color: black;
+}
+
+.divProduct {
+  position: absolute;
+  top: 29%;
+  right: 9.5%;
+  width: 43.5%;
+  height: 66%;
+}
+
+.divImg {
+  display: flex;
+  justify-content: center;
+  /* background-image: url('../../utils/back.png'); */
+}
+
+.divHeader {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  align-items: center;
+}

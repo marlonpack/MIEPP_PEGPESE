@@ -6,6 +6,7 @@ import { ScreenStorage } from "./ScreenContext";
 import { UserStorage } from "./UserContext";
 import { TimelineStorage } from "./TimelineContext";
 import { ShopTimelineStorage } from "./ShopTimelinecontext";
+import { PreviewStorage } from "./PreviewContext";
 
 export const GlobalContext = React.createContext();
 
@@ -18,7 +19,9 @@ export const GlobalStorage = ({ children }) => {
             <MediaStorage>
               <TimelineStorage>
                 <ShopTimelineStorage>
-                  <ProductStorage>{children}</ProductStorage>
+                  <PreviewStorage>
+                    <ProductStorage>{children}</ProductStorage>
+                  </PreviewStorage>
                 </ShopTimelineStorage>
               </TimelineStorage>
             </MediaStorage>
