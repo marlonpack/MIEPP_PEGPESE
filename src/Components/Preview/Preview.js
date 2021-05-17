@@ -71,7 +71,7 @@ const Preview = () => {
           ))}
         </select>
 
-        <button onClick={() => handleClick()} className={styles.button}>teste</button>
+        <button onClick={() => handleClick()} className={styles.button}>Visualizar</button>
       </div>
       <div className={styles.divImg}>
         {(file != 0 && (String(file).includes('video')) ?
