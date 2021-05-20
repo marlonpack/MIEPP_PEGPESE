@@ -18,6 +18,7 @@ import CreateTimeline from '../CreateTimeline/CreateTimeline';
 import ShopTimeLine from '../ShopTimeline/ShopTimeline';
 import ConfigTimeline from '../ConfigTimeline/ConfigTimeline';
 import Preview from '../Preview/Preview';
+import  Record  from '../Record/Record';
 
 function Home(props) {
   const { login, sideMenu } = useContext(UserContext);
@@ -59,6 +60,11 @@ function Home(props) {
               <Route
               path={`${props.match.path}/preview`}
               component={Preview}
+            />
+
+             <Route
+              path={`${props.match.path}/relatorio`}
+              component={Record}
             />
           </Switch>
 

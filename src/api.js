@@ -355,3 +355,12 @@ export function APLICATIONEXECUTION_GETPRODUCTLIST(shop,screen) {
     },
   };
 }
+
+export function GET_RECORD(session,mediaId) {
+  return {
+    url: `${API_URL}MIEPP/Record.php?AUTH=${session}&app_id=5&media_id=${mediaId}`,
+    options: {
+      method: "GET",
+    },
+  };
+}

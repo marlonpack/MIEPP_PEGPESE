@@ -3,22 +3,28 @@ import Loading from "../Loading/Loading";
 import { PreviewContext } from "../../Contexts/PreviewContext";
 import styles from "./Preview.module.css";
 import Teacher2 from "./3_BGTest.jpg"
+import NotificationError from "../Notification/NotificationError";
 
 const Preview = () => {
-  const { dataDepartment, dataShop, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt } = React.useContext(PreviewContext);
+  const { dataDepartment, dataShop, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt, error, setFile } = React.useContext(PreviewContext);
   const [department, setDepartment] = React.useState(0);
   const [shop, setShop] = React.useState(0);
 
   React.useEffect(() => {
     getShopDepartment();
   }, []);
-  // console.log(productList)
 
-  // console.log(file != 0&& String(file).includes('video'))
+
+  React.useEffect(() => {
+   error!= null && NotificationError(error);
+  }, [error]);
+
+
   React.useEffect(() => {
     let timer = (new Date().getHours() * 3600) + (new Date().getMinutes() * 60) + (new Date().getSeconds());
     let ping =0;
 
+    // console.log((timer-caughtAt), parseInt(nextScreen))
     if((timer-caughtAt) == parseInt(nextScreen)&& shop!=0 && department!=0){
       getdados(shop, department)
     }
@@ -84,7 +90,7 @@ const Preview = () => {
       <div className={styles.divProduct}>
         <table className={styles.table}>
           <tbody>
-            {productList > 0 || productList !== undefined && (
+            {productList != 0 && productList !== undefined && (
 
               productList.map((data, index) => (
                 data.price_promo != 0 ?
