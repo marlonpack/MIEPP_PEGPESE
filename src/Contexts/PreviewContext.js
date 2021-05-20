@@ -72,7 +72,8 @@ export const PreviewStorage = ({ children }) => {
   }
 
   async function getdados(shop, departament) {
-
+    setProductList([])
+    setFile(0)
     try {
       setLoading(true);
       const { url, options } = GET_PREVIEW_SCREEN(shop, departament);
@@ -85,11 +86,14 @@ export const PreviewStorage = ({ children }) => {
       let timer = (new Date().getHours() * 3600) + (new Date().getMinutes() * 60) + (new Date().getSeconds());
       setCaughtAt(json.data.caught_at_seconds - timer)
       setNextScreen(json.data.next_screen_seconds)
+      console.log(json.data)
       if ((json.data.caught_at_seconds - timer) + timer >= (json.data.starts_at_seconds) && (json.data.caught_at_seconds - timer) + timer <= (json.data.starts_at_seconds + json.data.duration_seconds)) {
         getMediaFile(json.data.media_id)
         productList != undefined && setProductList(undefined)
         json.data.type == 0 && getProduct(shop, json.data.screen_id)
         //  getProduct(shop, 1)
+      }else{
+        setError('nenhuma tela existe no momento')
       }
       console.log(json)
     } catch (error) {
@@ -105,7 +109,7 @@ export const PreviewStorage = ({ children }) => {
       const { url, options } = GET_MEDIA_FILE(userContext.session, id);
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       setFile(json.data)
     } catch (error) {
       console.log(error);
@@ -121,7 +125,7 @@ export const PreviewStorage = ({ children }) => {
       const { url, options } = APLICATIONEXECUTION_GETPRODUCTLIST(shop, screen_id);
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       setProductList(json.data)
     } catch (error) {
       console.log(error);
@@ -132,7 +136,7 @@ export const PreviewStorage = ({ children }) => {
 
   return (
     <PreviewContext.Provider
-      value={{ dataDepartment, dataShop, loading, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt }}
+      value={{ dataDepartment, dataShop, loading, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt, error, setFile }}
     >
       {children}
     </PreviewContext.Provider>
