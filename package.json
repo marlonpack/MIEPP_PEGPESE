@@ -16,6 +16,7 @@
     "react-dnd": "^13.1.1",
     "react-dnd-html5-backend": "^12.1.1",
     "react-dom": "^17.0.1",
+    "react-native-ping": "^1.2.6",
     "react-notifications-component": "^3.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",

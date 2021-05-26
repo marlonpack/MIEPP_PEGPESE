@@ -364,3 +364,13 @@ export function GET_RECORD(session,mediaId) {
     },
   };
 }
+
+
+export function GET_STATUS() {
+  return {
+    url: `${API_URL}MIEPP/Status.php`,
+    options: {
+      method: "GET",
+    },
+  };
+}

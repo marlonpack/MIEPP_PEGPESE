@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Route,
   Routes,
@@ -18,11 +18,25 @@ import CreateTimeline from '../CreateTimeline/CreateTimeline';
 import ShopTimeLine from '../ShopTimeline/ShopTimeline';
 import ConfigTimeline from '../ConfigTimeline/ConfigTimeline';
 import Preview from '../Preview/Preview';
-import  Record  from '../Record/Record';
+import Record from '../Record/Record';
+import Status from '../Status/Status';
+// import { authenticateUser, connect, getResponse, respons } from '../Status/Service';
 
 function Home(props) {
-  const { login, sideMenu } = useContext(UserContext);
+  const { login, sideMenu, sessionLocalStorage, session } = useContext(UserContext);
   const history = useHistory();
+
+
+  useEffect(async () => {
+    // authenticateUser(sessionLocalStorage);
+    // console.log(session)
+    // authenticateUser( session)
+    // // connect();
+    // // const response = await getResponse();
+    // console.log(respons)
+    // console.log(connect())
+
+  });
 
   return (
     <div className={styles.container}>
@@ -57,14 +71,19 @@ function Home(props) {
               path={`${props.match.path}/configuracao/telatimeline`}
               component={ConfigTimeline}
             />
-              <Route
+            <Route
               path={`${props.match.path}/preview`}
               component={Preview}
             />
 
-             <Route
+            <Route
               path={`${props.match.path}/relatorio`}
               component={Record}
+            />
+
+            <Route
+              path={`${props.match.path}/status`}
+              component={Status}
             />
           </Switch>
 

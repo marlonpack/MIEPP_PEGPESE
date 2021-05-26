@@ -9859,6 +9859,11 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-native-ping@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-ping/-/react-native-ping-1.2.6.tgz#94699c3f2c10ee879434ae6bd7355a0ce9f3d961"
+  integrity sha512-yntRkKXrNKf+27mZA2R4CJxU7yQPrN/EVoGzuCX5PL4qvEUx1aD9acpUX3wey3BAIWRmDjklcOVFazS+OR07Wg==
+
 react-notifications-component@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/react-notifications-component/-/react-notifications-component-3.0.3.tgz#512a20ee02e3c9946d31b3a0f65e414f5257e38a"

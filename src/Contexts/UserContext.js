@@ -5,12 +5,13 @@ import { useHistory } from "react-router-dom";
 import useLocalStorage from "../Hooks/useLocalStorage";
 import NotificationError from "../Components/Notification/NotificationError";
 import NotificationSucess from "../Components/Notification/NotificationSucess";
+// import {authenticateUser} from '../Components/Status/Service';
 
 
 export const UserContext = React.createContext();
 export const UserStorage = ({ children }) => {
-  const [sessionLocalStorage, setSessionLocalStorage] = useLocalStorage('session', null);
-  const [idLocalStorage, setIDLocalStorage] = useLocalStorage('idUser', null);
+  const [sessionLocalStorage, setSessionLocalStorage] = useLocalStorage('sessionn', undefined);
+  const [idLocalStorage, setIDLocalStorage] = useLocalStorage('idUser', undefined);
   const [data, setData] = useState([]);
   const [session, setSession] = useState();
   const [sideMenu, setSideMenu] = useState(false);
@@ -26,7 +27,8 @@ export const UserStorage = ({ children }) => {
 
 
   useEffect(() => {
-    if(sessionLocalStorage != 'null' && idLocalStorage != 'null'){
+    console.log(sessionLocalStorage)
+    if(sessionLocalStorage != undefined && idLocalStorage != undefined){
      getUser(sessionLocalStorage, idLocalStorage);
      getPhoto(sessionLocalStorage, idLocalStorage);
      setSession(sessionLocalStorage);
@@ -87,6 +89,8 @@ async function userLogin(username, password) {
       const tokenRes = await fetch(url, options);
       const json = await tokenRes.json();
       if (json.error == true) throw new Error(json.message);
+      console.log(json.data.session)
+      // authenticateUser(json.data.session);
       setSession(json.data.session);
       setSessionLocalStorage(json.data.session);
       setIDLocalStorage(json.data.id);

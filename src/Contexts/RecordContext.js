@@ -6,10 +6,11 @@ import NotificationError from "../Components/Notification/NotificationError";
 import NotificationSucess from "../Components/Notification/NotificationSucess";
 import { UserContext } from "./UserContext";
 
+
 export const RecordContext = React.createContext();
 export const RecordStorage = ({ children }) => {
   const userContext = React.useContext(UserContext);
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState(undefined);
 
   async function getRecord(mediaId) {
     setData(undefined)
