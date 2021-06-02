@@ -97,7 +97,7 @@ export const MediaStorage = ({ children }) => {
       NotificationSucess('A mídia foi adicionada');
       return true;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError(error.message);
       NotificationError(error.message);
     } finally {

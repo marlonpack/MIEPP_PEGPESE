@@ -32,13 +32,15 @@ export const ScreenStorage = ({ children }) => {
       const json = await response.json();
       if (json.error) {
         setError(json.message);
+        return;
       }
-      if (response.ok) setData(json.data);
+      setData(json.data);
       getShopDepartment();
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 
@@ -59,9 +61,11 @@ export const ScreenStorage = ({ children }) => {
       setDataDepartment(departamento);
       setDataShop(shop);
     } catch (error) {
-      console.log(error);
+      setError(error)
+      // console.log(error);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 
@@ -78,15 +82,17 @@ export const ScreenStorage = ({ children }) => {
       const json = await response.json();
       if (json.error) {
         setError(json.message);
+        return;
       }
-      if (response.ok) {
-        NotificationSucess("Nova tela inserida com sucesso");
-        loadScreen();
-      }
+
+      NotificationSucess("Nova tela inserida com sucesso");
+      loadScreen();
+
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 
@@ -100,15 +106,17 @@ export const ScreenStorage = ({ children }) => {
       const json = await response.json();
       if (json.error) {
         setError(json.message);
+        return;
       }
-      if (response.ok) {
-        NotificationSucess("Tela removida com sucesso");
-        loadScreen();
-      }
+
+      NotificationSucess("Tela removida com sucesso");
+      loadScreen();
+
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 
@@ -124,18 +132,20 @@ export const ScreenStorage = ({ children }) => {
       });
       const response = await fetch(url, options);
       const json = await response.json();
-      console.log(json)
+      // console.log(json)
       if (json.error) {
         setError(json.message);
+        return;
       }
-      if (response.ok) {
-        NotificationSucess("Tela editada com sucesso");
-        loadScreen();
-      }
+
+      NotificationSucess("Tela editada com sucesso");
+      loadScreen();
+
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 

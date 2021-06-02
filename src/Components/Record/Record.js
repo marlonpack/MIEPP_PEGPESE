@@ -4,6 +4,11 @@ import { MediaContext } from "../../Contexts/MediaContext";
 import { RecordContext } from "../../Contexts/RecordContext";
 import { ViewList } from "@material-ui/icons";
 import { ScreenContext } from "../../Contexts/ScreenContext";
+import Loading from "../Loading/Loading";
+import NotificationError from "../Notification/NotificationError";
+import { AddBox, Search } from "@material-ui/icons";
+import Button from "../Forms/Button";
+import Input from "../Forms/Input";
 
 const Record = () => {
   const mediaContext = React.useContext(MediaContext);
@@ -11,11 +16,13 @@ const Record = () => {
   const [media, setMedia] = React.useState([]);
   const [selectMedia, setSelectMedia] = React.useState(0);
   const [filterData, setFilterData] = React.useState();
+  const [typeSearch, setTypeSearch] = React.useState();
   const screen = React.useContext(ScreenContext);
 
   React.useEffect(() => {
     mediaContext.loadMedia();
     screen.getShopDepartment();
+    recordContext.setData(undefined);
   }, []);
 
   React.useEffect(() => {
@@ -27,7 +34,55 @@ const Record = () => {
   // }, [recordContext.data]);
   // console.log(screen.dataDepartment);
   function handleClick() {
+    setFilterData(undefined)
     recordContext.getRecord(selectMedia);
+  }
+
+  function searchScreen(typeSearc) {
+    let filter = [];
+
+    switch (typeSearch) {
+      case "date":
+        filter = recordContext.data.filter((data) =>
+          String(data.date).toLowerCase().includes(typeSearc)
+        );
+        break;
+      case "shop":
+        const shop = screen.dataShop.filter((provider) =>
+          provider.description.toLowerCase().includes(typeSearc)
+        );
+
+        if (shop.length > 0) {
+          filter = recordContext.data.filter(
+            (media) => media.shop_id === shop[0].id
+          );
+        }
+
+        break;
+        case "timeInitial":
+          filter = recordContext.data.filter((data) =>
+       String(data.initial_time).toLowerCase().includes(typeSearc)
+          );
+          break;
+      case "timeFinal":
+        filter = recordContext.data.filter((data) =>
+          String(data.final_time).toLowerCase().includes(typeSearc)
+        );
+        break;
+      case "Department":
+        const department = screen.dataDepartment.filter((provider) =>
+          provider.description.toLowerCase().includes(typeSearc)
+        );
+
+        if (department.length > 0) {
+          filter = recordContext.data.filter(
+            (media) => media.department_id === department[0].id
+          );
+        }
+        break;
+    }
+    console.log(filter);
+    setFilterData([...filter]);
   }
 
   function orderProviders(order) {
@@ -62,7 +117,7 @@ const Record = () => {
         break;
       case "initial":
         filterData.sort(function (a, b) {
-          return a.initial_time.localeCompare(b.time);
+          return a.initial_time.localeCompare(b.initial_time);
         });
         filter.push(...filterData);
         break;
@@ -107,23 +162,53 @@ const Record = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+       <h3 className="titleSection">RELATÓRIO:</h3>
       <div className={styles.divHeader}>
-        <p className={styles.p}>Mídia:</p>
-        <select
-          onChange={({ target }) => setSelectMedia(target.value)}
-          value={selectMedia}
-          className={styles.select}
-        >
-          <option value={0}>
-            select
+        <div className={styles.topMediaLeft}>
+          <p className={styles.p}>Mídia:</p>
+          <select
+            onChange={({ target }) => setSelectMedia(target.value)}
+            value={selectMedia}
+            className={styles.select}
+          >
+            <option value={0}>
+              select
           </option>
-          {media.map((data, index) => (
-            <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
-          ))}
-        </select>
+            {media.map((data, index) => (
+              <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
+            ))}
+          </select>
+          <button onClick={() => handleClick()} className={styles.button}>Visualizar</button>
+        </div>
 
-        <button onClick={() => handleClick()} className={styles.button}>Visualizar</button>
+
+        <div className={styles.topMediaRight}>
+          <select
+            value={typeSearch}
+            onChange={({ target }) => setTypeSearch(target.value)}
+          >
+            <option value="">Selecione</option>
+            <option value="date">Data</option>
+            <option value="timeInitial">Hora inicial</option>
+            <option value="timeFinal">Hora final</option>
+            <option value="shop">Loja</option>
+            <option value="Department">Departamento</option>
+          </select>
+          <Input
+            style={styles.topMediaForm}
+            label="Pesquisar"
+            type="text"
+            id="searchScreen"
+            name="searchScreen"
+            onChange={({ target }) => {
+              searchScreen(target.value);
+            }}
+          />
+          <button type="button" className={styles.btnSearch}>
+            <Search />
+          </button>
+        </div>
 
       </div>
       <div className={styles.tableArea}>

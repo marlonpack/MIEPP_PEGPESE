@@ -71,7 +71,7 @@ export const ShopTimelineStorage = ({ children }) => {
       const response = await fetch(url, options);
       const json = await response.json();
       if (json.error) {
-        console.log(json.message)
+        // console.log(json.message)
         setError(json.message)}
       if (!json.error) {
 
@@ -100,7 +100,7 @@ export const ShopTimelineStorage = ({ children }) => {
       if (response.ok) {
         getTimelineShop()
         NotificationSucess('Remoção feita com sucesso')
-        console.log(json)
+        // console.log(json)
       }
     } catch (error) {
       setError(error.message);

@@ -33,9 +33,9 @@ function ShopTimeLine() {
     NotificationError(ShopTimeline.error)
   },[ShopTimeline.error])
 
-  React.useEffect(() => {
-    console.log(screen.dataShop)
-  }, [screen.dataShop])
+  // React.useEffect(() => {
+  //   console.log(screen.dataShop)
+  // }, [screen.dataShop])
 
   function searchScreen(name) {
     if (typeSearch === "") {

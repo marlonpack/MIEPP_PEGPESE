@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import { SCREEN, TIMELINE } from './constants';
+import NotificationError from '../Notification/NotificationError';
 
 // Dropable area
 const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
@@ -25,8 +26,8 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
     
     items.map((items) => {
       if (items.id === itemArrowMove.id) {
-        const timelineHour = timeline.initial_hour.split(':');
-        console.log(timelineHour)
+        const timelineHour = timeline.initial_hour!=undefined && timeline.initial_hour.split(':');
+        // console.log(timelineHour)
         setItemMove(items);
         //calculation to know the seconds the screen starts 0.890625 + (0.890625*4 )
         let difference = items.x;
@@ -64,7 +65,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
             if (response) {
               moveBox(items.id, items.x + espaceSecond);
             } else {
-              alert('você chegou ao limite');
+              NotificationError('você chegou ao limite');
               moveBox(items.id, items.x - espaceSecond);
             }
             // document.querySelector('#hoursTimeline').innerHTML = 'horas';
@@ -78,7 +79,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
             if (response) {
               moveBox(items.id, items.x - espaceSecond);
             } else {
-              alert('você chegou ao limite');
+              NotificationError('você chegou ao limite');
             }
             document.querySelector('#time').innerHTML = 'horas';
           } 
@@ -152,7 +153,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
           // alert(canChangePosition);
 
           if (canChangePosition && timeline.interval !== null) {
-            alert('movendo x');
+            // alert('movendo x');
             const left = timeLinePosition.left;
             const right = timeLinePosition.right;
 
@@ -174,7 +175,7 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
                 x = x - timeLinePosition.x;
               }
 
-              alert(`alterando eixo x do elemento para ${x}`);
+              // alert(`alterando eixo x do elemento para ${x}`);
               moveBox(item.id, x);
             } else {
               const copyArray = items.filter(
@@ -191,12 +192,12 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
                 return;
               }
 
-              alert(`alterando eixo x do elemento para ${x}`);
+              // alert(`alterando eixo x do elemento para ${x}`);
               moveBox(item.id, x);
             }
           }
         } else {
-          alert('não pode mover x');
+          // alert('não pode mover x');
         }
       }
 
@@ -295,13 +296,13 @@ const Column = ({ children, title, styles, items, setItems, id, timeline }) => {
           .getBoundingClientRect();
 
         if (positionLastItem.right + calcWidthPxNewItem > timeLineLimit) {
-          alert('não pode mover, espaco insuficiente');
+          NotificationError('não pode mover, espaco insuficiente');
 
           response.canMove = false;
           response.position = -1;
           return response;
         } else {
-          alert('especifico x');
+          // alert('especifico x');
 
           response.position = positionLastItem.right;
         }

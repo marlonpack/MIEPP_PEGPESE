@@ -3,6 +3,8 @@ import { UserContext } from "../../Contexts/UserContext";
 import { StatusContext } from "../../Contexts/StatusContext";
 import styles from "./Status.module.css";
 import { ScreenContext } from "../../Contexts/ScreenContext";
+import Loading from "../Loading/Loading";
+import NotificationError from "../Notification/NotificationError";
 // import { getDevices, getResponse } from './Service';
 // import * as ICMP from 'icmp';
 
@@ -15,13 +17,34 @@ const Status = () => {
   React.useEffect(() => {
     statusContext.getStatus();
     screen.getShopDepartment();
+    statusContext.setData([]);
   }, []);
 
+  React.useEffect(() => {
+    NotificationError(statusContext.error);
+  }, [statusContext.error]);
 
+  React.useEffect(() => {
+    let time = setInterval(() => {
+      let ping = 0;
 
+      ping = ping+1
+
+      if(ping === 1800){
+        statusContext.getStatus();
+        return ping =0;
+      }
+
+    })
+    return () => {
+      clearInterval(time)
+    };
+  })
 
   return (
     <div className={styles.container}>
+       <h3 className="titleSection">Lista de Aparelhos</h3>
+      {statusContext.loading && <Loading loading={statusContext.loading} />}
       <div className={styles.tableArea}>
         <table className={styles.tableStyle}>
           <thead>

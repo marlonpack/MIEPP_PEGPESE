@@ -47,6 +47,7 @@ export const TimelineStorage = ({ children }) => {
     } catch (error) {
       setError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
     }
   }
@@ -87,6 +88,7 @@ export const TimelineStorage = ({ children }) => {
       setError(error.message);
       NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
       loadTimelines();
     }
@@ -116,9 +118,9 @@ export const TimelineStorage = ({ children }) => {
       const response = await fetch(url, options);
 
       const json = await response.json();
-
       if (json.error) {
         setError(json.message);
+        // console.log(json)
         NotificationError(json.message);
         return;
       }
@@ -130,6 +132,7 @@ export const TimelineStorage = ({ children }) => {
       setError(error.message);
       NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
       loadTimelines();
     }
@@ -159,6 +162,7 @@ export const TimelineStorage = ({ children }) => {
       setError(error.message);
       NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
       loadTimelines();
     }
@@ -178,18 +182,19 @@ export const TimelineStorage = ({ children }) => {
       const response = await fetch(url, options);
 
       const json = await response.json();
-
-      if (json.error) {
+      // console.log(json)
+      if (json.error && json.message != 'No data') {
         setError(json.message);
         NotificationError(json.message);
         return;
       }
 
       NotificationSucess('Tela vinculada a timeline');
-    } catch (error) {
-      setError(error.message);
-      NotificationError(error.message);
+    } catch (error ) {
+       error.message != 'No data' && setError(error.message);
+       error.message != 'No data' && NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
     }
   }
@@ -209,7 +214,7 @@ export const TimelineStorage = ({ children }) => {
 
       const json = await response.json();
 
-      if (json.error) {
+      if (json.error && json.message != 'No data') {
         setError(json.message);
         NotificationError(json.message);
         return;
@@ -220,6 +225,7 @@ export const TimelineStorage = ({ children }) => {
       setError(error.message);
       NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
     }
   }
@@ -238,7 +244,7 @@ export const TimelineStorage = ({ children }) => {
 
       const json = await response.json();
 
-      if (json.error) {
+      if (json.error && json.message != 'No data') {
         setError(json.message);
         NotificationError(json.message);
         return;
@@ -246,9 +252,10 @@ export const TimelineStorage = ({ children }) => {
 
       NotificationSucess('O vínculo foi removido com sucesso');
     } catch (error) {
-      setError(error.message);
-      NotificationError(error.message);
+      error.message != 'No data' && setError(error.message);
+      error.message != 'No data' && NotificationError(error.message);
     } finally {
+      setError(null)
       setLoading(false);
     }
   }

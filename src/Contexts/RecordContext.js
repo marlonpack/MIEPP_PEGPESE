@@ -35,7 +35,7 @@ export const RecordStorage = ({ children }) => {
 
   return (
     <RecordContext.Provider
-      value={{ getRecord, data}}
+      value={{ getRecord, data, setData}}
     >
       {children}
     </RecordContext.Provider>

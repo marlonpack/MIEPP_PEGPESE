@@ -42,7 +42,7 @@ function NavContainer() {
       <NavLink activeClassName={styles.active} to='/home/configuracao/telatimeline'>Telas do Timeline</NavLink>
       <NavLink activeClassName={styles.active} to='/home/configuracao/lojatimeline'>Lojas do Timeline</NavLink>
     </div>}
-    <NavLink activeClassName={styles.active} to='/home/preview'>Preview</NavLink>
+    <NavLink activeClassName={styles.active} to='/home/preview'>Visualizar</NavLink>
     <NavLink activeClassName={styles.active} to='/home/relatorio'>Relatório</NavLink>
     <NavLink activeClassName={styles.active} to='/home/status'>Status</NavLink>
   </div>

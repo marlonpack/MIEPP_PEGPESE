@@ -1,3 +1,9 @@
+.container{
+  margin-top: 5px;
+  padding: 0 5px 0 5px;
+}
+
+
 .button {
   background-color: var(--green);
   font-size: 1.1rem;
@@ -22,7 +28,7 @@
 
 .table {
   min-width: 100%;
-  min-height: 100%;
+  /* min-height: 100%; */
   border-spacing: 0;
   text-align: center;
   /* display: block; */
@@ -33,11 +39,15 @@
   color: black;
 }
 
+.table tbody tr{
+  height: 37px;
+}
+
 .divProduct {
   position: absolute;
-  top: 29%;
-  right: 9.5%;
-  width: 43.5%;
+  top: 34%;
+  right: 12.5%;
+  width: 40.5%;
   height: 66%;
 }
 
@@ -46,7 +56,9 @@
   justify-content: center;
   /* background-image: url('../../utils/back.png'); */
 }
-
+.divImg{
+  height: 737px;
+}
 .divHeader {
   display: flex;
   justify-content: space-evenly;

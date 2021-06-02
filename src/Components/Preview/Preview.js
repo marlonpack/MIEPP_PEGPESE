@@ -2,16 +2,19 @@ import React from "react";
 import Loading from "../Loading/Loading";
 import { PreviewContext } from "../../Contexts/PreviewContext";
 import styles from "./Preview.module.css";
-import Teacher2 from "./3_BGTest.jpg"
+// import Teacher2 from "./3_BGTest.jpg"
 import NotificationError from "../Notification/NotificationError";
 
 const Preview = () => {
-  const { dataDepartment, dataShop, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt, error, setFile } = React.useContext(PreviewContext);
+  const { dataDepartment, dataShop, getShopDepartment, getdados, file, productList, nextScreen, getverify, caughtAt, error, setFile, setProductList, loading } = React.useContext(PreviewContext);
   const [department, setDepartment] = React.useState(0);
   const [shop, setShop] = React.useState(0);
 
   React.useEffect(() => {
     getShopDepartment();
+    // getdados(shop, department);
+    setProductList([0])
+    setFile(0)
   }, []);
 
 
@@ -47,7 +50,9 @@ const Preview = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
+      <h3 className="titleSection">Visualizar:</h3>
+      {loading && <Loading loading={loading} />}
       <div className={styles.divHeader}>
         <p className={styles.p}>Loja:</p>
         <select
@@ -81,7 +86,7 @@ const Preview = () => {
       </div>
       <div className={styles.divImg}>
         {(file != 0 && (String(file).includes('video')) ?
-           <video src={`${file}`} />
+           <video src={`${file}`}  autoPlay controls/>
           : file != 0 && (String(file).includes('image')) ?<img src={`${file}`} />: '')
         }
         {/* <img src={`${file}`} /> */}

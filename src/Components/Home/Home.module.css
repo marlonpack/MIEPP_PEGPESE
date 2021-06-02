@@ -33,3 +33,21 @@
   border-radius: 10px;
   transition: all 1s;
 }
+
+.containerImg{
+  display: flex;
+  flex-direction: column;
+  /* align-self: center; */
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.containerImg p{
+  font-size: 7em;
+}
+.imageHome{
+  width: 30%;
+  height: 50%;
+}

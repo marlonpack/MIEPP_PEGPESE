@@ -4,6 +4,7 @@ import { SCREEN, TIMELINE } from './constants';
 import { calcPercent, secondsToPixels } from './Column';
 import stylesContent from './MovableItems.module.css';
 import { MediaContext } from '../../Contexts/MediaContext';
+import NotificationError from '../Notification/NotificationError';
 
 const MovableItem = ({
   name,
@@ -29,7 +30,7 @@ const MovableItem = ({
   const mediaContext = React.useContext(MediaContext);
 
   function hoursScreen(xOfItem) {
-     const timelineHour = timeline && timeline.initial_hour.split(':');
+     const timelineHour = timeline.initial_hour !=undefined && timeline.initial_hour.split(':');
     const timeLine = document.getElementById('timeline');
     const timeLinePosition = timeLine.getBoundingClientRect();
     let difference = xOfItem;
@@ -95,7 +96,7 @@ const MovableItem = ({
             positionLastItem.right + pxNewItem > timelineLimit &&
             item.id !== lastItem.id
           ) {
-            alert('nao pode mover coluna');
+            NotificationError('nao pode mover coluna');
             canChangeColumn = false;
           }
         }

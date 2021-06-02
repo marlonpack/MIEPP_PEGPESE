@@ -29,6 +29,12 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
     if (!filter.length) setFilterData([{}]);
   }
 
+  function formatDate (data){
+    let newData= data !=  null  && data.split('-') 
+
+   if(newData) return `${newData[2]}/${newData[1]}/${newData[0]}`
+  }
+
   return (
     <div className={styles.containerModal}>
       <div className={styles.modal} ref={domNode}>
@@ -71,10 +77,11 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
                         setShowTimelines(false);
                       }}
                     >
+                      {console.log(new Date(timeline.initial_date))}
                       <td>{timeline.id}</td>
                       <td>{timeline.description}</td>
-                      <td>{timeline.initial_date}</td>
-                      <td>{timeline.final_date}</td>
+                      <td>{formatDate(timeline.initial_date)}</td>
+                      <td>{formatDate(timeline.final_date)}</td>
                       <td>{timeline.initial_hour}</td>
                       <td>{timeline.final_hour}</td>
                     </tr>
@@ -95,8 +102,8 @@ const ModalTimeline = ({ setShowTimelines, setTimeline, calcSeconds }) => {
                     >
                       <td>{timeline.id}</td>
                       <td>{timeline.description}</td>
-                      <td>{timeline.initial_date}</td>
-                      <td>{timeline.final_date}</td>
+                      <td>{formatDate(timeline.initial_date)}</td>
+                      <td>{formatDate(timeline.final_date)}</td>
                       <td>{timeline.initial_hour}</td>
                       <td>{timeline.final_hour}</td>
                     </tr>

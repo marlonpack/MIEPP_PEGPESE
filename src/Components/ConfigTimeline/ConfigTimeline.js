@@ -215,7 +215,7 @@ const ConfigTimeline = () => {
     if (timeline.id) {
       getTimelineScreens().then((response) => {
         console.log(response);
-        setUpdateScreens([...response]);
+        response!=undefined&& setUpdateScreens([...response]);
         if (response) {
           copyArray.forEach((screen) => {
             response.forEach((screenTimeline) => {

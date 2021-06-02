@@ -27,7 +27,6 @@ export const UserStorage = ({ children }) => {
 
 
   useEffect(() => {
-    console.log(sessionLocalStorage)
     if(sessionLocalStorage != undefined && idLocalStorage != undefined){
      getUser(sessionLocalStorage, idLocalStorage);
      getPhoto(sessionLocalStorage, idLocalStorage);
@@ -89,7 +88,7 @@ async function userLogin(username, password) {
       const tokenRes = await fetch(url, options);
       const json = await tokenRes.json();
       if (json.error == true) throw new Error(json.message);
-      console.log(json.data.session)
+      // console.log(json.data.session)
       // authenticateUser(json.data.session);
       setSession(json.data.session);
       setSessionLocalStorage(json.data.session);
@@ -105,7 +104,7 @@ async function userLogin(username, password) {
 
   return (
     <UserContext.Provider
-      value={{ userLogin, userLogout, userPhoto, session, data, error, loading, login, OpenCloseMenu, sideMenu }}
+      value={{ userLogin, userLogout, userPhoto, session, data, error, loading, login, OpenCloseMenu, sideMenu, sessionLocalStorage, idLocalStorage }}
     >
       {children}
     </UserContext.Provider>

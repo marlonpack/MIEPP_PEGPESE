@@ -29,7 +29,8 @@ function Login() {
   //   if(login == true) NotificationSucess('Login feito com sucesso')
   // }, [login]);
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     userLogin(username.value, password.value);
     // NotificationError(error)
     // login? setUseLogin(true): ''
@@ -43,11 +44,11 @@ function Login() {
         <h2 className={styles.applicationName} >MIEPP</h2>
         <img className={styles.img} src={logo} alt='logo pegPese' />
         <h1 className={styles.login}>Login</h1>
-        <div >
+        <form >
           <Input style={styles.input} label="Usuário" type="text" name="username" {...username} />
           <Input style={styles.input} label="Senha" type="password" name="password" {...password} />
-          <div className={styles.divButton}> <Button style={styles.button} onClick={() => handleSubmit()}>Entrar</Button> </div>
-        </div>
+          <div className={styles.divButton}> <Button style={styles.button} onClick={(e) => handleSubmit(e)}>Entrar</Button> </div>
+        </form>
       </div>
       <div className={styles.divisor} />
       <div className={styles.ArtSection}>

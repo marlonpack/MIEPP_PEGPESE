@@ -150,12 +150,18 @@ const MediaTable = ({
                 <tr key={media.id}>
                   <td>{media.id}</td>
                   <td>{media.description}</td>
-                  {providerContext.provider.map(
+                  <td> {providerContext.provider.map(
+                    (provider) =>
+                      provider.id === media.supplier_id ?
+                        provider.description: ''
+                      
+                  )} </td>
+                  {/* {providerContext.provider.map(
                     (provider) =>
                       provider.id === media.supplier_id && (
                         <td key={provider.id}>{provider.description}</td>
                       )
-                  )}
+                  )} */}
 
                   <td>{media.type}</td>
                   <td>{media.file_version}</td>

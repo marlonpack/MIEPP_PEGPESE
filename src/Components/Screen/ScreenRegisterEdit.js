@@ -8,7 +8,7 @@ import { MediaContext } from "../../Contexts/MediaContext";
 
 function ScreenRegisterEdit() {
   const mediaContext = React.useContext(MediaContext);
-  const { dataDepartment, dataShop, dataEdit, openEditScreen, postScreen, putScreen } = React.useContext(ScreenContext);
+  const { dataDepartment, dataShop, dataEdit, openEditScreen, postScreen, putScreen , getShopDepartment} = React.useContext(ScreenContext);
   const [description, setDescription] = React.useState('');
   const [time, setTime] = React.useState('');
   const [media, setMedia] = React.useState(0);
@@ -22,6 +22,7 @@ function ScreenRegisterEdit() {
 
   React.useEffect(() => {
     mediaContext.loadMedia();
+    getShopDepartment();
   }, []);
 
 //  React.useEffect(() => {
@@ -81,10 +82,18 @@ function ScreenRegisterEdit() {
   function handleSubmit(e) {
     e.preventDefault();
     postScreen(description, time, media, department)
+    setDescription('')
+    setTime('')
+    setMedia(0)
+    setDepartment(0)
   }
 
   function screenEdit() {
     putScreen(dataEdit.id, description, time, media, department)
+    setDescription('')
+    setTime('')
+    setMedia(0)
+    setDepartment(0)
   }
 
 
@@ -136,7 +145,7 @@ function ScreenRegisterEdit() {
               }}
               value={media}
             >
-              <option value=''>Select</option>
+              <option value={0}>Select</option>
               {getMediaContext.map((data, index) => (
                 <option key={index} value={data.id}>{`${data.id} - ${data.description}`}</option>
               ))}

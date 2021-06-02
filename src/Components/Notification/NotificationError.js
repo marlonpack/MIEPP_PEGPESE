@@ -232,6 +232,12 @@ const NotificationError = (error) => {
       "A data inicial não poderia ser maior que a data final",
       "danger"
     );
+    else if (error.includes("This timeline is in use and can not be modified"))
+    NotificationStore(
+      "Erro",
+      "A timeline não pode ser modifica pois esta em uso",
+      "danger"
+    );
   //TimeScreen
   else if (error.includes("(timeline_id) is broken"))
     NotificationStore("Erro", "Preencha todos os campos", "danger");

@@ -16,7 +16,7 @@ export const ProductStorage = ({ children }) => {
   const userContext = React.useContext(UserContext);
   const screenContext = React.useContext(ScreenContext);
   const [data, setData] = React.useState([]);
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
   const [dataProductImg, setDataProductImg] = React.useState([]);
@@ -33,7 +33,10 @@ export const ProductStorage = ({ children }) => {
 
 
   React.useEffect(() => {
-    if (produtList != '') setDataProductImg([...dataProductImg, produtList])
+    if (produtList != '') {
+      setDataProductImg([...dataProductImg, produtList])
+    }
+    // GetListProduct(data)
   }, [produtList]);
 
 
@@ -45,8 +48,10 @@ export const ProductStorage = ({ children }) => {
         screen_id: screenContext.dataEdit.id,
         product_id: data.id,
       });
+      // console.log('erro',data, userContext.session, screenContext.dataEdit.id)
       const response = await fetch(url, options);
       const json = await response.json();
+
       if (json.error) {
         setError(json.message);
       }
@@ -85,6 +90,7 @@ export const ProductStorage = ({ children }) => {
         let listProduct = [...dataProductImg];
         listProduct.splice(index, 1);
         setDataProductImg([...listProduct])
+        // GetListProduct(data)
       }
     } catch (error) {
       setError(error.message);
@@ -104,9 +110,12 @@ export const ProductStorage = ({ children }) => {
       const response = await fetch(url, options);
       const json = await response.json();
 
+      // console.log(userContext.session, departament.external_index, shop)
       if (json.error) {
         setError(json.message);
+        return;
       }
+      // console.log(json)
       if (response.ok) {
         setData(json.data);
         GetListProduct(json.data);
@@ -131,6 +140,7 @@ export const ProductStorage = ({ children }) => {
       }
       if (response.ok) {
         setDataProductImg([])
+        // console.log(json.data,data )
         for (let j = 0; json.data.length > j; j++) {
           for (let i = 0; data.length > i; i++) {
             if (data[i].id == json.data[j].product_id) {
@@ -141,8 +151,8 @@ export const ProductStorage = ({ children }) => {
       }
 
     } catch (error) {
-      if (error != 'No data')
-        setError(error)
+      console.log(error)
+      // if (error 'No data') setError(error)
     } finally {
       setLoading(false);
     }

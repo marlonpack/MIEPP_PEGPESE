@@ -7,6 +7,7 @@ import CreateTimelineTable from "./CreateTimelineTable";
 import CreateTimelineMenu from "./CreateTimelineMenu";
 import { TimelineContext } from "../../Contexts/TimelineContext";
 import YesNoModal from "../YesNoModal/YesNoModal";
+import NotificationError from "../Notification/NotificationError";
 import Loading from "../Loading/Loading";
 
 const CreateTimeline = () => {
@@ -28,6 +29,12 @@ const CreateTimeline = () => {
   React.useEffect(() => {
     timelineContext.loadTimelines();
   }, []);
+
+
+  // React.useEffect(() => {
+  //   timelineContext.error!=null&& NotificationError(timelineContext.error);
+  // }, [timelineContext.error]);
+
 
   React.useEffect(() => {
     if (editTimeline !== null) {

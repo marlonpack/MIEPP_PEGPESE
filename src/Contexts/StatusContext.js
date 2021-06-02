@@ -33,13 +33,14 @@ export const StatusStorage = ({ children }) => {
       setError(error.message);
     } finally {
       setLoading(false);
+      setError(null);
     }
   }
 
 
   return (
     <StatusContext.Provider
-      value={{getStatus, data}}
+      value={{getStatus, data, loading, error, setData}}
     >
       {children}
     </StatusContext.Provider>

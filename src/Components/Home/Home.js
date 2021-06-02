@@ -10,7 +10,7 @@ import Header from '../Header/Header';
 import NavContainer from '../Nav/NavContainer';
 import Provider from '../Provider/Provider';
 import styles from './Home.module.css';
-
+import MIEPP from '../../Assets/MIEPP.png'
 import { UserContext } from '../../Contexts/UserContext';
 import Media from '../Media/Media';
 import Screen from '../Screen/Screen';
@@ -27,16 +27,16 @@ function Home(props) {
   const history = useHistory();
 
 
-  useEffect(async () => {
-    // authenticateUser(sessionLocalStorage);
-    // console.log(session)
-    // authenticateUser( session)
-    // // connect();
-    // // const response = await getResponse();
-    // console.log(respons)
-    // console.log(connect())
+  // useEffect(async () => {
+  //   // authenticateUser(sessionLocalStorage);
+  //   console.log(session)
+  //   // authenticateUser( session)
+  //   // // connect();
+  //   // // const response = await getResponse();
+  //   // console.log(respons)
+  //   // console.log(connect())
 
-  });
+  // });
 
   return (
     <div className={styles.container}>
@@ -86,9 +86,12 @@ function Home(props) {
               component={Status}
             />
           </Switch>
-
           {/* <ConfigTimeline /> */}
           {/* <Media/> */}
+          {/* <div className={styles.containerImg}>
+            <p>MIEPP</p>
+          <img className={styles.imageHome} src={MIEPP}/>
+          </div> */}
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Button from "../Forms/Button";
 import Input from "../Forms/Input";
 import styles from './ShopTimelineRegister.module.css'
 
+
 function ShopTimelineRegister() {
   const timeline = React.useContext(TimelineContext);
   const shopTimeline = React.useContext(ShopTimelineContext);
@@ -17,7 +18,7 @@ function ShopTimelineRegister() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(idTimeline, idShop)
+    // console.log(idTimeline, idShop)
     shopTimeline.postTimelineShop(idTimeline, idShop)
   }
 
