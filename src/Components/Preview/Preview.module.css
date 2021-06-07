@@ -59,6 +59,13 @@
 .divImg{
   height: 737px;
 }
+
+
+.divImg img{
+  width: 80%;
+}
+
+
 .divHeader {
   display: flex;
   justify-content: space-evenly;

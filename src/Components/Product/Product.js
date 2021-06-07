@@ -36,6 +36,7 @@ function Product({ media, department }) {
 
   return (
     <div className={styles.containerProduct}>
+      <button className={styles.buttonExit}>x</button>
       <div ref={domNode} className={styles.modalProduct}>
         <div className={styles.ProductMenuLeft}>
           <ProductRegister department={department} />

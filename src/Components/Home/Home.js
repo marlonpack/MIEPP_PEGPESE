@@ -88,6 +88,7 @@ function Home(props) {
           </Switch>
           {/* <ConfigTimeline /> */}
           {/* <Media/> */}
+          {console.log(props.match.path)}
           {/* <div className={styles.containerImg}>
             <p>MIEPP</p>
           <img className={styles.imageHome} src={MIEPP}/>

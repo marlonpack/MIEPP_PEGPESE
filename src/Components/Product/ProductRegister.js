@@ -60,10 +60,10 @@ React.useEffect(()=>{
         </select>
       </div>
       <div className={styles.divSelectRight}>
-        <label>Cor da lista principal:</label>
+        {/* <label>Cor da lista principal:</label>
         <Input type='color' />
         <label>Cor da lista promoções:</label>
-        <Input type='color' />
+        <Input type='color' /> */}
       </div>
     </div>
   )

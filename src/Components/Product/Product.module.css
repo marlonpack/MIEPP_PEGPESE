@@ -89,3 +89,17 @@
 .tableProductInsert table tbody tr:not(:last-child) td {
   border: none;
 }
+
+.buttonExit{
+  position: absolute;
+  width: 1.5%;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  background-color: red;
+  right: 10%;
+  top: 7.5%;
+  height: 3%;
+}
